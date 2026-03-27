@@ -121,6 +121,55 @@ body{font-family:'Zen Maru Gothic',sans-serif;background:var(--bg);color:var(--t
 .msg-box{background:rgba(255,229,102,.06);border:1px solid rgba(255,229,102,.15);border-radius:14px;padding:16px;margin-top:12px;text-align:center}
 .msg-box p{color:var(--gold)!important;font-weight:700;font-size:.95em!important;line-height:1.7!important}
 @media(max-width:480px){.logo{font-size:2em}.q-text{font-size:1.05em}.result-name{font-size:1.8em}}
+/* ===== 6 NEW FEATURES ===== */
+/* F1: Group themes */
+.group-badge{display:inline-block;padding:7px 20px;border-radius:20px;font-weight:700;font-size:.88em;margin-bottom:14px}
+.result-screen.g-NF{--grp:#ff6b8a}.result-screen.g-NT{--grp:#818cf8}.result-screen.g-SJ{--grp:#34d399}.result-screen.g-SP{--grp:#38bdf8}
+.result-screen.g-NF .section,.result-screen.g-NT .section,.result-screen.g-SJ .section,.result-screen.g-SP .section{border-color:rgba(var(--grp-rgb),.12)}
+.result-screen.g-NF .result-name{background:linear-gradient(135deg,#ff6b8a,#ffb8d9);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.result-screen.g-NT .result-name{background:linear-gradient(135deg,#818cf8,#c4b5fd);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.result-screen.g-SJ .result-name{background:linear-gradient(135deg,#34d399,#a7f3d0);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.result-screen.g-SP .result-name{background:linear-gradient(135deg,#38bdf8,#bae6fd);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+/* F2: Radar chart */
+.radar-wrap{text-align:center;padding:6px 0}
+/* F3: Gacha overlay */
+#gacha-overlay{position:fixed;inset:0;background:#0a0818;z-index:2000;display:flex;align-items:center;justify-content:center;animation:gachaIn .5s ease-out}
+@keyframes gachaIn{from{opacity:0;transform:scale(1.05)}to{opacity:1;transform:scale(1)}}
+.gacha-inner{text-align:center;padding:30px 20px;max-width:380px;position:relative;z-index:1}
+.gacha-flash{position:fixed;inset:0;background:radial-gradient(circle at 50% 50%,rgba(255,255,255,.2) 0%,transparent 70%);animation:gFlash .8s ease-out forwards;pointer-events:none}
+@keyframes gFlash{0%{opacity:1}100%{opacity:0}}
+.gacha-rarity{font-size:2em;font-weight:900;margin-bottom:16px;letter-spacing:4px;animation:rarityPop .6s .3s both}
+@keyframes rarityPop{from{transform:scale(0) rotate(-15deg);opacity:0}60%{transform:scale(1.15) rotate(3deg)}to{transform:scale(1) rotate(0);opacity:1}}
+.gacha-chara{margin:0 auto;animation:charaPop .7s .5s both;position:relative}
+@keyframes charaPop{from{transform:scale(0) translateY(40px);opacity:0}60%{transform:scale(1.1) translateY(-5px)}to{transform:scale(1) translateY(0);opacity:1}}
+.gacha-name{font-size:1.7em;font-weight:900;margin-top:12px;animation:fadeUp .5s .9s both}
+.gacha-sub{font-size:.88em;color:var(--sub);margin-top:5px;animation:fadeUp .5s 1.1s both}
+.gacha-tap{margin-top:22px;padding:14px 38px;border-radius:30px;border:none;font-family:inherit;font-weight:700;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;cursor:pointer;animation:fadeUp .5s 1.3s both;font-size:.95em;transition:transform .2s}
+.gacha-tap:hover{transform:scale(1.04)}
+.gacha-stars-bg{position:fixed;inset:0;pointer-events:none;z-index:0}
+/* F4: Share card */
+.share-card-btn{padding:12px 22px;border-radius:30px;border:2px solid var(--accent);background:transparent;color:var(--accent);font-family:inherit;font-weight:700;font-size:.85em;cursor:pointer;transition:all .3s}
+.share-card-btn:hover{background:rgba(180,142,255,.12);transform:translateY(-2px)}
+/* F5: 2-person mode */
+.btn-duo{background:rgba(180,142,255,.12);color:var(--accent);border:2px solid rgba(180,142,255,.35);margin-top:12px;padding:12px 32px}
+.btn-duo:hover{background:rgba(180,142,255,.22)}
+.duo-transition{text-align:center;padding:50px 20px;animation:fadeUp .6s}
+.duo-transition h2{font-size:1.5em;font-weight:900;margin-bottom:10px;color:var(--pink)}
+.duo-result-wrap{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+@media(max-width:520px){.duo-result-wrap{grid-template-columns:1fr}}
+.duo-card{background:var(--card);border-radius:18px;padding:16px;border:1px solid rgba(255,255,255,.06);text-align:center}
+.duo-card-name{font-size:1em;font-weight:700;margin-top:8px}
+.duo-card-sub{font-size:.75em;color:var(--sub);margin-top:3px}
+.duo-compat{background:var(--card);border-radius:18px;padding:22px;text-align:center;margin-bottom:14px}
+.duo-score{font-size:4.5em;font-weight:900;line-height:1;background:linear-gradient(135deg,var(--pink),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.duo-score-label{font-size:.85em;color:var(--sub);margin-top:6px}
+.duo-comment{font-size:.92em;margin-top:14px;line-height:1.7;color:var(--text)}
+/* F6: Daily fortune */
+.fortune-wrap{background:linear-gradient(135deg,rgba(255,229,102,.07),rgba(180,142,255,.07));border:1px solid rgba(255,229,102,.2);border-radius:20px;padding:22px;margin-bottom:14px}
+.fortune-date{font-size:.78em;color:var(--sub);margin-bottom:6px}
+.fortune-luck{font-size:1.3em;margin-bottom:8px}
+.fortune-msg{font-size:.9em;line-height:1.75;margin-bottom:10px}
+.fortune-tip{font-size:.82em;padding:9px 14px;background:rgba(255,255,255,.04);border-radius:10px;color:var(--accent)}
 .ad-slot{background:rgba(255,255,255,.03);border:1px dashed rgba(255,255,255,.08);border-radius:14px;padding:12px;margin:16px 0;text-align:center;min-height:100px;display:flex;align-items:center;justify-content:center;color:var(--sub);font-size:.75em}
 .footer-links{text-align:center;padding:20px 0 10px;font-size:.78em}
 .footer-links a{color:var(--sub);text-decoration:none;margin:0 12px;transition:color .3s}
@@ -156,6 +205,7 @@ body{font-family:'Zen Maru Gothic',sans-serif;background:var(--bg);color:var(--t
 <span class="feat">🧸 16キャラ診断</span><span class="feat">💼 お似合いのお仕事</span><span class="feat">💕 恋のクセ</span><span class="feat">🐰 守護あにまる</span><span class="feat">😈 裏のかお</span><span class="feat">✨ 相性ばっちり</span>
 </div>
 <button class="btn btn-primary" onclick="startQuiz()">しんだんスタート ♡</button>
+<br><button class="btn btn-duo" onclick="startQuiz2p()">👫 2人で相性診断</button>
 <div class="ad-slot" id="adTop">
 <!-- AdSense ad unit: トップ広告 -->
 <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
@@ -632,6 +682,130 @@ ISTP:{n:"ぷちっとまる",sub:"クールに解決するメカニック♡",an
   ht:["#クール","#職人気質","#一匹狼","#不器用な優しさ","#ピンチに強い"]}
 };
 
+/* ===== F1: Element Groups ===== */
+const GROUP={
+  NF:{n:'炎の魂',e:'🔥',c:'#ff6b8a',b:'rgba(255,107,138,.12)',br:'rgba(255,107,138,.3)'},
+  NT:{n:'水の魂',e:'💧',c:'#818cf8',b:'rgba(129,140,248,.12)',br:'rgba(129,140,248,.3)'},
+  SJ:{n:'地の魂',e:'🌍',c:'#34d399',b:'rgba(52,211,153,.12)',br:'rgba(52,211,153,.3)'},
+  SP:{n:'風の魂',e:'🌀',c:'#38bdf8',b:'rgba(56,189,248,.12)',br:'rgba(56,189,248,.3)'}
+};
+function getGroup(c){return c[1]==='N'?c[2]==='F'?'NF':'NT':c[3]==='J'?'SJ':'SP'}
+
+/* ===== F2: Radar Chart ===== */
+function mkRadar(ss){
+  const K=['so','cr','lo','em','le','ad'],
+    LB={so:'なかよし',cr:'ひらめき',lo:'かしこさ',em:'きもち',le:'リーダー',ad:'のびしろ'},
+    C={so:'#ff9bb3',cr:'#c4b5fd',lo:'#93c5fd',em:'#fde68a',le:'#f9a8d4',ad:'#6ee7b7'};
+  const cx=120,cy=112,r=72,n=6;
+  const pts=K.map((k,i)=>{const a=(Math.PI*2/n)*i-Math.PI/2,v=ss[k]/100;return[cx+r*v*Math.cos(a),cy+r*v*Math.sin(a)]});
+  let s=`<svg viewBox="0 0 240 225" width="100%" style="max-width:260px;display:block;margin:0 auto">`;
+  [1,2,3,4,5].forEach(l=>{const rv=r*l/5;s+=`<polygon points="${K.map((_,i)=>{const a=(Math.PI*2/n)*i-Math.PI/2;return`${cx+rv*Math.cos(a)},${cy+rv*Math.sin(a)}`}).join(' ')}" fill="none" stroke="rgba(255,255,255,.07)" stroke-width="1"/>`;});
+  K.forEach((_,i)=>{const a=(Math.PI*2/n)*i-Math.PI/2;s+=`<line x1="${cx}" y1="${cy}" x2="${cx+r*Math.cos(a)}" y2="${cy+r*Math.sin(a)}" stroke="rgba(255,255,255,.1)" stroke-width="1"/>`;});
+  s+=`<polygon points="${pts.map(p=>p.join(',')).join(' ')}" fill="rgba(180,142,255,.2)" stroke="#b48eff" stroke-width="2"/>`;
+  pts.forEach((p,i)=>{s+=`<circle cx="${p[0]}" cy="${p[1]}" r="4" fill="${C[K[i]]}"/>`;});
+  K.forEach((k,i)=>{const a=(Math.PI*2/n)*i-Math.PI/2,lx=cx+(r+24)*Math.cos(a),ly=cy+(r+24)*Math.sin(a);s+=`<text x="${lx}" y="${ly-4}" text-anchor="middle" font-size="8.5" fill="${C[k]}" font-family="sans-serif">${LB[k]}</text><text x="${lx}" y="${ly+7}" text-anchor="middle" font-size="8" fill="rgba(255,255,255,.55)" font-family="sans-serif">${ss[k]}</text>`;});
+  return s+`</svg>`;
+}
+
+/* ===== F3: Gacha Reveal ===== */
+function showGachaReveal(code,t,grp,callback){
+  const rar=t.r<3?{n:'✨ SSR ✨',c:'#ffe566',sh:'0 0 40px rgba(255,229,102,.8)'}:t.r<7?{n:'💫 SR 💫',c:'#c4b5fd',sh:'0 0 40px rgba(196,181,253,.7)'}:{n:'⭐ R ⭐',c:'#93c5fd',sh:'0 0 30px rgba(147,197,253,.6)'};
+  const ov=document.createElement('div');ov.id='gacha-overlay';
+  ov.innerHTML=`<div class="gacha-stars-bg" id="gStarsBg"></div><div class="gacha-inner"><div class="gacha-flash"></div><div class="gacha-rarity" style="color:${rar.c};text-shadow:${rar.sh}">${rar.n}</div><div class="gacha-chara">${mkSVG(t,170)}</div><div class="gacha-name" style="color:${grp.c}">${grp.e} ${t.n}</div><div class="gacha-sub">${t.sub}</div><button class="gacha-tap" onclick="document.getElementById('gacha-overlay').remove();window._gCb&&window._gCb()">タップして結果を見る ✨</button></div>`;
+  document.body.appendChild(ov);
+  window._gCb=callback;
+  // Add star particles
+  const sb=document.getElementById('gStarsBg');
+  for(let i=0;i<60;i++){const s=document.createElement('div');s.className='star';const z=Math.random()*2+1;s.style.cssText=`width:${z}px;height:${z}px;top:${Math.random()*100}%;left:${Math.random()*100}%;--d:${Math.random()*2+1}s;animation-delay:${Math.random()*2}s`;sb.appendChild(s)}
+  setTimeout(()=>{const o=document.getElementById('gacha-overlay');if(o){o.remove();callback()}},5000);
+}
+
+/* ===== F4: Share Card (Canvas) ===== */
+function genShareCard(code,t){
+  const grp=GROUP[getGroup(code)];
+  const canvas=document.createElement('canvas');canvas.width=800;canvas.height=420;
+  const ctx=canvas.getContext('2d');
+  ctx.fillStyle='#0d0b1e';ctx.fillRect(0,0,800,420);
+  const bg=ctx.createLinearGradient(0,0,800,420);bg.addColorStop(0,grp.c+'33');bg.addColorStop(1,'transparent');
+  ctx.fillStyle=bg;ctx.fillRect(0,0,800,420);
+  ctx.strokeStyle=grp.c+'66';ctx.lineWidth=3;ctx.strokeRect(2,2,796,416);
+  ctx.fillStyle='rgba(255,255,255,.35)';ctx.font='20px sans-serif';ctx.fillText('ソウルエレメント診断',42,48);
+  ctx.fillStyle=grp.c;ctx.font='bold 17px sans-serif';ctx.fillText(grp.e+' '+grp.n,42,78);
+  ctx.fillStyle='#fff';ctx.font='bold 68px sans-serif';ctx.fillText(t.n,42,172);
+  ctx.fillStyle='#a09cbd';ctx.font='26px sans-serif';ctx.fillText('〜 '+t.sub+' 〜',42,216);
+  ctx.fillStyle='rgba(255,255,255,.5)';ctx.font='19px sans-serif';ctx.fillText('全体の約'+t.r+'%  |  タイプ：'+code,42,258);
+  const rar=t.r<3?'SSR ✨':t.r<7?'SR 💫':'R';
+  ctx.fillStyle='rgba(255,229,102,.8)';ctx.font='bold 17px sans-serif';ctx.fillText('◆ '+rar,42,290);
+  ctx.fillStyle='rgba(180,142,255,.2)';ctx.fillRect(0,328,800,60);
+  ctx.fillStyle='#b48eff';ctx.font='16px sans-serif';ctx.fillText((t.ht||[]).slice(0,5).join('  '),42,364);
+  ctx.fillStyle='rgba(255,255,255,.25)';ctx.font='14px sans-serif';ctx.fillText('mamori-ai.github.io/soul-element/',42,408);
+  const svgBlob=new Blob([mkSVG(t,200)],{type:'image/svg+xml'});
+  const url=URL.createObjectURL(svgBlob);
+  const img=new Image();
+  const finish=()=>{const a=document.createElement('a');a.download='ソウルエレメント診断結果.png';a.href=canvas.toDataURL('image/png');a.click()};
+  img.onload=()=>{ctx.drawImage(img,530,40,210,225);URL.revokeObjectURL(url);finish()};
+  img.onerror=finish;img.src=url;
+}
+
+/* ===== F5: 2-person Mode ===== */
+let _duoMode=false,_p1Code=null,_p1T=null;
+function startQuiz2p(){
+  _duoMode=true;_p1Code=null;_p1T=null;
+  document.getElementById('titleScreen').style.display='none';
+  document.getElementById('questionScreen').style.display='block';
+  cq=0;sc={E:0,I:0,N:0,S:0,F:0,T:0,J:0,P:0};
+  document.getElementById('progressText').textContent='1人目 1 / 24';
+  showQ();
+}
+function showDuoP2(){
+  document.getElementById('questionScreen').innerHTML=`<div class="duo-transition"><h2>1人目、診断完了！✨</h2><p style="color:var(--sub);margin-bottom:28px">次は2人目をスタートしよう</p><button class="btn btn-primary" onclick="beginP2Quiz()">2人目をスタート ♡</button></div>`;
+  document.getElementById('questionScreen').style.display='block';
+}
+function beginP2Quiz(){
+  document.getElementById('questionScreen').innerHTML=`<div class="progress-wrap"><div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div><div class="progress-text" id="progressText">2人目 1 / 24</div></div><div class="q-category" id="qCategory"></div><div class="q-text" id="qText"></div><div class="choices" id="choices"></div>`;
+  cq=0;sc={E:0,I:0,N:0,S:0,F:0,T:0,J:0,P:0};showQ();
+}
+function showDuoResult(code2,t2){
+  const c1=_p1Code,t1=_p1T,g1=GROUP[getGroup(c1)],g2=GROUP[getGroup(code2)];
+  const best=t1.cp.b===code2||t2.cp.b===c1,good=t1.cp.g===code2||t2.cp.g===c1;
+  const score=best?98:good?85:t1.cp.gr===code2||t2.cp.gr===c1?70:Math.floor(55+Math.random()*25);
+  const comment=score>=95?'まさに運命のふたり♡ たましいレベルで繋がってる！':score>=85?'相性抜群！自然体でいられる最高のパートナー♡':score>=70?'刺激し合える関係。ぶつかっても成長できる！':'違いを認め合えれば、最強コンビになれるかも！';
+  const el=document.getElementById('resultScreen');
+  el.style.display='block';document.getElementById('questionScreen').style.display='none';
+  el.innerHTML=`<div style="text-align:center;padding:30px 0 16px"><div class="logo" style="font-size:1.8em">💑 相性診断結果</div></div>
+  <div class="duo-result-wrap">
+    <div class="duo-card" style="border-color:${g1.br}"><div>${mkSVG(t1,100)}</div><div class="duo-card-name" style="color:${g1.c}">${g1.e} ${t1.n}</div><div class="duo-card-sub">${t1.sub}</div><div style="margin-top:6px;font-size:.75em;color:var(--sub)">${c1}</div></div>
+    <div class="duo-card" style="border-color:${g2.br}"><div>${mkSVG(t2,100)}</div><div class="duo-card-name" style="color:${g2.c}">${g2.e} ${t2.n}</div><div class="duo-card-sub">${t2.sub}</div><div style="margin-top:6px;font-size:.75em;color:var(--sub)">${code2}</div></div>
+  </div>
+  <div class="duo-compat"><div style="font-size:.82em;color:var(--sub);margin-bottom:4px">ふたりの相性スコア</div><div class="duo-score">${score}</div><div class="duo-score-label">/ 100</div><div class="duo-comment">${comment}</div></div>
+  <div class="section"><div class="section-title">💕 2人のケミストリー</div><p style="font-size:.88em;line-height:1.8;color:var(--sub)">${g1.e}${g1.n}と${g2.e}${g2.n}の組み合わせ。${t1.n}は${t1.fr.slice(0,40)}…。${t2.n}は${t2.fr.slice(0,40)}…。ふたりが出会うと、互いの足りないところを補い合える関係になれそう。</p></div>
+  <div class="share-section"><div style="font-size:1em;font-weight:700">結果をシェアしよう♡</div><div class="share-btns" style="margin-top:12px">
+    <button class="share-btn share-x" onclick="window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent('ソウルエレメント相性診断\\n${t1.n}×${t2.n}の相性スコアは${score}点！\\n${comment}\\nhttps://mamori-ai.github.io/soul-element/\\n#ソウルエレメント診断 #相性診断'))">𝕏 でシェア</button>
+    <button class="share-btn share-copy" onclick="navigator.clipboard.writeText('${t1.n}×${t2.n}の相性スコアは${score}点！${comment} https://mamori-ai.github.io/soul-element/');this.textContent='コピーしたよ♡'">📋 コピー</button>
+  </div></div>
+  <button class="retry-btn" onclick="_duoMode=false;location.reload()">もう一回やる ♡</button>`;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ===== F6: Daily Fortune ===== */
+function getDailyFortune(code){
+  const d=new Date(),seed=(d.getFullYear()*10000+(d.getMonth()+1)*100+d.getDate()+code.split('').reduce((a,c)=>a+c.charCodeAt(0),0))%97;
+  const FT=[
+    {luck:'⭐⭐⭐⭐⭐',msg:'今日はすべてがうまくいく日！積極的に動いてみて♡',c:'#ffe566'},
+    {luck:'⭐⭐⭐⭐⭐',msg:'運気MAX！やってみたかったこと、今日が始め時だよ',c:'#ffe566'},
+    {luck:'⭐⭐⭐⭐',msg:'人間関係が良好な日。大切な人に連絡してみて',c:'#f9a8d4'},
+    {luck:'⭐⭐⭐⭐',msg:'クリエイティブなアイデアが湧く日。メモしておいて！',c:'#c4b5fd'},
+    {luck:'⭐⭐⭐⭐',msg:'直感が冴える日。ピンときたことを迷わず行動に',c:'#93c5fd'},
+    {luck:'⭐⭐⭐',msg:'穏やかな一日。無理せず自分のペースで♡',c:'#6ee7b7'},
+    {luck:'⭐⭐⭐',msg:'自分と向き合うのに良い日。ゆっくり内観してみて',c:'#a8f0d4'},
+    {luck:'⭐⭐',msg:'少し疲れ気味かも。好きなものを食べて早めに休んでね',c:'#a09cbd'}
+  ];
+  const TB={NF:['💕 誰かに優しくするとエネルギーUP','🌸 感情のままに表現してみて'],NT:['💡 新しい知識を仕入れるのにいい日','🔍 疑問をとことん調べると吉'],SJ:['📋 計画通りに動くと運気UP','🏡 身の回りの整理整頓が吉'],SP:['🎨 新しいことを試すと吉','⚡ 自由に動き回ると良いことあり']};
+  const g=getGroup(code),f=FT[seed%FT.length],tip=TB[g][seed%2];
+  const ms=`${d.getMonth()+1}/${d.getDate()}`;
+  return{luck:f.luck,msg:f.msg,c:f.c,tip,date:ms};
+}
+
 let cq=0,sc={E:0,I:0,N:0,S:0,F:0,T:0,J:0,P:0};
 
 // Stars
@@ -647,14 +821,16 @@ function showQ(){const q=Q[cq];document.getElementById('qCategory').textContent=
 function sel(s){for(let k in s)sc[k]=(sc[k]||0)+s[k];cq++;if(cq<24)showQ();else showR()}
 function getT(){return(sc.E>=sc.I?'E':'I')+(sc.N>=sc.S?'N':'S')+(sc.F>=sc.T?'F':'T')+(sc.J>=sc.P?'J':'P')}
 
-function showR(){
-  document.getElementById('questionScreen').style.display='none';
-  const el=document.getElementById('resultScreen');el.style.display='block';
-  const code=getT(),t=T[code];
-  if(!t){el.innerHTML='<p>エラーが発生しました</p>';return}
-  const sC={so:'#ff9bb3',cr:'#c4b5fd',lo:'#93c5fd',em:'#fde68a',le:'#f9a8d4',ad:'#6ee7b7'},sN={so:'なかよし力',cr:'ひらめき力',lo:'かしこさ',em:'きもち力',le:'リーダー力',ad:'のびしろ力'};
+function renderResult(code,t){
+  const el=document.getElementById('resultScreen');
+  const g=getGroup(code),grp=GROUP[g];
+  el.className='result-screen g-'+g;
+  el.style.display='block';
+  const ft=getDailyFortune(code);
+  const rar=t.r<3?{lbl:'💎 SSR',note:'めっちゃレア！'}:t.r<7?{lbl:'✨ SR',note:'レアなこ'}:{lbl:'⭐ R',note:''};
   el.innerHTML=`<div class="result-header">
-    <div class="rarity-badge">💎 全体の約${t.r}%${t.r<3?' − めっちゃレア！':''}のこ</div>
+    <span class="group-badge" style="background:${grp.b};color:${grp.c};border:1px solid ${grp.br}">${grp.e} ${grp.n}</span>
+    <div class="rarity-badge">${rar.lbl} 全体の約${t.r}%${rar.note?` — ${rar.note}`:''}</div>
     <div class="result-type">きみの中に住んでるこは…</div>
     <div class="result-name">${t.n}</div>
     <div class="result-title">〜 ${t.sub} 〜</div>
@@ -662,11 +838,12 @@ function showR(){
     <div class="animal-label">守護あにまる：<span>${t.an}</span></div>
     <div class="elements">${code.split('').map(l=>{const m={E:['☀️ おひさま','#ffb8d9'],I:['🌙 おつきさま','#c4b5fd'],N:['🌀 そよかぜ','#93c5fd'],S:['🌍 だいち','#6ee7b7'],F:['🔥 ぬくもり','#fde68a'],T:['💧 しずく','#99f6e4'],J:['⭐ おほしさま','#f9a8d4'],P:['☁️ くもさん','#c8dcff']};return`<span class="element-tag" style="background:${m[l][1]}22;color:${m[l][1]};border:1px solid ${m[l][1]}44">${m[l][0]}</span>`}).join('')}</div>
   </div>
+  <div class="fortune-wrap"><div class="fortune-date">🗓 ${ft.date}の運勢</div><div class="fortune-luck" style="color:${ft.c}">${ft.luck}</div><div class="fortune-msg">${ft.msg}</div><div class="fortune-tip">${ft.tip}</div></div>
   <div class="section"><div class="section-title">📖 ${t.n}ってどんなこ？</div><p>${t.d}</p></div>
   <div class="section"><div class="section-title">💪 いいところ</div><ul class="strength">${t.st.map(s=>`<li>${s}</li>`).join('')}</ul></div>
   <div class="section"><div class="section-title">😅 ちょっとにがて…</div><ul class="weakness">${t.wk.map(w=>`<li>${w}</li>`).join('')}</ul></div>
-  <div class="section"><div class="section-title">📊 ソウルステータス</div>${Object.keys(t.ss).map(k=>`<div class="stat"><div class="stat-header"><span>${sN[k]}</span><span>${t.ss[k]}%</span></div><div class="stat-bar"><div class="stat-fill" style="width:0%;background:${sC[k]}" data-w="${t.ss[k]}%"></div></div></div>`).join('')}</div>
-  <div class="ad-slot"><!-- AdSense: 結果中間広告 --><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script></div>
+  <div class="section"><div class="section-title">📊 ソウルステータス</div><div class="radar-wrap">${mkRadar(t.ss)}</div></div>
+  <div class="ad-slot"><!-- AdSense: 結果中間広告 --><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});<\/script></div>
   <div class="section"><div class="section-title">💼 お似合いのお仕事</div><div class="career-grid">${t.ca.map(c=>`<div class="career-item"><div class="career-icon">${c.i}</div><div><div class="career-name">${c.n}</div><div class="career-why">${c.w}</div></div></div>`).join('')}<div class="career-item career-avoid"><div class="career-icon">⚠️</div><div><div class="career-name">ちょっとニガテ：${t.cv.n}</div><div class="career-why">${t.cv.w}</div></div></div></div></div>
   <div class="section"><div class="section-title">💕 恋のクセ</div><p>${t.lv}</p></div>
   <div class="section"><div class="section-title">🤝 友情スタイル</div><p>${t.fr}</p></div>
@@ -678,17 +855,28 @@ function showR(){
   <div class="section"><div class="section-title">😈 裏のかお</div><button class="reveal-btn" onclick="this.style.display='none';this.nextElementSibling.classList.add('show')">タップして裏のかおを暴く 🔮</button><div class="hidden-content"><p>${t.hd}</p></div></div>
   <div class="section"><div class="section-title">💌 ${t.n}へのメッセージ</div><div class="msg-box"><p>きみはきみのままでいい。<br>にがてなところも含めて、ぜんぶきみの魅力だよ。<br>自分のペースで、自分らしく輝いてね♡</p></div></div>
   <div class="section"><div class="section-title">🍀 ラッキーアイテム</div><div class="lucky-grid"><div class="lucky-item"><div class="lucky-icon">🎨</div><div class="lucky-label">ラッキーカラー</div><div class="lucky-value">${t.lu.c}</div></div><div class="lucky-item"><div class="lucky-icon">✨</div><div class="lucky-label">ラッキーアイテム</div><div class="lucky-value">${t.lu.i}</div></div><div class="lucky-item"><div class="lucky-icon">🔢</div><div class="lucky-label">ラッキーナンバー</div><div class="lucky-value">${t.lu.n}</div></div></div></div>
-  <div class="ad-slot"><!-- AdSense: 結果下部広告 --><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script></div>
+  <div class="ad-slot"><!-- AdSense: 結果下部広告 --><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});<\/script></div>
   <div class="hashtags">${t.ht.map(h=>`<span class="hashtag">${h}</span>`).join('')}</div>
   <div class="share-section"><div style="font-size:1.1em;font-weight:700">結果をシェアしよう♡</div><div class="share-btns">
     <button class="share-btn share-x" onclick="window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent('ソウルエレメント診断の結果は「${t.n}」でした♡\\n${t.sub}\\n\\nきみの中に住んでるこは誰？🔮\\nhttps://mamori-ai.github.io/soul-element/\\n\\n#ソウルエレメント診断 #性格診断 #MBTI'))">𝕏 でシェア</button>
     <button class="share-btn share-line" onclick="window.open('https://social-plugins.line.me/lineit/share?url='+encodeURIComponent('https://mamori-ai.github.io/soul-element/')+'&text='+encodeURIComponent('ソウルエレメント診断の結果は「${t.n}」でした♡ ${t.sub}'))">LINE で送る</button>
     <button class="share-btn share-copy" onclick="navigator.clipboard.writeText('ソウルエレメント診断の結果は「${t.n}」でした♡ ${t.sub}\\nきみもやってみて🔮 https://mamori-ai.github.io/soul-element/\\n#ソウルエレメント診断');this.textContent='コピーしたよ♡'">📋 コピー</button>
+    <button class="share-card-btn" onclick="genShareCard('${code}',T['${code}'])">🖼 画像でシェア</button>
   </div></div>
   <button class="retry-btn" onclick="location.reload()">もう一回やる ♡</button>
   <div style="text-align:center;padding:16px;font-size:.75em;color:var(--sub)">ソウルエレメント診断 &copy; 2026</div>`;
-  setTimeout(()=>{el.querySelectorAll('.stat-fill').forEach(f=>{f.style.width=f.dataset.w})},300);
   window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function showR(){
+  document.getElementById('questionScreen').style.display='none';
+  const code=getT(),t=T[code];
+  if(!t){document.getElementById('resultScreen').innerHTML='<p>エラーが発生しました</p>';document.getElementById('resultScreen').style.display='block';return}
+  // F5: 2-person mode — capture P1 then start P2
+  if(_duoMode&&!_p1Code){_p1Code=code;_p1T=t;showDuoP2();return}
+  if(_duoMode&&_p1Code){showDuoResult(code,t);return}
+  // F3: Gacha reveal → then render result
+  showGachaReveal(code,t,GROUP[getGroup(code)],()=>renderResult(code,t));
 }
 </script>
 <div class="cookie-banner" id="cookieBanner">
