@@ -5,8 +5,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ソウルエレメント診断 - きみの中のこ、だぁれ？</title>
 <meta name="description" content="24の質問できみの中に住んでるゆるかわキャラを発見！適職・恋愛・相性・裏の顔まで丸わかり♡">
-<meta property="og:title" content="ソウルエレメント診断">
-<meta property="og:description" content="きみの中のこ、だぁれ？">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mamori-ai.github.io/soul-element/">
+<meta property="og:title" content="ソウルエレメント診断 - きみの中のこ、だぁれ？">
+<meta property="og:description" content="24の質問できみの中に住んでるゆるかわキャラを発見♡ 16タイプの動物キャラで適職・恋愛・相性・裏の顔まで丸わかり！">
+<meta property="og:image" content="https://mamori-ai.github.io/soul-element/ogp.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="ソウルエレメント診断">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ソウルエレメント診断 - きみの中のこ、だぁれ？">
+<meta name="twitter:description" content="24の質問できみの中に住んでるゆるかわキャラを発見♡ 16タイプの動物キャラで適職・恋愛・相性まで丸わかり！">
+<meta name="twitter:image" content="https://mamori-ai.github.io/soul-element/ogp.png">
+<meta name="keywords" content="性格診断,MBTI,16タイプ,ソウルエレメント,心理テスト,相性診断,適職診断,恋愛診断,動物キャラ,無料診断">
+<meta name="robots" content="index,follow">
+<meta name="author" content="まもりあい">
+<link rel="canonical" href="https://mamori-ai.github.io/soul-element/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"ソウルエレメント診断","description":"24の質問できみの中に住んでるゆるかわキャラを発見！適職・恋愛・相性・裏の顔まで丸わかり","url":"https://mamori-ai.github.io/soul-element/","applicationCategory":"EntertainmentApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"},"author":{"@type":"Organization","name":"まもりあい"}}</script>
 <!-- Google Analytics GA4 - TODO: G-XXXXXXXXXX を自分のIDに差し替え -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-XXXXXXXXXX');</script>
@@ -118,6 +134,15 @@ body{font-family:'Zen Maru Gothic',sans-serif;background:var(--bg);color:var(--t
 .modal-box ul{padding-left:20px;margin:8px 0}
 .modal-close{position:absolute;top:16px;right:16px;background:none;border:none;color:var(--sub);font-size:1.5em;cursor:pointer;transition:color .3s}
 .modal-close:hover{color:var(--text)}
+.cookie-banner{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid rgba(180,142,255,.2);padding:14px 20px;z-index:999;text-align:center;animation:fadeUp .5s}
+.cookie-banner.show{display:block}
+.cookie-text{font-size:.8em;color:var(--sub);margin-bottom:10px;line-height:1.6}
+.cookie-text a{color:var(--accent);text-decoration:none}
+.cookie-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.cookie-btn{padding:8px 24px;border-radius:20px;border:none;font-family:inherit;font-weight:700;font-size:.82em;cursor:pointer;transition:all .3s}
+.cookie-accept{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff}
+.cookie-decline{background:transparent;border:1px solid var(--sub);color:var(--sub)}
+.cookie-btn:hover{transform:translateY(-1px)}
 </style>
 </head>
 <body>
@@ -656,15 +681,27 @@ function showR(){
   <div class="ad-slot"><!-- AdSense: 結果下部広告 --><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script></div>
   <div class="hashtags">${t.ht.map(h=>`<span class="hashtag">${h}</span>`).join('')}</div>
   <div class="share-section"><div style="font-size:1.1em;font-weight:700">結果をシェアしよう♡</div><div class="share-btns">
-    <button class="share-btn share-x" onclick="window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent('ソウルエレメント診断の結果は「${t.n}」でした♡ ${t.sub}\\n#ソウルエレメント診断'))">𝕏 でシェア</button>
-    <button class="share-btn share-line" onclick="window.open('https://social-plugins.line.me/lineit/share?url='+encodeURIComponent(location.href))">LINE で送る</button>
-    <button class="share-btn share-copy" onclick="navigator.clipboard.writeText('ソウルエレメント診断の結果は「${t.n}」でした♡ ${t.sub}');this.textContent='コピーしたよ♡'">📋 コピー</button>
+    <button class="share-btn share-x" onclick="window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent('ソウルエレメント診断の結果は「${t.n}」でした♡\\n${t.sub}\\n\\nきみの中に住んでるこは誰？🔮\\nhttps://mamori-ai.github.io/soul-element/\\n\\n#ソウルエレメント診断 #性格診断 #MBTI'))">𝕏 でシェア</button>
+    <button class="share-btn share-line" onclick="window.open('https://social-plugins.line.me/lineit/share?url='+encodeURIComponent('https://mamori-ai.github.io/soul-element/')+'&text='+encodeURIComponent('ソウルエレメント診断の結果は「${t.n}」でした♡ ${t.sub}'))">LINE で送る</button>
+    <button class="share-btn share-copy" onclick="navigator.clipboard.writeText('ソウルエレメント診断の結果は「${t.n}」でした♡ ${t.sub}\\nきみもやってみて🔮 https://mamori-ai.github.io/soul-element/\\n#ソウルエレメント診断');this.textContent='コピーしたよ♡'">📋 コピー</button>
   </div></div>
   <button class="retry-btn" onclick="location.reload()">もう一回やる ♡</button>
   <div style="text-align:center;padding:16px;font-size:.75em;color:var(--sub)">ソウルエレメント診断 &copy; 2026</div>`;
   setTimeout(()=>{el.querySelectorAll('.stat-fill').forEach(f=>{f.style.width=f.dataset.w})},300);
   window.scrollTo({top:0,behavior:'smooth'});
 }
+</script>
+<div class="cookie-banner" id="cookieBanner">
+<div class="cookie-text">当サイトでは、アクセス解析と広告配信のためにCookieを使用しています。詳しくは<a href="#" onclick="document.getElementById('privacyModal').classList.add('show');return false">プライバシーポリシー</a>をご確認ください。</div>
+<div class="cookie-btns">
+<button class="cookie-btn cookie-accept" onclick="acceptCookies()">同意する</button>
+<button class="cookie-btn cookie-decline" onclick="declineCookies()">必要最小限のみ</button>
+</div>
+</div>
+<script>
+function acceptCookies(){localStorage.setItem('cookie_consent','accepted');document.getElementById('cookieBanner').classList.remove('show')}
+function declineCookies(){localStorage.setItem('cookie_consent','declined');document.getElementById('cookieBanner').classList.remove('show');window['ga-disable-G-XXXXXXXXXX']=true}
+(function(){const c=localStorage.getItem('cookie_consent');if(!c){setTimeout(()=>{document.getElementById('cookieBanner').classList.add('show')},2000)}else if(c==='declined'){window['ga-disable-G-XXXXXXXXXX']=true}})();
 </script>
 </body>
 </html>
