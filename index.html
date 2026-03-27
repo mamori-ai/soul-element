@@ -170,6 +170,21 @@ body{font-family:'Zen Maru Gothic',sans-serif;background:var(--bg);color:var(--t
 .fortune-luck{font-size:1.3em;margin-bottom:8px}
 .fortune-msg{font-size:.9em;line-height:1.75;margin-bottom:10px}
 .fortune-tip{font-size:.82em;padding:9px 14px;background:rgba(255,255,255,.04);border-radius:10px;color:var(--accent)}
+/* Profile form */
+.profile-form{animation:fadeUp .5s}
+.profile-form h2{font-size:1.3em;font-weight:900;text-align:center;margin-bottom:6px;color:var(--pink)}
+.profile-form .pf-sub{text-align:center;font-size:.84em;color:var(--sub);margin-bottom:24px}
+.pf-row{margin-bottom:16px}
+.pf-label{font-size:.82em;color:var(--accent);margin-bottom:7px;display:block;font-weight:700}
+.pf-input{width:100%;background:var(--card);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:12px 16px;color:var(--text);font-family:inherit;font-size:.95em;outline:none;transition:border-color .2s;-webkit-appearance:none}
+.pf-input:focus{border-color:var(--accent)}
+.pf-gender{display:flex;gap:8px;flex-wrap:wrap}
+.pf-gender label{flex:1;min-width:80px;text-align:center;padding:10px 8px;background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:14px;cursor:pointer;font-size:.82em;transition:all .2s}
+.pf-gender input[type=radio]{display:none}
+.pf-gender input[type=radio]:checked+span{color:var(--accent);font-weight:700}
+.pf-gender label:has(input:checked){border-color:var(--accent);background:rgba(180,142,255,.1)}
+.pf-skip{text-align:center;margin-top:8px;font-size:.78em;color:var(--sub);cursor:pointer;text-decoration:underline}
+.pf-skip:hover{color:var(--text)}
 .ad-slot{background:rgba(255,255,255,.03);border:1px dashed rgba(255,255,255,.08);border-radius:14px;padding:12px;margin:16px 0;text-align:center;min-height:100px;display:flex;align-items:center;justify-content:center;color:var(--sub);font-size:.75em}
 .footer-links{text-align:center;padding:20px 0 10px;font-size:.78em}
 .footer-links a{color:var(--sub);text-decoration:none;margin:0 12px;transition:color .3s}
@@ -748,42 +763,86 @@ function genShareCard(code,t){
 }
 
 /* ===== F5: 2-person Mode ===== */
-let _duoMode=false,_p1Code=null,_p1T=null;
+let _duoMode=false,_duoPerson=1,_p1Code=null,_p1T=null;
+
+function calcCompat(c1,t1,c2,t2){
+  const seed=[...c1,...c2].reduce((a,ch,i)=>a+ch.charCodeAt(0)*(i+1),0);
+  const r=(n)=>((seed*(n*1664525+1013904223)>>>0)/4294967295);
+  const isBest=t1.cp.b===c2||t2.cp.b===c1,isGood=t1.cp.g===c2||t2.cp.g===c1,isGrow=t1.cp.gr===c2||t2.cp.gr===c1;
+  const g1=getGroup(c1),g2=getGroup(c2);
+  const base=isBest?90:isGood?78:isGrow?64:52;
+  const love=Math.min(99,Math.round(base+(c1[2]!==c2[2]?8:-2)+(c1[0]===c2[0]?3:0)+r(1)*9));
+  const work=Math.min(99,Math.round(base+(c1[3]===c2[3]?10:-4)+((c1[2]==='T'||c2[2]==='T')?5:0)+r(2)*8));
+  const friend=Math.min(99,Math.round(base+((c1[2]==='F'||c2[2]==='F')?8:0)+(c1[0]===c2[0]?5:0)+r(3)*8));
+  const world=Math.min(99,Math.round((c1[1]===c2[1]?76:56)+r(4)*12));
+  const luckMap={NF:{NF:68,NT:88,SJ:80,SP:72},NT:{NF:88,NT:64,SJ:74,SP:92},SJ:{NF:80,NT:74,SJ:70,SP:86},SP:{NF:72,NT:92,SJ:86,SP:66}};
+  const luck=Math.min(99,Math.round((luckMap[g1]?.[g2]||72)+r(5)*8));
+  const total=Math.round((love+work+friend+world+luck)/5);
+  return{love,work,friend,world,luck,total};
+}
+
+function mkCompatBars(sc){
+  const items=[
+    {k:'love',lb:'💕 恋愛相性',c:'#ff6b8a',
+     txt:sc.love>=88?'引き合う運命♡ 直感的に「この人だ！」と感じそう':sc.love>=78?'お互いの違いが魅力になる。ドキドキ感が続くよ':sc.love>=65?'理解し合うのに時間がかかるけど、深まると安心感がある':'本音で話し合えれば、じわじわ好きになっていくタイプ'},
+    {k:'work',lb:'💼 仕事相性',c:'#818cf8',
+     txt:sc.work>=88?'最強バディ！お互いの強みが完璧に噛み合う':sc.work>=76?'得意分野が違うから、チームを組むとバランス最高':sc.work>=64?'ペースは違うけど、役割を分けると補い合える':'スタイルの違いに最初はぶつかるかも。役割分担が鍵'},
+    {k:'friend',lb:'🤝 友達相性',c:'#34d399',
+     txt:sc.friend>=88?'気づいたら何時間でも話せちゃう最高の友達♡':sc.friend>=76?'一緒にいると自然体でいられる居心地いい関係':sc.friend>=64?'ゆっくり距離を縮めるタイプ。長く続く友情になる':'価値観は違えど、刺激し合える面白い組み合わせ'},
+    {k:'world',lb:'🌍 世界観の一致',c:'#38bdf8',
+     txt:sc.world>=80?'見ている世界が似てるから、話すと止まらない♡':sc.world>=66?'興味が重なる部分もあって、会話が盛り上がる':'見え方が全然違うから、新しい視点をもらえる刺激的な関係'},
+    {k:'luck',lb:'⭐ 運の相乗効果',c:'#ffe566',
+     txt:sc.luck>=88?'一緒にいると互いの運気がぐんぐんUP！ラッキーペア♡':sc.luck>=76?'良い影響を与え合える。一緒にいると不思議とうまくいく':'持ってる運の方向が違う。組み合わせると意外なパワーが生まれるかも'},
+  ];
+  return items.map(({k,lb,c,txt})=>`<div style="margin-bottom:18px"><div style="display:flex;justify-content:space-between;align-items:center;font-size:.84em;margin-bottom:6px"><span style="font-weight:700">${lb}</span><span style="color:${c};font-weight:900;font-size:1.05em">${sc[k]}</span></div><div style="height:9px;background:rgba(255,255,255,.06);border-radius:5px;overflow:hidden;margin-bottom:7px"><div class="compat-bar-fill" style="height:100%;width:0;background:linear-gradient(90deg,${c}88,${c});border-radius:5px;transition:width 1.2s ease-out" data-w="${sc[k]}%"></div></div><div style="font-size:.78em;color:var(--sub);line-height:1.6">${txt}</div></div>`).join('');
+}
+
 function startQuiz2p(){
-  _duoMode=true;_p1Code=null;_p1T=null;
+  _duoMode=true;_duoPerson=1;_p1Code=null;_p1T=null;
   document.getElementById('titleScreen').style.display='none';
-  document.getElementById('questionScreen').style.display='block';
-  cq=0;sc={E:0,I:0,N:0,S:0,F:0,T:0,J:0,P:0};
-  document.getElementById('progressText').textContent='1人目 1 / 24';
-  showQ();
+  const qs=document.getElementById('questionScreen');
+  qs.style.display='block';
+  qs.innerHTML=`<div class="duo-transition"><div style="font-size:.75em;color:var(--accent);letter-spacing:2px;margin-bottom:10px;font-weight:700">STEP 1 / 2</div><h2>👤 1人目からスタート！</h2><p style="color:var(--sub);margin:12px 0 28px;line-height:1.8">24の質問に答えて1人目の診断をしてね。<br>終わったら2人目の番だよ♡</p><button class="btn btn-primary" onclick="begin1PQuiz()">1人目のしんだんスタート ♡</button></div>`;
+}
+function begin1PQuiz(){
+  _resetQScreen();cq=0;sc={E:0,I:0,N:0,S:0,F:0,T:0,J:0,P:0};showQ();
 }
 function showDuoP2(){
-  document.getElementById('questionScreen').innerHTML=`<div class="duo-transition"><h2>1人目、診断完了！✨</h2><p style="color:var(--sub);margin-bottom:28px">次は2人目をスタートしよう</p><button class="btn btn-primary" onclick="beginP2Quiz()">2人目をスタート ♡</button></div>`;
-  document.getElementById('questionScreen').style.display='block';
+  const qs=document.getElementById('questionScreen');
+  qs.style.display='block';
+  qs.innerHTML=`<div class="duo-transition"><div style="font-size:.75em;color:var(--accent);letter-spacing:2px;margin-bottom:10px;font-weight:700">STEP 2 / 2</div><h2>👤 1人目の診断完了！✨</h2><p style="color:var(--sub);margin:12px 0 28px;line-height:1.8">次は2人目の番だよ。<br>同じ24問に答えてね♡</p><button class="btn btn-primary" onclick="beginP2Quiz()">2人目のしんだんスタート ♡</button></div>`;
+}
+function _resetQScreen(){
+  document.getElementById('questionScreen').innerHTML=`<div class="progress-wrap"><div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div><div class="progress-text" id="progressText"></div></div><div class="q-category" id="qCategory"></div><div class="q-text" id="qText"></div><div class="choices" id="choices"></div>`;
 }
 function beginP2Quiz(){
-  document.getElementById('questionScreen').innerHTML=`<div class="progress-wrap"><div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div><div class="progress-text" id="progressText">2人目 1 / 24</div></div><div class="q-category" id="qCategory"></div><div class="q-text" id="qText"></div><div class="choices" id="choices"></div>`;
-  cq=0;sc={E:0,I:0,N:0,S:0,F:0,T:0,J:0,P:0};showQ();
+  _duoPerson=2;_resetQScreen();cq=0;sc={E:0,I:0,N:0,S:0,F:0,T:0,J:0,P:0};showQ();
 }
 function showDuoResult(code2,t2){
   const c1=_p1Code,t1=_p1T,g1=GROUP[getGroup(c1)],g2=GROUP[getGroup(code2)];
-  const best=t1.cp.b===code2||t2.cp.b===c1,good=t1.cp.g===code2||t2.cp.g===c1;
-  const score=best?98:good?85:t1.cp.gr===code2||t2.cp.gr===c1?70:Math.floor(55+Math.random()*25);
-  const comment=score>=95?'まさに運命のふたり♡ たましいレベルで繋がってる！':score>=85?'相性抜群！自然体でいられる最高のパートナー♡':score>=70?'刺激し合える関係。ぶつかっても成長できる！':'違いを認め合えれば、最強コンビになれるかも！';
+  const cs=calcCompat(c1,t1,code2,t2);
+  const overallComment=cs.total>=90?'まさに運命のふたり♡ たましいレベルで深く繋がれる！':cs.total>=80?'相性抜群！自然体でいられる最高のパートナー♡':cs.total>=70?'刺激し合えるいい関係。ぶつかっても成長できる！':cs.total>=60?'違いを認め合えれば、最強コンビになれるかも！':'正反対な2人。でも引き合う力があるかも…♡';
   const el=document.getElementById('resultScreen');
-  el.style.display='block';document.getElementById('questionScreen').style.display='none';
+  el.style.display='block';el.className='result-screen';
+  document.getElementById('questionScreen').style.display='none';
   el.innerHTML=`<div style="text-align:center;padding:30px 0 16px"><div class="logo" style="font-size:1.8em">💑 相性診断結果</div></div>
   <div class="duo-result-wrap">
-    <div class="duo-card" style="border-color:${g1.br}"><div>${mkSVG(t1,100)}</div><div class="duo-card-name" style="color:${g1.c}">${g1.e} ${t1.n}</div><div class="duo-card-sub">${t1.sub}</div><div style="margin-top:6px;font-size:.75em;color:var(--sub)">${c1}</div></div>
-    <div class="duo-card" style="border-color:${g2.br}"><div>${mkSVG(t2,100)}</div><div class="duo-card-name" style="color:${g2.c}">${g2.e} ${t2.n}</div><div class="duo-card-sub">${t2.sub}</div><div style="margin-top:6px;font-size:.75em;color:var(--sub)">${code2}</div></div>
+    <div class="duo-card" style="border-color:${g1.br}"><div>${mkSVG(t1,100)}</div><div class="duo-card-name" style="color:${g1.c}">${g1.e} ${t1.n}</div><div class="duo-card-sub">${t1.sub}</div><div style="margin-top:6px;font-size:.75em;color:var(--sub)">${c1} ／ ${g1.n}</div></div>
+    <div class="duo-card" style="border-color:${g2.br}"><div>${mkSVG(t2,100)}</div><div class="duo-card-name" style="color:${g2.c}">${g2.e} ${t2.n}</div><div class="duo-card-sub">${t2.sub}</div><div style="margin-top:6px;font-size:.75em;color:var(--sub)">${code2} ／ ${g2.n}</div></div>
   </div>
-  <div class="duo-compat"><div style="font-size:.82em;color:var(--sub);margin-bottom:4px">ふたりの相性スコア</div><div class="duo-score">${score}</div><div class="duo-score-label">/ 100</div><div class="duo-comment">${comment}</div></div>
-  <div class="section"><div class="section-title">💕 2人のケミストリー</div><p style="font-size:.88em;line-height:1.8;color:var(--sub)">${g1.e}${g1.n}と${g2.e}${g2.n}の組み合わせ。${t1.n}は${t1.fr.slice(0,40)}…。${t2.n}は${t2.fr.slice(0,40)}…。ふたりが出会うと、互いの足りないところを補い合える関係になれそう。</p></div>
+  <div class="duo-compat"><div style="font-size:.82em;color:var(--sub);margin-bottom:4px">総合相性スコア</div><div class="duo-score">${cs.total}</div><div class="duo-score-label">/ 100</div><div class="duo-comment">${overallComment}</div></div>
+  <div class="section"><div class="section-title">📊 相性の内訳</div>${mkCompatBars(cs)}</div>
+  <div class="section"><div class="section-title">💕 ふたりのケミストリー</div>
+    <p style="font-size:.88em;line-height:1.9;color:var(--sub);margin-bottom:10px">${g1.e}<strong style="color:var(--text)">${g1.n}</strong>と${g2.e}<strong style="color:var(--text)">${g2.n}</strong>の組み合わせ。</p>
+    <p style="font-size:.88em;line-height:1.9;color:var(--sub);margin-bottom:10px"><strong style="color:var(--text)">${t1.n}</strong>は${t1.lv.slice(0,60)}…という恋愛スタイルを持つ一方、<strong style="color:var(--text)">${t2.n}</strong>は${t2.lv.slice(0,60)}…というタイプ。</p>
+    <p style="font-size:.88em;line-height:1.9;color:var(--sub)">${cs.total>=80?'ふたりが出会うと、足りないところを自然と補い合える関係に。お互いがいることで、もっと自分らしくいられるはず♡':'最初は違いに戸惑うことがあるかも。でも本音で話し合えた時、想像以上の深い絆が生まれるよ。'}</p>
+  </div>
   <div class="share-section"><div style="font-size:1em;font-weight:700">結果をシェアしよう♡</div><div class="share-btns" style="margin-top:12px">
-    <button class="share-btn share-x" onclick="window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent('ソウルエレメント相性診断\\n${t1.n}×${t2.n}の相性スコアは${score}点！\\n${comment}\\nhttps://mamori-ai.github.io/soul-element/\\n#ソウルエレメント診断 #相性診断'))">𝕏 でシェア</button>
-    <button class="share-btn share-copy" onclick="navigator.clipboard.writeText('${t1.n}×${t2.n}の相性スコアは${score}点！${comment} https://mamori-ai.github.io/soul-element/');this.textContent='コピーしたよ♡'">📋 コピー</button>
+    <button class="share-btn share-x" onclick="window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent('【ソウルエレメント相性診断】\\n${t1.n}×${t2.n}\\n総合相性スコア：${cs.total}点！\\n${overallComment}\\nhttps://mamori-ai.github.io/soul-element/\\n#ソウルエレメント診断 #相性診断'))">𝕏 でシェア</button>
+    <button class="share-btn share-copy" onclick="navigator.clipboard.writeText('${t1.n}×${t2.n}の相性スコアは${cs.total}点！${overallComment} https://mamori-ai.github.io/soul-element/');this.textContent='コピーしたよ♡'">📋 コピー</button>
   </div></div>
   <button class="retry-btn" onclick="_duoMode=false;location.reload()">もう一回やる ♡</button>`;
+  setTimeout(()=>{el.querySelectorAll('.compat-bar-fill').forEach(f=>{f.style.width=f.dataset.w})},300);
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
@@ -814,9 +873,57 @@ let cq=0,sc={E:0,I:0,N:0,S:0,F:0,T:0,J:0,P:0};
 // Title mascot
 document.getElementById('titleMascot').innerHTML=mkSVG({animal:'bunny',accessory:'ribbon',pal:{body:'#ffb8d9',light:'#ffe4f0',dark:'#e8829e',ear:'#ffa0c8',earIn:'#ffe0ee',cheek:'#ff8aaa',acc:'#ff5c8a'}},160);
 
-function startQuiz(){document.getElementById('titleScreen').style.display='none';document.getElementById('questionScreen').style.display='block';cq=0;sc={E:0,I:0,N:0,S:0,F:0,T:0,J:0,P:0};showQ()}
+let _profile={name:'',birth:'',gender:''};
+function startQuiz(){
+  document.getElementById('titleScreen').style.display='none';
+  const qs=document.getElementById('questionScreen');
+  qs.style.display='block';
+  qs.innerHTML=`<div class="profile-form">
+    <h2>✨ まずきみのことを教えて</h2>
+    <p class="pf-sub">入力しなくてもOK！でも入れると結果がより詳しくなるよ♡</p>
+    <div class="pf-row">
+      <label class="pf-label">🌸 ニックネーム</label>
+      <input class="pf-input" id="pfName" type="text" placeholder="例：ゆうい" maxlength="20">
+    </div>
+    <div class="pf-row">
+      <label class="pf-label">🎂 生年月日</label>
+      <input class="pf-input" id="pfBirth" type="date" style="color-scheme:dark">
+    </div>
+    <div class="pf-row">
+      <label class="pf-label">🌈 性別</label>
+      <div class="pf-gender">
+        <label><input type="radio" name="pfGender" value="女の子"><span>👧 女の子</span></label>
+        <label><input type="radio" name="pfGender" value="男の子"><span>👦 男の子</span></label>
+        <label><input type="radio" name="pfGender" value="どちらでも"><span>🌈 どちらでも</span></label>
+        <label><input type="radio" name="pfGender" value=""><span>🤫 ひみつ</span></label>
+      </div>
+    </div>
+    <button class="btn btn-primary" style="width:100%;margin-top:8px" onclick="beginQuizWithProfile()">しんだんスタート ♡</button>
+    <p class="pf-skip" onclick="beginQuizWithProfile()">スキップしてすぐ始める</p>
+  </div>`;
+}
+function beginQuizWithProfile(){
+  _profile.name=document.getElementById('pfName')?.value.trim()||'';
+  _profile.birth=document.getElementById('pfBirth')?.value||'';
+  _profile.gender=document.querySelector('input[name="pfGender"]:checked')?.value||'';
+  _resetQScreen();cq=0;sc={E:0,I:0,N:0,S:0,F:0,T:0,J:0,P:0};showQ();
+}
+function _getZodiac(birth){
+  if(!birth)return'';
+  const d=new Date(birth),m=d.getMonth()+1,day=d.getDate();
+  const z=[['やぎ座',1,19],['みずがめ座',2,18],['うお座',3,20],['おひつじ座',4,19],['おうし座',5,20],['ふたご座',6,20],['かに座',7,22],['しし座',8,22],['おとめ座',9,22],['てんびん座',10,22],['さそり座',11,21],['いて座',12,21]];
+  for(const[name,em,ed]of z){if(m===em&&day<=ed)return name}
+  return z[m-1][0];
+}
+function _getAge(birth){
+  if(!birth)return null;
+  const b=new Date(birth),t=new Date();
+  let age=t.getFullYear()-b.getFullYear();
+  if(t.getMonth()<b.getMonth()||(t.getMonth()===b.getMonth()&&t.getDate()<b.getDate()))age--;
+  return age;
+}
 
-function showQ(){const q=Q[cq];document.getElementById('qCategory').textContent=q.c;document.getElementById('qText').textContent=q.q;document.getElementById('progressFill').style.width=(cq/24*100)+'%';document.getElementById('progressText').textContent=`${cq+1} / 24`;const b=document.getElementById('choices');b.innerHTML='';q.ch.forEach((c,i)=>{const d=document.createElement('div');d.className=`choice c${i+1}`;d.innerHTML=`<div class="choice-icon">${c.t.slice(0,2)}</div><div class="choice-text">${c.t.slice(2)}</div>`;d.onclick=()=>sel(c.s);b.appendChild(d)});b.style.opacity=0;b.style.transform='translateY(10px)';requestAnimationFrame(()=>{b.style.transition='all .3s';b.style.opacity=1;b.style.transform='translateY(0)'})}
+function showQ(){const q=Q[cq];document.getElementById('qCategory').textContent=q.c;document.getElementById('qText').textContent=q.q;document.getElementById('progressFill').style.width=(cq/24*100)+'%';const pLabel=_duoMode?`${_duoPerson===1?'1人目':'2人目'} ${cq+1} / 24`:`${cq+1} / 24`;document.getElementById('progressText').textContent=pLabel;const b=document.getElementById('choices');b.innerHTML='';q.ch.forEach((c,i)=>{const d=document.createElement('div');d.className=`choice c${i+1}`;d.innerHTML=`<div class="choice-icon">${c.t.slice(0,2)}</div><div class="choice-text">${c.t.slice(2)}</div>`;d.onclick=()=>sel(c.s);b.appendChild(d)});b.style.opacity=0;b.style.transform='translateY(10px)';requestAnimationFrame(()=>{b.style.transition='all .3s';b.style.opacity=1;b.style.transform='translateY(0)'})}
 
 function sel(s){for(let k in s)sc[k]=(sc[k]||0)+s[k];cq++;if(cq<24)showQ();else showR()}
 function getT(){return(sc.E>=sc.I?'E':'I')+(sc.N>=sc.S?'N':'S')+(sc.F>=sc.T?'F':'T')+(sc.J>=sc.P?'J':'P')}
@@ -828,10 +935,14 @@ function renderResult(code,t){
   el.style.display='block';
   const ft=getDailyFortune(code);
   const rar=t.r<3?{lbl:'💎 SSR',note:'めっちゃレア！'}:t.r<7?{lbl:'✨ SR',note:'レアなこ'}:{lbl:'⭐ R',note:''};
+  const zodiac=_getZodiac(_profile.birth),age=_getAge(_profile.birth);
+  const nameLabel=_profile.name?`${_profile.name}の`:'きみの';
+  const profileLine=[_profile.gender,zodiac,age!=null?`${age}歳`:''].filter(Boolean).join(' ／ ');
   el.innerHTML=`<div class="result-header">
+    ${profileLine?`<div style="font-size:.78em;color:var(--sub);margin-bottom:8px">${profileLine}</div>`:''}
     <span class="group-badge" style="background:${grp.b};color:${grp.c};border:1px solid ${grp.br}">${grp.e} ${grp.n}</span>
     <div class="rarity-badge">${rar.lbl} 全体の約${t.r}%${rar.note?` — ${rar.note}`:''}</div>
-    <div class="result-type">きみの中に住んでるこは…</div>
+    <div class="result-type">${nameLabel}中に住んでるこは…</div>
     <div class="result-name">${t.n}</div>
     <div class="result-title">〜 ${t.sub} 〜</div>
     <div class="chara-stage" style="animation:float 3s ease-in-out infinite">${mkSVG(t,160)}</div>
