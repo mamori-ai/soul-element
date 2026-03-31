@@ -1075,7 +1075,7 @@ function startKyuseiMode(){
     <p class="pf-sub">生年月日を入力するだけで、あなたの九星気学タイプが分かるよ♡</p>
     <div class="pf-row">
       <label class="pf-label">🌸 ニックネーム（任意）</label>
-      <input class="pf-input" id="kqName" type="text" placeholder="例：ゆうい" maxlength="20">
+      <input class="pf-input" id="kqName" type="text" placeholder="" maxlength="20">
     </div>
     <div class="pf-row">
       <label class="pf-label">🎂 生年月日</label>
@@ -1214,7 +1214,7 @@ function startQuiz(){
     <p class="pf-sub">入力しなくてもOK！でも入れると結果がより詳しくなるよ♡</p>
     <div class="pf-row">
       <label class="pf-label">🌸 ニックネーム</label>
-      <input class="pf-input" id="pfName" type="text" placeholder="例：ゆうい" maxlength="20">
+      <input class="pf-input" id="pfName" type="text" placeholder="" maxlength="20">
     </div>
     <div class="pf-row">
       <label class="pf-label">🎂 生年月日</label>
@@ -1291,7 +1291,7 @@ function renderResult(code,t){
   el.className='result-screen g-'+g;
   el.style.display='block';
   const ft=getDailyFortune(code);
-  const rar=t.r<3?{lbl:'💎 SSR',note:'めっちゃレア！'}:t.r<7?{lbl:'✨ SR',note:'レアなこ'}:{lbl:'⭐ R',note:''};
+  const rar=t.r<3?(lang==='en'?{lbl:'💎 SSR',note:'Super rare!'}:{lbl:'💎 SSR',note:'めっちゃレア！'}):t.r<7?(lang==='en'?{lbl:'✨ SR',note:'Rare type'}:{lbl:'✨ SR',note:'レアなこ'}):(lang==='en'?{lbl:'⭐ R',note:''}:{lbl:'⭐ R',note:''});
   const zodiac=_getZodiac(_profile.birth),age=_getAge(_profile.birth);
   const kyuseiNum=_getKyusei(_profile.birth);
   const _ksBase=lang==='en'?EN_KYUSEI:KYUSEI;
@@ -1301,20 +1301,20 @@ function renderResult(code,t){
   const comboInfo=(ks&&kyuseiElem&&_comboBase[g])?_comboBase[g][kyuseiElem]:null;
   const monthlyKyuseiNum=kyuseiNum?_getMonthlyKyusei(kyuseiNum):null;
   const mks=monthlyKyuseiNum?(lang==='en'?EN_KYUSEI[monthlyKyuseiNum]:KYUSEI[monthlyKyuseiNum]):null;
-  const nameLabel=_profile.name?`${_profile.name}の`:'きみの';
-  const profileLine=[_profile.gender,zodiac,age!=null?`${age}歳`:''].filter(Boolean).join(' ／ ');
+  const nameLabel=lang==='en'?(_profile.name?`${_profile.name}'s`:'Your'):(_profile.name?`${_profile.name}の`:'きみの');
+  const profileLine=[_profile.gender,zodiac,age!=null?(lang==='en'?`${age} yrs`:`${age}歳`):'']. filter(Boolean).join(lang==='en'?' / ':' ／ ');
   el.innerHTML=`<div class="result-header">
     ${profileLine?`<div style="font-size:.78em;color:var(--sub);margin-bottom:8px">${profileLine}</div>`:''}
     <span class="group-badge" style="background:${grp.b};color:${grp.c};border:1px solid ${grp.br}">${grp.e} ${grp.n}</span>
-    <div class="rarity-badge">${rar.lbl} 全体の約${t.r}%${rar.note?` — ${rar.note}`:''}</div>
-    <div class="result-type">${nameLabel}中に住んでるこは…</div>
+    <div class="rarity-badge">${rar.lbl} ${lang==='en'?`top ${t.r}%`:` 全体の約${t.r}%`}${rar.note?` — ${rar.note}`:''}</div>
+    <div class="result-type">${lang==='en'?`${nameLabel} Soul Element is…`:`${nameLabel}中に住んでるこは…`}</div>
     <div class="result-name">${t.n}</div>
     <div class="result-title">〜 ${t.sub} 〜</div>
     <div class="chara-stage" style="animation:float 3s ease-in-out infinite">${mkSVG(t,160)}</div>
-    <div class="animal-label">守護あにまる：<span>${t.an}</span></div>
-    <div class="elements">${code.split('').map(l=>{const m={E:['☀️ おひさま','#ffb8d9'],I:['🌙 おつきさま','#c4b5fd'],N:['🌀 そよかぜ','#93c5fd'],S:['🌍 だいち','#6ee7b7'],F:['🔥 ぬくもり','#fde68a'],T:['💧 しずく','#99f6e4'],J:['⭐ おほしさま','#f9a8d4'],P:['☁️ くもさん','#c8dcff']};return`<span class="element-tag" style="background:${m[l][1]}22;color:${m[l][1]};border:1px solid ${m[l][1]}44">${m[l][0]}</span>`}).join('')}</div>
+    <div class="animal-label">${lang==='en'?'Spirit Animal: ':'守護あにまる：'}<span>${t.an}</span></div>
+    <div class="elements">${code.split('').map(l=>{const m=lang==='en'?{E:['☀️ Sun','#ffb8d9'],I:['🌙 Moon','#c4b5fd'],N:['🌀 Wind','#93c5fd'],S:['🌍 Earth','#6ee7b7'],F:['🔥 Warmth','#fde68a'],T:['💧 Logic','#99f6e4'],J:['⭐ Star','#f9a8d4'],P:['☁️ Cloud','#c8dcff']}:{E:['☀️ おひさま','#ffb8d9'],I:['🌙 おつきさま','#c4b5fd'],N:['🌀 そよかぜ','#93c5fd'],S:['🌍 だいち','#6ee7b7'],F:['🔥 ぬくもり','#fde68a'],T:['💧 しずく','#99f6e4'],J:['⭐ おほしさま','#f9a8d4'],P:['☁️ くもさん','#c8dcff']};return`<span class="element-tag" style="background:${m[l][1]}22;color:${m[l][1]};border:1px solid ${m[l][1]}44">${m[l][0]}</span>`}).join('')}</div>
   </div>
-  <div class="fortune-wrap"><div class="fortune-date">🗓 ${ft.date}の運勢</div><div class="fortune-luck" style="color:${ft.c}">${ft.luck}</div><div class="fortune-msg">${ft.msg}</div><div class="fortune-tip">${ft.tip}</div></div>
+  <div class="fortune-wrap"><div class="fortune-date">🗓 ${lang==='en'?`${ft.date} Fortune`:`${ft.date}の運勢`}</div><div class="fortune-luck" style="color:${ft.c}">${ft.luck}</div><div class="fortune-msg">${ft.msg}</div><div class="fortune-tip">${ft.tip}</div></div>
   ${ks?`<div class="section" style="border-color:${ks.color}44;background:linear-gradient(135deg,${ks.color}08,transparent)">
     <div class="section-title">⭐ ${lang==='en'?'Your Star Soul · Nine Star Ki':'きみの星の魂【九星気学】'}</div>
     <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;padding:16px;background:${ks.color}11;border-radius:16px;border:1px solid ${ks.color}33">
@@ -1368,22 +1368,22 @@ function renderResult(code,t){
       ${ks.kw.map(k=>`<span style="background:${ks.color}22;color:${ks.color};border:1px solid ${ks.color}55;padding:3px 11px;border-radius:12px;font-size:.76em;font-weight:700">${k}</span>`).join('')}
     </div>
   </div>`:`<div class="section" style="border-color:rgba(255,229,102,.15)"><div class="section-title">⭐ ${lang==='en'?'Your Star Soul · Nine Star Ki':'星の魂【九星気学】'}</div><p style="font-size:.85em;color:var(--sub);line-height:1.8">${lang==='en'?'Enter your date of birth to discover your Nine Star Ki star soul♡<br>Try again and add your birthdate to unlock!':'生年月日を入力すると、九星気学のあなたの星が分かるよ♡<br>もう一回やる場合は生年月日を入れてみてね！'}</p></div>`}
-  <div class="section"><div class="section-title">📖 ${t.n}ってどんなこ？</div><p>${t.d}</p></div>
-  <div class="section"><div class="section-title">💪 いいところ</div><ul class="strength">${t.st.map(s=>`<li>${s}</li>`).join('')}</ul></div>
-  <div class="section"><div class="section-title">😅 ちょっとにがて…</div><ul class="weakness">${t.wk.map(w=>`<li>${w}</li>`).join('')}</ul></div>
-  <div class="section"><div class="section-title">📊 ソウルステータス</div><div class="radar-wrap">${mkRadar(t.ss)}</div></div>
+  <div class="section"><div class="section-title">📖 ${lang==='en'?`Who is ${t.n}?`:`${t.n}ってどんなこ？`}</div><p>${t.d}</p></div>
+  <div class="section"><div class="section-title">💪 ${lang==='en'?'Strengths':'いいところ'}</div><ul class="strength">${t.st.map(s=>`<li>${s}</li>`).join('')}</ul></div>
+  <div class="section"><div class="section-title">😅 ${lang==='en'?'Weaknesses':'ちょっとにがて…'}</div><ul class="weakness">${t.wk.map(w=>`<li>${w}</li>`).join('')}</ul></div>
+  <div class="section"><div class="section-title">📊 ${lang==='en'?'Soul Status':'ソウルステータス'}</div><div class="radar-wrap">${mkRadar(t.ss)}</div></div>
   <div class="ad-slot"><!-- AdSense: 結果中間広告 --><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});<\/script></div>
-  <div class="section"><div class="section-title">💼 お似合いのお仕事</div><div class="career-grid">${t.ca.map(c=>`<div class="career-item"><div class="career-icon">${c.i}</div><div><div class="career-name">${c.n}</div><div class="career-why">${c.w}</div></div></div>`).join('')}<div class="career-item career-avoid"><div class="career-icon">⚠️</div><div><div class="career-name">ちょっとニガテ：${t.cv.n}</div><div class="career-why">${t.cv.w}</div></div></div></div></div>
-  <div class="section"><div class="section-title">💕 恋のクセ</div><p>${t.lv}</p></div>
-  <div class="section"><div class="section-title">🤝 友情スタイル</div><p>${t.fr}</p></div>
-  <div class="section"><div class="section-title">💫 相性ぴったりなこ</div><div class="compat-grid">
-    <div class="compat-item"><div class="compat-mini">${T[t.cp.b]?mkSVG(T[t.cp.b],48):''}</div><div class="compat-info"><div class="compat-name">${T[t.cp.b]?.n||'???'}</div><div class="compat-desc">運命のあいて♡ たましいレベルで通じ合えるよ</div></div><div class="compat-badge" style="background:rgba(255,142,207,.15);color:#ff8ecf">💕 さいこう</div></div>
-    <div class="compat-item"><div class="compat-mini">${T[t.cp.g]?mkSVG(T[t.cp.g],48):''}</div><div class="compat-info"><div class="compat-name">${T[t.cp.g]?.n||'???'}</div><div class="compat-desc">自然体でいられるここちいい関係♡</div></div><div class="compat-badge" style="background:rgba(110,231,183,.15);color:#6ee7b7">😊 いいかんじ</div></div>
-    <div class="compat-item"><div class="compat-mini">${T[t.cp.gr]?mkSVG(T[t.cp.gr],48):''}</div><div class="compat-info"><div class="compat-name">${T[t.cp.gr]?.n||'???'}</div><div class="compat-desc">ぶつかるけど成長できるしげきてきな関係！</div></div><div class="compat-badge" style="background:rgba(147,197,253,.15);color:#93c5fd">🔥 せいちょう</div></div>
+  ${lang==='en'?'':`<div class="section"><div class="section-title">💼 お似合いのお仕事</div><div class="career-grid">${t.ca.map(c=>`<div class="career-item"><div class="career-icon">${c.i}</div><div><div class="career-name">${c.n}</div><div class="career-why">${c.w}</div></div></div>`).join('')}<div class="career-item career-avoid"><div class="career-icon">⚠️</div><div><div class="career-name">ちょっとニガテ：${t.cv.n}</div><div class="career-why">${t.cv.w}</div></div></div></div></div>`}
+  <div class="section"><div class="section-title">💕 ${lang==='en'?'Love Style':'恋のクセ'}</div><p>${t.lv}</p></div>
+  <div class="section"><div class="section-title">🤝 ${lang==='en'?'Friendship Style':'友情スタイル'}</div><p>${t.fr}</p></div>
+  <div class="section"><div class="section-title">💫 ${lang==='en'?'Best Matches':'相性ぴったりなこ'}</div><div class="compat-grid">
+    <div class="compat-item"><div class="compat-mini">${T[t.cp.b]?mkSVG(T[t.cp.b],48):''}</div><div class="compat-info"><div class="compat-name">${lang==='en'?(EN[t.cp.b]?.n||T[t.cp.b]?.n||'???'):(T[t.cp.b]?.n||'???')}</div><div class="compat-desc">${lang==='en'?'Soulmate connection♡ You get each other on a deep level':'運命のあいて♡ たましいレベルで通じ合えるよ'}</div></div><div class="compat-badge" style="background:rgba(255,142,207,.15);color:#ff8ecf">${lang==='en'?'💕 Perfect':'💕 さいこう'}</div></div>
+    <div class="compat-item"><div class="compat-mini">${T[t.cp.g]?mkSVG(T[t.cp.g],48):''}</div><div class="compat-info"><div class="compat-name">${lang==='en'?(EN[t.cp.g]?.n||T[t.cp.g]?.n||'???'):(T[t.cp.g]?.n||'???')}</div><div class="compat-desc">${lang==='en'?'Natural & comfortable — you can just be yourself♡':'自然体でいられるここちいい関係♡'}</div></div><div class="compat-badge" style="background:rgba(110,231,183,.15);color:#6ee7b7">${lang==='en'?'😊 Great':'😊 いいかんじ'}</div></div>
+    <div class="compat-item"><div class="compat-mini">${T[t.cp.gr]?mkSVG(T[t.cp.gr],48):''}</div><div class="compat-info"><div class="compat-name">${lang==='en'?(EN[t.cp.gr]?.n||T[t.cp.gr]?.n||'???'):(T[t.cp.gr]?.n||'???')}</div><div class="compat-desc">${lang==='en'?'You clash, but you grow — an exciting dynamic!':'ぶつかるけど成長できるしげきてきな関係！'}</div></div><div class="compat-badge" style="background:rgba(147,197,253,.15);color:#93c5fd">${lang==='en'?'🔥 Growth':'🔥 せいちょう'}</div></div>
   </div></div>
-  <div class="section"><div class="section-title">😈 裏のかお</div><button class="reveal-btn" onclick="this.style.display='none';this.nextElementSibling.classList.add('show')">タップして裏のかおを暴く 🔮</button><div class="hidden-content"><p>${t.hd}</p></div></div>
-  <div class="section"><div class="section-title">💌 ${t.n}へのメッセージ</div><div class="msg-box"><p>きみはきみのままでいい。<br>にがてなところも含めて、ぜんぶきみの魅力だよ。<br>自分のペースで、自分らしく輝いてね♡</p></div></div>
-  <div class="section"><div class="section-title">🍀 ラッキーアイテム</div><div class="lucky-grid"><div class="lucky-item"><div class="lucky-icon">🎨</div><div class="lucky-label">ラッキーカラー</div><div class="lucky-value">${t.lu.c}</div></div><div class="lucky-item"><div class="lucky-icon">✨</div><div class="lucky-label">ラッキーアイテム</div><div class="lucky-value">${t.lu.i}</div></div><div class="lucky-item"><div class="lucky-icon">🔢</div><div class="lucky-label">ラッキーナンバー</div><div class="lucky-value">${t.lu.n}</div></div></div></div>
+  <div class="section"><div class="section-title">😈 ${lang==='en'?'Shadow Side':'裏のかお'}</div><button class="reveal-btn" onclick="this.style.display='none';this.nextElementSibling.classList.add('show')">${lang==='en'?'Tap to reveal your shadow side 🔮':'タップして裏のかおを暴く 🔮'}</button><div class="hidden-content"><p>${t.hd}</p></div></div>
+  <div class="section"><div class="section-title">💌 ${lang==='en'?`A message for ${t.n}`:`${t.n}へのメッセージ`}</div><div class="msg-box"><p>${lang==='en'?`You are perfect as you are.<br>Every part of you — even the parts you struggle with — is what makes you ${t.n}.<br>Shine at your own pace, in your own way♡`:'きみはきみのままでいい。<br>にがてなところも含めて、ぜんぶきみの魅力だよ。<br>自分のペースで、自分らしく輝いてね♡'}</p></div></div>
+  <div class="section"><div class="section-title">🍀 ${lang==='en'?'Lucky Items':'ラッキーアイテム'}</div><div class="lucky-grid"><div class="lucky-item"><div class="lucky-icon">🎨</div><div class="lucky-label">${lang==='en'?'Lucky Color':'ラッキーカラー'}</div><div class="lucky-value">${t.lu.c}</div></div><div class="lucky-item"><div class="lucky-icon">✨</div><div class="lucky-label">${lang==='en'?'Lucky Item':'ラッキーアイテム'}</div><div class="lucky-value">${t.lu.i}</div></div><div class="lucky-item"><div class="lucky-icon">🔢</div><div class="lucky-label">${lang==='en'?'Lucky Number':'ラッキーナンバー'}</div><div class="lucky-value">${t.lu.n}</div></div></div></div>
   <div class="ad-slot"><!-- AdSense: 結果下部広告 --><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});<\/script></div>
   <div class="hashtags">${t.ht.map(h=>`<span class="hashtag">${h}</span>`).join('')}</div>
   <div class="share-section"><div style="font-size:1.1em;font-weight:700">${lang==='en'?'Share your result♡':'結果をシェアしよう♡'}</div><div class="share-btns">
@@ -1393,8 +1393,8 @@ function renderResult(code,t){
     <button class="share-btn share-copy" onclick="navigator.clipboard.writeText('${lang==='en'?`My Soul Element is &quot;${t.n}&quot; × ${ks?ks.n:''}! ${t.sub}`:`ソウルエレメント診断の結果は「${t.n}」×「${ks?ks.n:''}」でした♡ ${t.sub}`}\\nhttps://mamori-ai.github.io/soul-element/?r=${code}');this.textContent='${lang==='en'?'Copied♡':'コピーしたよ♡'}'">📋 ${lang==='en'?'Copy':'コピー'}</button>
     <button class="share-card-btn" onclick="genShareCard('${code}',T['${code}'])">🖼 ${lang==='en'?'Image':'画像'}</button>
   </div></div>
-  <button class="retry-btn" onclick="location.reload()">もう一回やる ♡</button>
-  <div style="text-align:center;padding:16px;font-size:.75em;color:var(--sub)">ソウルエレメント診断 &copy; 2026</div>`;
+  <button class="retry-btn" onclick="location.reload()">${lang==='en'?'Try again ♡':'もう一回やる ♡'}</button>
+  <div style="text-align:center;padding:16px;font-size:.75em;color:var(--sub)">${lang==='en'?'Soul Element Diagnosis':'ソウルエレメント診断'} &copy; 2026</div>`;
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
