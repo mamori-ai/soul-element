@@ -225,10 +225,11 @@ body{font-family:'Zen Maru Gothic',sans-serif;background:var(--bg);color:var(--t
 <div class="logo">ソウルエレメント診断</div>
 <div class="subtitle">きみの中に住んでるこ、だぁれ？♡</div>
 <div class="features">
-<span class="feat">🧸 16キャラ診断</span><span class="feat">💼 お似合いのお仕事</span><span class="feat">💕 恋のクセ</span><span class="feat">🐰 守護あにまる</span><span class="feat">😈 裏のかお</span><span class="feat">✨ 相性ばっちり</span>
+<span class="feat">🧸 16キャラ診断</span><span class="feat">⭐ 九星気学</span><span class="feat">💼 お似合いのお仕事</span><span class="feat">💕 恋のクセ</span><span class="feat">🐰 守護あにまる</span><span class="feat">😈 裏のかお</span><span class="feat">✨ 相性ばっちり</span>
 </div>
 <button class="btn btn-primary" onclick="startQuiz()">しんだんスタート ♡</button>
 <br><button class="btn btn-duo" onclick="startQuiz2p()">👫 2人で相性診断</button>
+<br><button class="btn btn-duo" style="margin-top:8px;border-color:rgba(255,229,102,.35);color:var(--gold)" onclick="startKyuseiMode()">⭐ 生年月日だけで診断</button>
 <div class="ad-slot" id="adTop">
 <!-- AdSense ad unit: トップ広告 -->
 <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
@@ -715,6 +716,219 @@ const GROUP={
 };
 function getGroup(c){return c[1]==='N'?c[2]==='F'?'NF':'NT':c[3]==='J'?'SJ':'SP'}
 
+/* ===== 九星気学 ===== */
+const KYUSEI_ELEM={1:'水',2:'土',3:'木',4:'木',5:'土',6:'金',7:'金',8:'土',9:'火'};
+const KYUSEI={
+  1:{n:'一白水星',elem:'水',emoji:'💧',color:'#7dd3fc',
+     d:'流れるように変化に適応できる、柔軟な魂の持ち主。深い感受性と直感力があり、場の空気を読む力に長けてる。表には出さないけど、内側には豊かな世界が広がってて、近づいた人だけが知る温かさがある。水のように相手に合わせながら、芯のある自分をちゃんと持ってるのがかっこいいところ♡',
+     st:['場の空気を瞬時に読む','深い共感力と包容力','柔軟な適応力','鋭い直感と洞察力','人を癒す不思議な存在感'],
+     wk:['優柔不断になりがち','感情に流されやすい','自己主張が弱くなることがある','悩みを一人で溜め込む','NOが言えなくて疲弊することがある'],
+     lv:'深く感じる恋愛スタイル。すぐには打ち解けないけど、信頼した人には水のように深く寄り添う。相手の気持ちの変化に誰よりも敏感で、言葉にしなくても察知してしまうほど。流されやすい面があるから、「好きだから全部合わせる」じゃなく、自分の気持ちも大事にしてね♡',
+     work:'チームの潤滑油として活躍するタイプ。人間関係を円滑にしながら、縁の下でみんなを支える。クリエイティブな仕事・カウンセリング・アート・音楽など感性を活かせる仕事で特に輝く。',
+     lu:{c:'白・紺・黒',i:'水晶・アクアマリン',n:'1・6'},
+     kw:['柔軟性','直感','内省','適応力','神秘性'],
+     ht:['#一白水星','#水の魂','#感受性豊か','#流れに乗る','#深い共感力']},
+  2:{n:'二黒土星',elem:'土',emoji:'🌱',color:'#86efac',
+     d:'縁の下の力持ち！コツコツ積み上げることが得意で、周りの人を支える母性的なエネルギーの持ち主。目立たないけど、いつの間にか誰かの大切な支えになってる。大地のように揺るがない安心感が周りを引き寄せる。「あなたがいると落ち着く」って言われることが多いはず♡',
+     st:['コツコツ積み上げる忍耐力','誰よりも誠実で裏切らない','人を包む母性的な包容力','地道な努力で確実に結果を出す','縁の下でチームを支える力'],
+     wk:['自己主張が苦手で我慢しがち','優柔不断でなかなか決められない','変化や新しいことへの抵抗感','頑固な一面が出ることがある','頑張りを認めてもらえないと落ち込む'],
+     lv:'献身的に尽くすタイプの恋愛スタイル。相手の好みや記念日を全部覚えていて、さりげない気遣いで愛情表現する。焦らずじっくり関係を育てるから、最初はゆっくりに見えても、気づいたら深〜い絆ができてる。尽くしすぎて疲れる前に、甘える練習もしてね♡',
+     work:'コツコツ型の安定した仕事が合う。農業・食・医療・福祉・サポート職など、人の役に立つ実感が持てる仕事で輝く。長く続けることで信頼を積み上げるのが得意。',
+     lu:{c:'黄・茶・黒',i:'陶器・土もの・根菜',n:'2・5・8'},
+     kw:['忍耐','誠実','奉仕','安定','母性'],
+     ht:['#二黒土星','#土の魂','#縁の下の力持ち','#尽くし系','#コツコツ職人']},
+  3:{n:'三碧木星',elem:'木',emoji:'🌿',color:'#4ade80',
+     d:'エネルギッシュで行動力の塊！新しいことへの情熱と積極性が持ち味で、周りを元気にする力がある。春の新芽みたいに、常に前へ前へと進む勢いがすごい。失敗しても「次！」で立ち上がれるメンタルが最大の武器。一緒にいるだけでなぜかやる気が出てくる、そんな存在♡',
+     st:['誰よりも早く動く行動力','失敗を恐れない積極的なチャレンジ精神','周りを巻き込む情熱とエネルギー','新しい道を切り開くパイオニア精神','落ち込んでもすぐ立ち直るメンタル'],
+     wk:['飽きっぽくて途中で投げ出すことがある','猪突猛進で後先考えないことがある','短気でカッとなりやすい','計画性が弱くてポカをやらかす','ハイテンション時と落ちた時の差が激しい'],
+     lv:'スピード感のある情熱的な恋愛！一目惚れしやすくて、気になったら即アプローチするタイプ。好きな時は全力で追いかける。ただし飽きっぽい一面もあるから、刺激的で新鮮さが続く関係が理想。「いつも同じ」は天敵。お互いに高め合えるパートナーと相性◎♡',
+     work:'新しいことを切り開くパイオニアとして活躍。スタートアップ・営業・クリエイティブ・フリーランスなどスピード感が必要な仕事に向く。アイデアを即実行できる環境が最高。',
+     lu:{c:'青・緑・水色',i:'観葉植物・竹のもの',n:'3・4'},
+     kw:['行動力','情熱','革新','元気','積極性'],
+     ht:['#三碧木星','#木の魂','#行動力おばけ','#情熱系','#パイオニア']},
+  4:{n:'四緑木星',elem:'木',emoji:'🍀',color:'#34d399',
+     d:'信頼と調和を大切にする、人との縁を紡ぐ名人。コミュニケーション能力が高く、どんな場所でも自然と繋がりを作れる。木が根を広げるようにゆっくり、でも確実に絆を育てる。「あなたと話すと安心する」ってよく言われる、信頼の天才タイプ♡',
+     st:['誰とでも自然に仲良くなれる','信頼関係をじっくり丁寧に育てる','場を調和させる天才的な空気感','言葉と態度が一致していて誠実','縁を繋ぐ不思議な引力を持つ'],
+     wk:['優柔不断でなかなか決断できない','人に流されやすく主張しにくい','決断のスピードが遅くなることがある','八方美人と思われることがある','嫌われることをとても恐れる'],
+     lv:'穏やかで信頼関係を何より大切にする恋愛。友達から恋人になるパターンが多くて、じっくり距離を縮めるタイプ。浮気は絶対に許せないし、自分もしない。長く安定した関係を求めてるから、最初は慎重に見えても、本命には深く一途♡',
+     work:'人と人を繋ぐコーディネーター的な役割で活躍。外交・販売・教育・ブライダル・PR職など信頼を積み重ねる仕事が天職。「この人に任せたい」と思われる存在になれる。',
+     lu:{c:'緑・青・白',i:'香り系アイテム・ハーブ',n:'3・4'},
+     kw:['調和','信頼','社交','縁結び','成長'],
+     ht:['#四緑木星','#木の魂','#縁結び上手','#信頼の人','#調和系']},
+  5:{n:'五黄土星',elem:'土',emoji:'👑',color:'#fbbf24',
+     d:'九星の中心に位置する、特別なエネルギーの持ち主。カリスマ性と強烈な存在感で自然とみんなの注目を集める。波乱万丈な人生になりやすいけど、それだけ大きな力がある証。どんな嵐も乗り越えてきた人にしか出せない、独特の深みと強さがある♡',
+     st:['圧倒的なカリスマ性と存在感','どんな逆境も乗り越えてきた底力','人を動かす強烈なリーダーシップ','変革を起こす突破力と決断力','唯一無二のオーラを放つ個性'],
+     wk:['頑固で一度決めると曲げない','独善的になりやすい面がある','波乱を引き寄せやすいエネルギー','プライドが高くて謝りにくい','オールオアナッシングになりがち'],
+     lv:'強烈な恋愛をしがち。好きになったら全力、嫌いになっても全力。情熱的で独占欲が強め。相手に合わせるより自分スタイルを貫くから、対等に向き合える強いパートナーと相性◎。束縛や支配はNG、お互いを尊重できる対等な関係が理想♡',
+     work:'リーダーとしての素質が九星随一。大きな組織のトップや、自分でビジネスを立ち上げるのに向く。波乱万丈な道のりだけど、それを乗り越えるたびに器が大きくなる。',
+     lu:{c:'黄・金・オレンジ',i:'丸いもの・中心になるもの',n:'5'},
+     kw:['カリスマ','変革','中心力','波乱','覇者'],
+     ht:['#五黄土星','#土の魂','#カリスマ','#波乱万丈','#最強の星']},
+  6:{n:'六白金星',elem:'金',emoji:'✨',color:'#e2e8f0',
+     d:'高い理想と誇りを持つ、気高き魂。完璧主義で何事も妥協しない強さを持ちながら、周りを引っ張るリーダーシップも兼ね備えてる。天のような大きな視野でものごとを見るから、細かいことより本質を掴む力がある。努力を惜しまない姿勢が、自然と人を引き寄せる♡',
+     st:['誰よりも誠実で一貫した信念','完璧主義ゆえの圧倒的なクオリティ','天を仰ぐような大きな視野と理想','信頼されるリーダーシップ','どんな困難にも誇りをもって立ち向かう強さ'],
+     wk:['融通が利かず頑固になりやすい','完璧を求めて自分も人も追い詰めがち','人に厳しすぎることがある','プライドが邪魔して素直に甘えられない','理想と現実のギャップに苦しむことがある'],
+     lv:'完璧な恋愛を求めて、なかなか落ちないタイプ。理想が高くて「この人だ！」と思うまで時間がかかる。でも一度好きになったら誠実で一途を極める。相手にも高い基準を求めてしまうから、完璧じゃなくていい、という練習が必要かも♡',
+     work:'リーダーシップと高い倫理観が求められる職場で活躍。法律・金融・管理職・政治・高いプロ意識が必要な専門職に向く。「この人なら任せられる」と思われる存在。',
+     lu:{c:'白・シルバー・金',i:'金属製品・時計・鏡',n:'6'},
+     kw:['完璧主義','誇り','リーダー','高貴','信念'],
+     ht:['#六白金星','#金の魂','#完璧主義','#高貴な星','#誠実一途']},
+  7:{n:'七赤金星',elem:'金',emoji:'🎵',color:'#f9a8d4',
+     d:'明るく楽しいことが大好きな、喜びのエネルギーの持ち主。トーク力と表現力が抜群で、どんな場でも盛り上げる天才。おしゃれ感覚も鋭くて、楽しいことへのアンテナが常に全開。一緒にいるだけで「なんか楽しくなってきた」ってなる不思議な魅力の持ち主♡',
+     st:['どんな場もパッと明るくする表現力','鋭いおしゃれセンスと美的感覚','場を盛り上げる天才的なトーク力','楽天的でどんな逆境も笑い飛ばす','人を楽しませることへの天性の才能'],
+     wk:['表面的に見られてしまうことがある','深刻な話題や重い空気が苦手','軽く見られてしまうことがある','お金の使い方がゆるくなりがち','飽きっぽくて長続きしないことがある'],
+     lv:'楽しいことが最優先の、軽やかな恋愛スタイル。デートはいつも盛り上げてくれるから一緒にいて飽きない。ただし深刻な話が苦手で、重い雰囲気になると逃げたくなる。一緒に笑えて、軽やかに楽しく過ごせる相手と最高の相性♡',
+     work:'接客・エンタメ・飲食・美容・営業など、人と楽しく関わる仕事で輝く。表現力を活かした仕事が天職で、「あの人がいると場が明るくなる」と言われる存在になれる。',
+     lu:{c:'ピンク・赤・ゴールド',i:'アクセサリー・スイーツ',n:'7'},
+     kw:['表現力','楽天的','喜び','センス','話術'],
+     ht:['#七赤金星','#金の魂','#場の盛り上げ担当','#センスの塊','#楽天家']},
+  8:{n:'八白土星',elem:'土',emoji:'🏔️',color:'#94a3b8',
+     d:'変革と安定を同時に生きる、山のような存在感の持ち主。粘り強さと向上心が武器で、大きな変化の波を乗りこなす力がある。どっしりした安心感の裏に、熱い変革のエネルギーを秘めてる。「この人は変わらない」と思わせておいて、実は誰よりも成長してる♡',
+     st:['どんな困難にも折れない粘り強さ','変革の波を乗りこなす適応力','向上心と自己成長への強い意志','山のような揺るぎない安心感','諦めずに積み上げ続ける実行力'],
+     wk:['頑固で変化を強要しすぎることがある','自分のペースを周りに押し付けがち','完璧主義で妥協できないことがある','感情を出すのが苦手','プロセスよりも結果を急ぎすぎる'],
+     lv:'一度決めたら変えない、粘り強い恋愛スタイル。最初は慎重で時間がかかるけど、信頼したら深く関わる。大きな変化の中でも愛を守ろうとする意志が強い。遠距離でも長続きするタイプ。気持ちをもっと言葉にすると、もっとうまくいくかも♡',
+     work:'変革期に力を発揮する。古いものを新しくする仕事・建築・不動産・コンサルタント・再建プロジェクトに向く。「ここを変えてほしい」と呼ばれる存在になれる。',
+     lu:{c:'白・黄・ベージュ',i:'山の石・パワーストーン',n:'8'},
+     kw:['粘り強さ','変革','向上心','安定','山のような力'],
+     ht:['#八白土星','#土の魂','#粘り強さ','#変革の人','#山のような存在']},
+  9:{n:'九紫火星',elem:'火',emoji:'🔮',color:'#c084fc',
+     d:'鋭い感性と知性を持つ、火のように輝く魂。直感が冴えていて、人の本質を見抜く力がある。名声や表現に縁が深く、創造的な才能を発揮することで本領を発揮できる存在。「なんであの人がパッと目立つのか」はこの星のオーラのせい♡',
+     st:['人の本質を瞬時に見抜く直感力','表現力と創造性の豊かさ','名声や評価を引き寄せる引力','感性の豊かさと美的センス','存在感と輝きで場を照らすオーラ'],
+     wk:['感情の波が大きくて周りを驚かせる','プライドが高くて批判に弱い','現実的でない夢に走ることがある','承認欲求が強くなりすぎることがある','感情が先走って後で後悔することも'],
+     lv:'情熱的で感性豊かな恋愛。直感で「この人だ！」と感じると一直線。美的センスが高くて、素敵な空間でのデートや、感性が合う人に強く惹かれる。感情の波が大きいから、喜怒哀楽が激しく見えることも。でもその分、愛情表現も誰よりも豊か♡',
+     work:'芸術・美容・メディア・教育・スピリチュアル・エンタメ系で輝く。名声や評価を得やすい星で、創造的な仕事で本領発揮。「この人のセンスが好き」と言われる仕事が理想。',
+     lu:{c:'紫・赤・ピンク',i:'本・照明・キャンドル',n:'9'},
+     kw:['直感','感性','名声','創造','輝き'],
+     ht:['#九紫火星','#火の魂','#感性の塊','#創造の人','#輝く星']}
+};
+const COMBO_NAME={
+  NF:{水:{n:'感情の深海人',d:'深い感受性が水の直感力と合わさって、人の心を読む天才型の魂。感じる力が2倍になってる特別な組み合わせ♡'},
+      土:{n:'大地に咲く炎',d:'温かさと忍耐力が組み合わさった、誰も置いてけない包容力の持ち主。じっくりと、でも情熱的に♡'},
+      木:{n:'燃える若葉',d:'理想への情熱と成長エネルギーがフル稼働！夢に向かって突き進む力が2倍に♡'},
+      金:{n:'輝く炎の使者',d:'感性の豊かさと高い理想が合わさった、自然と憧れられる特別な存在♡'},
+      火:{n:'魂の炎',d:'二重の炎エネルギー！情熱的すぎるくらいが魅力で、まわりを引きつけてやまない♡'}},
+  NT:{水:{n:'知の深淵',d:'論理と直感が融合した、底知れない思考の持ち主。誰も辿り着けない答えを見つける天才♡'},
+      土:{n:'理性の大地',d:'知性と安定性が組み合わさった、信頼の揺るがない戦略家♡'},
+      木:{n:'成長する知性',d:'好奇心と行動力が合わさって、次々と新しいものを習得していくスーパー探求者♡'},
+      金:{n:'鋼の理論家',d:'完璧な論理と高い基準を持つ、妥協を一切しない思想家♡'},
+      火:{n:'閃光の論客',d:'鋭い知性と直感が組み合わさった、誰も思いつかない答えをひらめく天才♡'}},
+  SJ:{水:{n:'流れる大地',d:'誠実さと柔軟性が融合した、変化にも動じない安心感の塊♡'},
+      土:{n:'大地の守護者',d:'絶対的な安定感と信頼でみんなの砦になる、最強の縁の下の力持ち♡'},
+      木:{n:'育む大地',d:'安定した基盤の上で人を育てる、静かでも確かな成長の力を持つ存在♡'},
+      金:{n:'誇り高き守護者',d:'完璧な信頼性と高い誇りを持つ、絶対に頼れる高貴な存在♡'},
+      火:{n:'情熱の管理者',d:'堅実さの中に情熱を秘めた、意外と熱い一面がいちばん魅力的♡'}},
+  SP:{水:{n:'流れる風',d:'自由と柔軟性が二重になった、どんな状況も流れるように乗りこなすしなやかな魂♡'},
+      土:{n:'地に足のついた風',d:'自由な精神に安定のエネルギーが加わって、より深みと安心感が出てくる♡'},
+      木:{n:'疾風怒濤',d:'止まることを知らない、永遠に前進するエネルギーの塊。行動力が2倍で無敵♡'},
+      金:{n:'洗練された風',d:'自由なスタイルに磨きがかかった、センスと個性が光るキラキラな存在♡'},
+      火:{n:'炎の嵐',d:'止まらない行動力と情熱が融合！まわりを巻き込みながら突き進む最強コンビ♡'}}
+};
+const EN_KYUSEI={
+  1:{n:'Star 1 · White Water',elem:'Water',emoji:'💧',color:'#7dd3fc',
+     d:'A flexible soul that adapts like flowing water. Deep sensitivity and strong intuition help you read any room. Your inner world is richer than most people ever see — only those who get close enough discover the warmth underneath♡',
+     st:['Reads rooms and moods instantly','Deep empathy and genuine warmth','Flexes to any situation without breaking','Sharp intuition that rarely misses','A calming presence others gravitate toward'],
+     wk:['Indecisive when options pile up','Can be swept away by emotion','Struggles to speak up for yourself','Tends to bottle feelings until they overflow','Has trouble saying no, even when exhausted'],
+     lv:'Love runs deep but opens slowly. Once trust is built, you match your partner completely — almost telepathically. You sense emotional shifts before a single word is spoken. Be careful not to lose yourself in adapting. Your feelings matter too♡',
+     work:'A natural team lubricant — you smooth relationships and hold groups together. Counseling, creative fields, music, art, and healing professions all suit your sensitivity beautifully.',
+     lu:{c:'White · Navy · Black',i:'Crystal · Aquamarine',n:'1 · 6'},
+     kw:['Flexible','Intuitive','Introspective','Adaptive','Mysterious'],
+     ht:['#WhiteWater','#WaterSoul','#DeepSensitivity','#GoWithTheFlow','#CalmDepth']},
+  2:{n:'Star 2 · Black Earth',elem:'Earth',emoji:'🌱',color:'#86efac',
+     d:'The quiet backbone everyone secretly relies on. Patient, nurturing, and steady — you build things that actually last. People may not notice until you\'re gone, but they always feel safer when you\'re around♡',
+     st:['Consistent, patient effort that never stops','Absolute sincerity — you never betray anyone','Nurturing warmth that holds people together','Steadily converts effort into real results','The invisible glue that keeps teams whole'],
+     wk:['Hard to speak up for your own needs','Slow to decide and prone to overthinking','Resistant to sudden change or the unknown','A stubborn streak when truly set on something','Deflates when effort goes unnoticed'],
+     lv:'Devoted to the point of remembering every preference and anniversary. Love is shown through doing — a quiet, consistent warmth rather than grand gestures. You invest slowly, but once committed, you\'re all in. Practice asking for what you need too♡',
+     work:'Steady, grounding work environments fit you perfectly — agriculture, food, healthcare, social work, and support roles. The longer you stay, the more trusted you become.',
+     lu:{c:'Yellow · Brown · Black',i:'Pottery · Earthenware · Root vegetables',n:'2 · 5 · 8'},
+     kw:['Patient','Devoted','Nurturing','Stable','Maternal'],
+     ht:['#BlackEarth','#EarthSoul','#QuietStrength','#DevotedHeart','#SteadySupport']},
+  3:{n:'Star 3 · Jade Wood',elem:'Wood',emoji:'🌿',color:'#4ade80',
+     d:'Pure energy and forward momentum. You charge ahead like spring\'s first sprout — passionate, bold, and contagious. Your bounce-back speed after setbacks is your greatest weapon♡',
+     st:['Moves before others even react','Challenges without fear of failure','Pulls people along with infectious energy','Pioneer spirit that opens new roads','Snaps back from setbacks almost instantly'],
+     wk:['Can abandon things halfway when boredom hits','Rushes in without reading the full situation','Short fuse when frustrated','Plans are more feelings than structure','Energy spikes and crashes unpredictably'],
+     lv:'Fast, intense, and full-on. You fall quickly and pursue openly — no games, no waiting. Freshness and excitement are non-negotiable. Long-term works when both partners keep growing together and never stop surprising each other♡',
+     work:'Pioneer roles where you can break new ground — startups, sales, creative work, freelancing. The faster the pace, the better you perform.',
+     lu:{c:'Blue · Green · Sky Blue',i:'Indoor plants · Bamboo',n:'3 · 4'},
+     kw:['Action','Passion','Innovation','Energetic','Bold'],
+     ht:['#JadeWood','#WoodSoul','#ActionFirst','#PassionEngine','#Pioneer']},
+  4:{n:'Star 4 · Green Wood',elem:'Wood',emoji:'🍀',color:'#34d399',
+     d:'A natural connector who weaves bonds wherever you go. Your communication instinct and genuine warmth build trust almost instantly. Like roots spreading underground — slow, quiet, and permanent♡',
+     st:['Bonds naturally with almost anyone','Builds trust through patient consistency','Harmonizes any room you enter','Words and actions always align — deeply sincere','A magnetic quality that draws connections to you'],
+     wk:['Slow to make decisions, especially under pressure','Can be pulled by others\' expectations','Needs extra time to commit to a direction','Sometimes perceived as agreeable to a fault','Fear of rejection holds action back'],
+     lv:'Steady and trust-first. Friendship often turns into romance — you rarely rush. When you commit, you\'re loyal to the core. Infidelity is completely off the table. The ideal partner grows alongside you, slowly and surely♡',
+     work:'Coordinator, connector, bridge-builder roles suit you best — diplomacy, sales, education, PR, and event planning. People learn to say "ask her — she\'ll figure it out."',
+     lu:{c:'Green · Blue · White',i:'Aromatherapy · Herbs',n:'3 · 4'},
+     kw:['Harmony','Trust','Social','Connection','Growth'],
+     ht:['#GreenWood','#WoodSoul','#NaturalConnector','#TrustBuilder','#SteadyBonds']},
+  5:{n:'Star 5 · Yellow Earth',elem:'Earth',emoji:'👑',color:'#fbbf24',
+     d:'The gravitational center of the Nine Stars. Your magnetic presence draws attention without effort. Life runs intense — but that\'s just evidence of the scale of power you carry. Every storm you\'ve survived is written into your depth♡',
+     st:['Magnetic charisma that commands rooms','Sheer resilience — you\'ve outlasted every storm','Leadership that moves people into motion','Transformational force that reshapes what\'s around you','A presence unlike any other in the room'],
+     wk:['Fixed once decided — difficult to shift','Can become insular or self-referential','Tends to attract turbulence and chaos','Pride makes genuine apology difficult','All-or-nothing thinking leaves little middle ground'],
+     lv:'Intense, total, and unmistakable. You love at full force and expect the same in return. Possessiveness is real — a partner who meets you as an equal, never as a follower, is the key. Mutual respect is non-negotiable♡',
+     work:'Born for the top of something — major organization, your own enterprise. The path is rarely smooth, but each obstacle makes you larger.',
+     lu:{c:'Yellow · Gold · Orange',i:'Round objects · Central objects',n:'5'},
+     kw:['Charisma','Transformation','Magnetism','Intensity','Power'],
+     ht:['#YellowEarth','#EarthSoul','#Charisma','#IntenseLife','#PowerStar']},
+  6:{n:'Star 6 · White Metal',elem:'Metal',emoji:'✨',color:'#e2e8f0',
+     d:'A noble soul with high ideals and unshakeable principles. Perfectionist and proud, you lead with vision and integrity. You see the full picture when others can only see pieces — and you hold yourself to the same standards you hold everyone else♡',
+     st:['Absolute sincerity that never wavers','Perfectionism that produces exceptional results','A sky-wide vision others rarely access','Leadership built on genuine trust','Walks into difficulty with dignity intact'],
+     wk:['Rigid when flexibility would actually help','Perfectionism exhausts both you and others','Standards applied to others can feel harsh','Pride makes vulnerability feel impossible','The gap between ideal and real causes real pain'],
+     lv:'You don\'t fall easily — but when you do, you\'re completely devoted. Honesty matters more than charm. Your partner needs to earn your respect as much as your affection. Learning to love someone\'s imperfections without trying to fix them is the growth edge♡',
+     work:'High-integrity professions — law, finance, executive leadership, politics, and any field where professional standards are the highest. The person everyone trusts with the hardest decisions.',
+     lu:{c:'White · Silver · Gold',i:'Metal objects · Watch · Mirror',n:'6'},
+     kw:['Perfectionist','Pride','Leader','Noble','Conviction'],
+     ht:['#WhiteMetal','#MetalSoul','#HighStandards','#NobleStar','#DevotedLeader']},
+  7:{n:'Star 7 · Red Metal',elem:'Metal',emoji:'🎵',color:'#f9a8d4',
+     d:'Joy, wit, and sparkle in human form. Your expressive energy and sharp aesthetic sense make every space brighter. People can\'t quite explain why they\'re happier around you — but they always notice when you\'re gone♡',
+     st:['Lights up every space with expressive energy','Aesthetic instinct that consistently hits right','Conversation skills that make anyone feel seen','Optimism that turns problems into punchlines','A natural gift for making others feel good'],
+     wk:['Can come across as surface-level to strangers','Heavy emotions feel physically uncomfortable','Sometimes underestimated as too lighthearted','Spending follows mood — budget can suffer','Interest fades when novelty wears off'],
+     lv:'Keeps love light, fun, and fresh. Every date is an event. Seriousness is fine in small doses — but partners who drag energy down are a dealbreaker. Someone who laughs with you, matches your vibe, and never stops being fun♡',
+     work:'Hospitality, entertainment, food and beverage, beauty, sales — anywhere that people are the product. Your presence is the reason people come back.',
+     lu:{c:'Pink · Red · Gold',i:'Accessories · Sweets',n:'7'},
+     kw:['Expressive','Joyful','Witty','Stylish','Charming'],
+     ht:['#RedMetal','#MetalSoul','#BrightnessPersonified','#StyleAndSoul','#JoyBringer']},
+  8:{n:'Star 8 · White Earth',elem:'Earth',emoji:'🏔️',color:'#94a3b8',
+     d:'Mountain-steady on the surface, blazing with momentum underneath. You ride transformation better than anyone — not because it\'s easy, but because you simply don\'t quit. The version of you after the storm is always stronger♡',
+     st:['Tenacity that outlasts any obstacle','Rides change and transformation with grace','Relentless drive for improvement','Mountain-like steadiness others lean on','Converts endurance into real achievement'],
+     wk:['Stubbornness when pushed to change direction','Can impose your pace on others without realizing','Perfectionism creates unnecessary pressure','Emotional expression doesn\'t come naturally','Results-focus sometimes overtakes the journey'],
+     lv:'Cautious at first — but once trust is there, completely committed. You protect what matters through difficulty. Long-distance, long-term, hard circumstances — you hold steady. More words would help. What you feel deserves to be said out loud♡',
+     work:'Change and rebuilding — construction, real estate, consulting, turnaround projects. The call comes when something hard needs doing. You answer it.',
+     lu:{c:'White · Yellow · Beige',i:'Mountain stone · Power crystals',n:'8'},
+     kw:['Tenacious','Transformative','Ambitious','Stable','Inner fire'],
+     ht:['#WhiteEarth','#EarthSoul','#MountainStrength','#TransformationStar','#NeverQuits']},
+  9:{n:'Star 9 · Purple Fire',elem:'Fire',emoji:'🔮',color:'#c084fc',
+     d:'Sharp intuition and creative brilliance wrapped in a glow others can feel. You see through people and situations with unsettling accuracy. Recognition, artistry, and an unmistakable presence — they were written in your stars♡',
+     st:['Reads people to their real intention','Creativity and expressive range that stuns','Naturally attracts recognition and visibility','Aesthetic and emotional sensitivity at the highest level','An aura that illuminates whatever space you\'re in'],
+     wk:['Emotional swings can catch others off-guard','High pride makes criticism sting deeply','Can pursue impractical visions with full conviction','Approval-seeking can become all-consuming','Impulse and emotion sometimes outrun judgment'],
+     lv:'Passionate and instinctive — when "this is the one" lands, you move. You\'re drawn to beautiful spaces, shared aesthetic sense, and emotional intensity. Your feelings are enormous, and your love language is equally expressive. Someone who can match your depth is the key♡',
+     work:'Art, beauty, media, education, spirituality, entertainment. The work that shows your vision to the world. Recognition follows when you commit fully to your creative truth.',
+     lu:{c:'Purple · Red · Pink',i:'Books · Lighting · Candles',n:'9'},
+     kw:['Intuition','Sensitivity','Fame','Creative','Radiant'],
+     ht:['#PurpleFire','#FireSoul','#CreativeStar','#Intuitive','#RadiantPresence']}
+};
+const EN_COMBO_NAME={
+  NF:{Water:{n:'Deep-Sea Flame',d:'Double sensitivity — your emotional depth meets water\'s intuition, making you a rare soul reader♡'},
+      Earth:{n:'Flame in Full Bloom',d:'Warmth and endurance combined — an all-embracing presence nobody can leave behind♡'},
+      Wood:{n:'Burning Sprout',d:'Passion and growth energy at full power — your drive toward dreams is twice as strong♡'},
+      Metal:{n:'Radiant Flame Bearer',d:'Rich feeling meets high ideals — you\'re the kind of person people quietly admire♡'},
+      Fire:{n:'Soul on Fire',d:'Double flame energy — almost too passionate, and that\'s exactly what makes you magnetic♡'}},
+  NT:{Water:{n:'Abyss of Knowledge',d:'Logic fused with intuition — a thinker who reaches answers nobody else can find♡'},
+      Earth:{n:'Rational Ground',d:'Intelligence meets stability — a strategist whose trust is unshakeable♡'},
+      Wood:{n:'Growing Mind',d:'Curiosity plus action — you absorb new skills faster than anyone around you♡'},
+      Metal:{n:'Steel Theorist',d:'Flawless logic and the highest standards — zero compromise, always♡'},
+      Fire:{n:'Flash of Insight',d:'Sharp intellect meets vivid intuition — you arrive at answers that stun everyone else♡'}},
+  SJ:{Water:{n:'Flowing Ground',d:'Sincerity meets flexibility — unshaken by change, the ultimate calm anchor♡'},
+      Earth:{n:'Guardian of the Earth',d:'Double earth energy — your absolute reliability is the foundation everyone builds on♡'},
+      Wood:{n:'Nurturing Ground',d:'A steady base that quietly helps others grow — reliable power with deep roots♡'},
+      Metal:{n:'Noble Guardian',d:'Impeccable trustworthiness meets high pride — someone everyone can count on absolutely♡'},
+      Fire:{n:'Passionate Keeper',d:'Steady on the outside, burning on the inside — your hidden passion is your most attractive side♡'}},
+  SP:{Water:{n:'Flowing Wind',d:'Freedom and flexibility doubled — you glide through any situation with graceful ease♡'},
+      Earth:{n:'Grounded Wind',d:'Free spirit gains a steady anchor — depth and warmth others didn\'t expect♡'},
+      Wood:{n:'Full-Speed Gale',d:'Non-stop forward motion — action energy doubled, completely unstoppable♡'},
+      Metal:{n:'Polished Wind',d:'Free style meets refined taste — a sparkling presence with rare personal flair♡'},
+      Fire:{n:'Fire Storm',d:'Relentless action meets blazing passion — you pull everyone into your orbit♡'}}
+};
+
 /* ===== F2: Radar Chart ===== */
 function mkRadar(ss){
   const K=['so','cr','lo','em','le','ad'],
@@ -758,6 +972,14 @@ function genShareCard(code,t){
   ctx.fillStyle='#fff';ctx.font='bold 68px sans-serif';ctx.fillText(t.n,42,172);
   ctx.fillStyle='#a09cbd';ctx.font='26px sans-serif';ctx.fillText('〜 '+t.sub+' 〜',42,216);
   ctx.fillStyle='rgba(255,255,255,.5)';ctx.font='19px sans-serif';ctx.fillText('全体の約'+t.r+'%  |  タイプ：'+code,42,258);
+  // 九星情報をカードに追加
+  const kyuseiForCard=_getKyusei(_profile.birth);
+  if(kyuseiForCard){
+    const ksCard=KYUSEI[kyuseiForCard];
+    ctx.fillStyle=ksCard.color;
+    ctx.font='bold 16px sans-serif';
+    ctx.fillText(ksCard.emoji+' '+ksCard.n+' · '+ksCard.elem+'のエネルギー',42,282);
+  }
   const rar=t.r<3?'SSR ✨':t.r<7?'SR 💫':'R';
   ctx.fillStyle='rgba(255,229,102,.8)';ctx.font='bold 17px sans-serif';ctx.fillText('◆ '+rar,42,290);
   ctx.fillStyle='rgba(180,142,255,.2)';ctx.fillRect(0,328,800,60);
@@ -773,6 +995,44 @@ function genShareCard(code,t){
 
 /* ===== F5: 2-person Mode ===== */
 let _duoMode=false,_duoPerson=1,_p1Code=null,_p1T=null;
+
+function calcKyuseiCompat(star1, star2){
+  const em={1:'水',2:'土',3:'木',4:'木',5:'土',6:'金',7:'金',8:'土',9:'火'};
+  const e1=em[star1],e2=em[star2];
+  const gen={木:'火',火:'土',土:'金',金:'水',水:'木'};
+  const ctrl={木:'土',土:'水',水:'火',火:'金',金:'木'};
+  if(star1===star2)return{score:78,label:lang==='en'?'Twin Stars ✨':'同士の縁 ✨',d:lang==='en'?'Same star — you understand each other deeply, but may push the same buttons.':'同じ星同士。深く理解し合える反面、同じ弱点が出ることも。',c:'#fde68a'};
+  if(e1===e2)return{score:75,label:lang==='en'?'Shared Element 🤝':'同元素の縁 🤝',d:lang==='en'?'Same element — shared values and natural rhythm together.':'同じ元素。価値観が近くて、自然に息が合う。',c:'#a8f0d4'};
+  if(gen[e1]===e2)return{score:92,label:lang==='en'?'You Nurture Them 💕':'育む縁 💕',d:lang==='en'?'You generate their energy — a naturally supportive and uplifting bond.':'あなたが相手を育てる関係。自然とサポートし合える最高の縁。',c:'#ff9bb3'};
+  if(gen[e2]===e1)return{score:88,label:lang==='en'?'They Nurture You 🌸':'育まれる縁 🌸',d:lang==='en'?'They generate your energy — you grow and shine in their presence.':'相手があなたを育ててくれる関係。一緒にいると輝ける。',c:'#f9a8d4'};
+  if(ctrl[e1]===e2)return{score:62,label:lang==='en'?'You Challenge Them 🔥':'試す縁 🔥',d:lang==='en'?'You challenge their energy — intense, but can forge real growth.':'あなたが相手に刺激を与える関係。ぶつかるけど成長できる。',c:'#fb923c'};
+  if(ctrl[e2]===e1)return{score:65,label:lang==='en'?'They Challenge You 💪':'試される縁 💪',d:lang==='en'?'They challenge your energy — stretches you beyond comfort zones.':'相手があなたを刺激する関係。鍛えられて強くなれる。',c:'#f59e0b'};
+  return{score:80,label:lang==='en'?'Harmonious Pair 🌿':'調和の縁 🌿',d:lang==='en'?'Balanced energies — naturally comfortable together.':'バランスのいい関係。一緒にいて心地よい。',c:'#6ee7b7'};
+}
+
+function mkKyuseiCompatSection(myNum){
+  const allStars=[1,2,3,4,5,6,7,8,9].filter(n=>n!==myNum);
+  const results=allStars.map(n=>{
+    const ks2=lang==='en'?EN_KYUSEI[n]:KYUSEI[n];
+    const c=calcKyuseiCompat(myNum,n);
+    return{n,ks2,c};
+  }).sort((a,b)=>b.c.score-a.c.score);
+  const top3=results.slice(0,3);
+  return`<div class="section"><div class="section-title">💫 ${lang==='en'?'Star Compatibility':'星の相性'}</div>
+  <div style="display:grid;gap:10px">
+  ${top3.map(({n,ks2,c})=>`<div style="display:flex;align-items:center;gap:12px;padding:13px;background:rgba(255,255,255,.025);border-radius:14px;border-left:3px solid ${c.c}">
+    <span style="font-size:1.8em;flex-shrink:0">${ks2.emoji}</span>
+    <div style="flex:1">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+        <span style="font-weight:700;font-size:.9em;color:${c.c}">${ks2.n}</span>
+        <span style="font-size:.72em;padding:2px 8px;border-radius:8px;background:${c.c}22;color:${c.c};font-weight:700">${c.label}</span>
+      </div>
+      <div style="font-size:.78em;color:var(--sub);line-height:1.6">${c.d}</div>
+    </div>
+    <div style="font-size:1.2em;font-weight:900;color:${c.c};flex-shrink:0">${c.score}</div>
+  </div>`).join('')}
+  </div></div>`;
+}
 
 function calcCompat(c1,t1,c2,t2){
   const seed=[...c1,...c2].reduce((a,ch,i)=>a+ch.charCodeAt(0)*(i+1),0);
@@ -804,6 +1064,68 @@ function mkCompatBars(sc){
      txt:sc.luck>=88?'一緒にいると互いの運気がぐんぐんUP！ラッキーペア♡':sc.luck>=76?'良い影響を与え合える。一緒にいると不思議とうまくいく':'持ってる運の方向が違う。組み合わせると意外なパワーが生まれるかも'},
   ];
   return items.map(({k,lb,c,txt})=>`<div style="margin-bottom:18px"><div style="display:flex;justify-content:space-between;align-items:center;font-size:.84em;margin-bottom:6px"><span style="font-weight:700">${lb}</span><span style="color:${c};font-weight:900;font-size:1.05em">${sc[k]}</span></div><div style="height:9px;background:rgba(255,255,255,.06);border-radius:5px;overflow:hidden;margin-bottom:7px"><div class="compat-bar-fill" style="height:100%;width:0;background:linear-gradient(90deg,${c}88,${c});border-radius:5px;transition:width 1.2s ease-out" data-w="${sc[k]}%"></div></div><div style="font-size:.78em;color:var(--sub);line-height:1.6">${txt}</div></div>`).join('');
+}
+
+function startKyuseiMode(){
+  document.getElementById('titleScreen').style.display='none';
+  const qs=document.getElementById('questionScreen');
+  qs.style.display='block';
+  qs.innerHTML=`<div class="profile-form">
+    <h2>⭐ 星の魂を診断</h2>
+    <p class="pf-sub">生年月日を入力するだけで、あなたの九星気学タイプが分かるよ♡</p>
+    <div class="pf-row">
+      <label class="pf-label">🌸 ニックネーム（任意）</label>
+      <input class="pf-input" id="kqName" type="text" placeholder="例：ゆうい" maxlength="20">
+    </div>
+    <div class="pf-row">
+      <label class="pf-label">🎂 生年月日</label>
+      <input class="pf-input" id="kqBirth" type="date" style="color-scheme:dark" required>
+    </div>
+    <button class="btn btn-primary" style="width:100%;margin-top:8px" onclick="showKyuseiResult()">星を診断する ⭐</button>
+    <p class="pf-skip" onclick="document.getElementById('questionScreen').style.display='none';document.getElementById('titleScreen').style.display='block'">← もどる</p>
+  </div>`;
+}
+
+function showKyuseiResult(){
+  const birth=document.getElementById('kqBirth')?.value||'';
+  const name=document.getElementById('kqName')?.value.trim()||'';
+  if(!birth){alert('生年月日を入力してね♡');return;}
+  const num=_getKyusei(birth);
+  if(!num)return;
+  const ks=lang==='en'?EN_KYUSEI[num]:KYUSEI[num];
+  const monthly=_getMonthlyKyusei(num);
+  const mks=lang==='en'?EN_KYUSEI[monthly]:KYUSEI[monthly];
+  const nameLabel=name?`${name}の`:'あなたの';
+  document.getElementById('questionScreen').style.display='none';
+  const el=document.getElementById('resultScreen');
+  el.style.display='block';
+  el.className='result-screen';
+  el.innerHTML=`<div class="result-header" style="text-align:center;padding:30px 0 16px">
+    <div class="logo" style="font-size:1.8em">⭐ 星の魂診断</div>
+    <div style="font-size:.85em;color:var(--sub);margin-top:8px">${nameLabel}星の魂は…</div>
+    <div style="font-size:3.5em;margin:16px 0;filter:drop-shadow(0 0 16px ${ks.color}aa)">${ks.emoji}</div>
+    <div style="color:${ks.color};font-weight:900;font-size:1.8em">${ks.n}</div>
+    <div style="color:var(--sub);font-size:.85em;margin-top:4px">${ks.elem}${lang==='en'?' energy':'のエネルギー'}</div>
+  </div>
+  <div class="section" style="border-color:${ks.color}44">
+    <div class="section-title">📖 ${lang==='en'?'Your Star Soul':'星の魂の特徴'}</div>
+    <p>${ks.d}</p>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+    <div class="section"><div class="section-title" style="color:${ks.color}">💪 ${lang==='en'?'Strengths':'いいところ'}</div>${ks.st.map(s=>`<div style="font-size:.82em;color:var(--sub);padding:3px 0;line-height:1.6">• ${s}</div>`).join('')}</div>
+    <div class="section"><div class="section-title" style="color:#ff9bb3">😅 ${lang==='en'?'Watch out':'にがて'}</div>${ks.wk.map(w=>`<div style="font-size:.82em;color:var(--sub);padding:3px 0;line-height:1.6">• ${w}</div>`).join('')}</div>
+  </div>
+  <div class="section"><div class="section-title">💕 ${lang==='en'?'Love Style':'恋愛スタイル'}</div><p>${ks.lv}</p></div>
+  <div class="section"><div class="section-title">💼 ${lang==='en'?'Work Style':'お仕事スタイル'}</div><p>${ks.work}</p></div>
+  <div class="fortune-wrap"><div class="fortune-date">🗓 ${lang==='en'?'This Month':'今月'} — ${mks.emoji} ${mks.n}</div><div style="font-size:.88em;line-height:1.8;color:var(--sub);margin-top:8px">${lang==='en'?`This month your energy is influenced by <strong style="color:${mks.color}">${mks.n}</strong>. ${mks.kw.join(' · ')}`:`今月は<strong style="color:${mks.color}">${mks.n}</strong>のエネルギーが流れてるよ。${mks.kw.join(' · ')}`}</div></div>
+  <div class="section"><div class="section-title">🍀 ${lang==='en'?'Lucky Items':'ラッキーアイテム'}</div><div class="lucky-grid"><div class="lucky-item"><div class="lucky-icon">🎨</div><div class="lucky-label">${lang==='en'?'Color':'カラー'}</div><div class="lucky-value">${ks.lu.c}</div></div><div class="lucky-item"><div class="lucky-icon">✨</div><div class="lucky-label">${lang==='en'?'Item':'アイテム'}</div><div class="lucky-value">${ks.lu.i}</div></div><div class="lucky-item"><div class="lucky-icon">🔢</div><div class="lucky-label">${lang==='en'?'Number':'ナンバー'}</div><div class="lucky-value">${ks.lu.n}</div></div></div></div>
+  <div class="hashtags">${ks.ht.map(h=>`<span class="hashtag">${h}</span>`).join('')}</div>
+  <div class="share-section"><div style="font-size:1em;font-weight:700">${lang==='en'?'Share your star♡':'星をシェアしよう♡'}</div><div class="share-btns" style="margin-top:12px">
+    <button class="share-btn share-x" onclick="window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent('${lang==='en'?`My star soul is ${ks.n}! ${ks.kw.slice(0,3).join(' · ')} 🔮`:`わたしの星の魂は「${ks.n}」でした⭐\\n${ks.kw.join(' ')}\\nきみも診断してみて♡`}+'\\nhttps://mamori-ai.github.io/soul-element/\\n#ソウルエレメント診断 #九星気学 #${ks.n}'))">𝕏 ${lang==='en'?'Share':'シェア'}</button>
+    <button class="share-btn share-copy" onclick="navigator.clipboard.writeText('${lang==='en'?`My star soul is ${ks.n}!`:`わたしの星の魂は「${ks.n}」でした♡`} https://mamori-ai.github.io/soul-element/');this.textContent='${lang==='en'?'Copied♡':'コピーしたよ♡'}'">📋 ${lang==='en'?'Copy':'コピー'}</button>
+  </div></div>
+  <button class="retry-btn" onclick="location.reload()">${lang==='en'?'Back to Top':'トップにもどる ♡'}</button>`;
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
 function startQuiz2p(){
@@ -931,6 +1253,31 @@ function _getAge(birth){
   if(t.getMonth()<b.getMonth()||(t.getMonth()===b.getMonth()&&t.getDate()<b.getDate()))age--;
   return age;
 }
+function _getKyusei(birth){
+  if(!birth)return null;
+  const d=new Date(birth);
+  let year=d.getFullYear();
+  const month=d.getMonth()+1,day=d.getDate();
+  // 節分（2月4日）より前は前年扱い
+  if(month<2||(month===2&&day<4))year--;
+  let n=year;
+  while(n>9)n=String(n).split('').reduce((a,b)=>a+parseInt(b),0);
+  let k=11-n;
+  if(k>9)k-=9;
+  if(k<=0)k+=9;
+  return k;
+}
+
+function _getMonthlyKyusei(annualNum){
+  const d=new Date();
+  const month=d.getMonth()+1,day=d.getDate();
+  // 節気月のオフセット（2月4日始まり）
+  let kiMonth=(month>=2)?(month===2&&day<4?11:month-2):11;
+  // グループ別の2月基準星
+  const base={1:8,2:5,3:2,4:8,5:5,6:2,7:8,8:5,9:2}[annualNum];
+  let n=((base-kiMonth-1+90)%9)+1;
+  return n;
+}
 
 function showQ(){const q=Q[cq];document.getElementById('qCategory').textContent=q.c;document.getElementById('qText').textContent=q.q;document.getElementById('progressFill').style.width=(cq/24*100)+'%';const pLabel=_duoMode?`${_duoPerson===1?'1人目':'2人目'} ${cq+1} / 24`:`${cq+1} / 24`;document.getElementById('progressText').textContent=pLabel;const b=document.getElementById('choices');b.innerHTML='';q.ch.forEach((c,i)=>{const d=document.createElement('div');d.className=`choice c${i+1}`;d.innerHTML=`<div class="choice-icon">${c.t.slice(0,2)}</div><div class="choice-text">${c.t.slice(2)}</div>`;d.onclick=()=>sel(c.s);b.appendChild(d)});b.style.opacity=0;b.style.transform='translateY(10px)';requestAnimationFrame(()=>{b.style.transition='all .3s';b.style.opacity=1;b.style.transform='translateY(0)'})}
 
@@ -946,6 +1293,14 @@ function renderResult(code,t){
   const ft=getDailyFortune(code);
   const rar=t.r<3?{lbl:'💎 SSR',note:'めっちゃレア！'}:t.r<7?{lbl:'✨ SR',note:'レアなこ'}:{lbl:'⭐ R',note:''};
   const zodiac=_getZodiac(_profile.birth),age=_getAge(_profile.birth);
+  const kyuseiNum=_getKyusei(_profile.birth);
+  const _ksBase=lang==='en'?EN_KYUSEI:KYUSEI;
+  const _comboBase=lang==='en'?EN_COMBO_NAME:COMBO_NAME;
+  const ks=kyuseiNum?_ksBase[kyuseiNum]:null;
+  const kyuseiElem=kyuseiNum?(lang==='en'?{1:'Water',2:'Earth',3:'Wood',4:'Wood',5:'Earth',6:'Metal',7:'Metal',8:'Earth',9:'Fire'}[kyuseiNum]:KYUSEI_ELEM[kyuseiNum]):null;
+  const comboInfo=(ks&&kyuseiElem&&_comboBase[g])?_comboBase[g][kyuseiElem]:null;
+  const monthlyKyuseiNum=kyuseiNum?_getMonthlyKyusei(kyuseiNum):null;
+  const mks=monthlyKyuseiNum?(lang==='en'?EN_KYUSEI[monthlyKyuseiNum]:KYUSEI[monthlyKyuseiNum]):null;
   const nameLabel=_profile.name?`${_profile.name}の`:'きみの';
   const profileLine=[_profile.gender,zodiac,age!=null?`${age}歳`:''].filter(Boolean).join(' ／ ');
   el.innerHTML=`<div class="result-header">
@@ -960,6 +1315,59 @@ function renderResult(code,t){
     <div class="elements">${code.split('').map(l=>{const m={E:['☀️ おひさま','#ffb8d9'],I:['🌙 おつきさま','#c4b5fd'],N:['🌀 そよかぜ','#93c5fd'],S:['🌍 だいち','#6ee7b7'],F:['🔥 ぬくもり','#fde68a'],T:['💧 しずく','#99f6e4'],J:['⭐ おほしさま','#f9a8d4'],P:['☁️ くもさん','#c8dcff']};return`<span class="element-tag" style="background:${m[l][1]}22;color:${m[l][1]};border:1px solid ${m[l][1]}44">${m[l][0]}</span>`}).join('')}</div>
   </div>
   <div class="fortune-wrap"><div class="fortune-date">🗓 ${ft.date}の運勢</div><div class="fortune-luck" style="color:${ft.c}">${ft.luck}</div><div class="fortune-msg">${ft.msg}</div><div class="fortune-tip">${ft.tip}</div></div>
+  ${ks?`<div class="section" style="border-color:${ks.color}44;background:linear-gradient(135deg,${ks.color}08,transparent)">
+    <div class="section-title">⭐ ${lang==='en'?'Your Star Soul · Nine Star Ki':'きみの星の魂【九星気学】'}</div>
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;padding:16px;background:${ks.color}11;border-radius:16px;border:1px solid ${ks.color}33">
+      <span style="font-size:3em;line-height:1;filter:drop-shadow(0 0 8px ${ks.color}88)">${ks.emoji}</span>
+      <div>
+        <div style="color:${ks.color};font-weight:900;font-size:1.3em;letter-spacing:.5px">${ks.n}</div>
+        <div style="color:var(--sub);font-size:.8em;margin-top:3px">${ks.elem}${lang==='en'?' energy · Nine Star Ki':'のエネルギー · 九星気学'}</div>
+        ${comboInfo?`<div style="margin-top:6px;font-size:.82em;font-weight:700;color:var(--gold)">「${comboInfo.n}」</div>`:''}
+      </div>
+    </div>
+    <p style="font-size:.88em;line-height:1.85;color:var(--sub);margin-bottom:14px">${ks.d}</p>
+    ${mks?`<div style="margin-top:12px;margin-bottom:14px;padding:12px 14px;background:linear-gradient(135deg,${mks.color}11,transparent);border:1px solid ${mks.color}33;border-radius:14px">
+  <div style="font-size:.78em;color:var(--sub);margin-bottom:5px">🗓 ${lang==='en'?'This Month\'s Star Energy':'今月の星のエネルギー'}</div>
+  <div style="display:flex;align-items:center;gap:10px">
+    <span style="font-size:1.6em">${mks.emoji}</span>
+    <div>
+      <div style="font-weight:700;font-size:.9em;color:${mks.color}">${mks.n}</div>
+      <div style="font-size:.77em;color:var(--sub);margin-top:3px">${mks.kw.slice(0,3).join(' · ')}</div>
+    </div>
+  </div>
+</div>`:''}
+    ${comboInfo?`<div style="padding:12px 14px;background:rgba(255,229,102,.06);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;margin-bottom:14px">
+      <div style="font-size:.76em;color:var(--sub);margin-bottom:4px">${grp.e} ${grp.n} × ${ks.emoji} ${ks.n}</div>
+      <p style="font-size:.85em;line-height:1.75;color:var(--text)">${comboInfo.d}</p>
+    </div>`:''}
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+      <div style="background:rgba(255,255,255,.03);border-radius:14px;padding:13px">
+        <div style="font-size:.8em;font-weight:700;margin-bottom:8px;color:${ks.color}">💪 ${lang==='en'?'Strengths':'いいところ'}</div>
+        ${ks.st.map(s=>`<div style="font-size:.78em;color:var(--sub);padding:2px 0;line-height:1.6">• ${s}</div>`).join('')}
+      </div>
+      <div style="background:rgba(255,255,255,.03);border-radius:14px;padding:13px">
+        <div style="font-size:.8em;font-weight:700;margin-bottom:8px;color:#ff9bb3">😅 ${lang==='en'?'Watch out':'ちょっとにがて'}</div>
+        ${ks.wk.map(w=>`<div style="font-size:.78em;color:var(--sub);padding:2px 0;line-height:1.6">• ${w}</div>`).join('')}
+      </div>
+    </div>
+    <div style="background:rgba(255,255,255,.03);border-radius:14px;padding:14px;margin-bottom:10px">
+      <div style="font-size:.82em;font-weight:700;margin-bottom:8px;color:#fde68a">💕 ${lang==='en'?'Love Style':'恋愛スタイル'}</div>
+      <p style="font-size:.83em;line-height:1.8;color:var(--sub)">${ks.lv}</p>
+    </div>
+    <div style="background:rgba(255,255,255,.03);border-radius:14px;padding:14px;margin-bottom:14px">
+      <div style="font-size:.82em;font-weight:700;margin-bottom:8px;color:#6ee7b7">💼 ${lang==='en'?'Work Style':'お仕事スタイル'}</div>
+      <p style="font-size:.83em;line-height:1.8;color:var(--sub)">${ks.work}</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px;text-align:center">
+      <div style="background:rgba(255,255,255,.025);border-radius:12px;padding:12px"><div style="font-size:1.4em;margin-bottom:4px">🎨</div><div style="font-size:.7em;color:var(--sub)">${lang==='en'?'Lucky Color':'ラッキーカラー'}</div><div style="font-size:.78em;font-weight:700;margin-top:2px">${ks.lu.c}</div></div>
+      <div style="background:rgba(255,255,255,.025);border-radius:12px;padding:12px"><div style="font-size:1.4em;margin-bottom:4px">✨</div><div style="font-size:.7em;color:var(--sub)">${lang==='en'?'Lucky Item':'ラッキーアイテム'}</div><div style="font-size:.78em;font-weight:700;margin-top:2px">${ks.lu.i}</div></div>
+      <div style="background:rgba(255,255,255,.025);border-radius:12px;padding:12px"><div style="font-size:1.4em;margin-bottom:4px">🔢</div><div style="font-size:.7em;color:var(--sub)">${lang==='en'?'Lucky Number':'ラッキーナンバー'}</div><div style="font-size:.78em;font-weight:700;margin-top:2px">${ks.lu.n}</div></div>
+    </div>
+    ${mkKyuseiCompatSection(kyuseiNum)}
+    <div style="display:flex;flex-wrap:wrap;gap:6px">
+      ${ks.kw.map(k=>`<span style="background:${ks.color}22;color:${ks.color};border:1px solid ${ks.color}55;padding:3px 11px;border-radius:12px;font-size:.76em;font-weight:700">${k}</span>`).join('')}
+    </div>
+  </div>`:`<div class="section" style="border-color:rgba(255,229,102,.15)"><div class="section-title">⭐ ${lang==='en'?'Your Star Soul · Nine Star Ki':'星の魂【九星気学】'}</div><p style="font-size:.85em;color:var(--sub);line-height:1.8">${lang==='en'?'Enter your date of birth to discover your Nine Star Ki star soul♡<br>Try again and add your birthdate to unlock!':'生年月日を入力すると、九星気学のあなたの星が分かるよ♡<br>もう一回やる場合は生年月日を入れてみてね！'}</p></div>`}
   <div class="section"><div class="section-title">📖 ${t.n}ってどんなこ？</div><p>${t.d}</p></div>
   <div class="section"><div class="section-title">💪 いいところ</div><ul class="strength">${t.st.map(s=>`<li>${s}</li>`).join('')}</ul></div>
   <div class="section"><div class="section-title">😅 ちょっとにがて…</div><ul class="weakness">${t.wk.map(w=>`<li>${w}</li>`).join('')}</ul></div>
@@ -980,9 +1388,9 @@ function renderResult(code,t){
   <div class="hashtags">${t.ht.map(h=>`<span class="hashtag">${h}</span>`).join('')}</div>
   <div class="share-section"><div style="font-size:1.1em;font-weight:700">${lang==='en'?'Share your result♡':'結果をシェアしよう♡'}</div><div class="share-btns">
     <button class="share-btn" style="background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff" onclick="nativeShare('${code}',T['${code}'])">📤 ${lang==='en'?'Share':'シェア'}</button>
-    <button class="share-btn share-x" onclick="window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent('${lang==='en'?`My Soul Element is &quot;${t.n}&quot;! ${t.sub} Find yours 🔮`:`ソウルエレメント診断の結果は「${t.n}」でした♡\\n${t.sub}\\n\\nきみの中に住んでるこは誰？🔮`}+'\\nhttps://mamori-ai.github.io/soul-element/?r=${code}\\n\\n#SoulElement #性格診断 #MBTI'))">𝕏</button>
+    <button class="share-btn share-x" onclick="window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent('${lang==='en'?`My Soul Element is &quot;${t.n}&quot; × ${ks?ks.n:''} ${t.sub} 🔮`:`ソウルエレメント診断の結果は「${t.n}」×「${ks?ks.n:''}」でした♡\\n${t.sub}\\nきみの中に住んでるこは誰？🔮`}+'\\nhttps://mamori-ai.github.io/soul-element/?r=${code}\\n\\n#SoulElement #性格診断 #九星気学'))">𝕏</button>
     <button class="share-btn share-line" onclick="window.open('https://social-plugins.line.me/lineit/share?url='+encodeURIComponent('https://mamori-ai.github.io/soul-element/?r=${code}')+'&text='+encodeURIComponent('ソウルエレメント診断の結果は「${t.n}」でした♡ ${t.sub}'))">LINE</button>
-    <button class="share-btn share-copy" onclick="navigator.clipboard.writeText('${lang==='en'?`My Soul Element is &quot;${t.n}&quot;! ${t.sub}`:`ソウルエレメント診断の結果は「${t.n}」でした♡ ${t.sub}`}\\nhttps://mamori-ai.github.io/soul-element/?r=${code}');this.textContent='${lang==='en'?'Copied♡':'コピーしたよ♡'}'">📋 ${lang==='en'?'Copy':'コピー'}</button>
+    <button class="share-btn share-copy" onclick="navigator.clipboard.writeText('${lang==='en'?`My Soul Element is &quot;${t.n}&quot; × ${ks?ks.n:''}! ${t.sub}`:`ソウルエレメント診断の結果は「${t.n}」×「${ks?ks.n:''}」でした♡ ${t.sub}`}\\nhttps://mamori-ai.github.io/soul-element/?r=${code}');this.textContent='${lang==='en'?'Copied♡':'コピーしたよ♡'}'">📋 ${lang==='en'?'Copy':'コピー'}</button>
     <button class="share-card-btn" onclick="genShareCard('${code}',T['${code}'])">🖼 ${lang==='en'?'Image':'画像'}</button>
   </div></div>
   <button class="retry-btn" onclick="location.reload()">もう一回やる ♡</button>
