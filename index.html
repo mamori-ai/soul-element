@@ -3,30 +3,35 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ソウルエレメント診断 - きみの中のこ、だぁれ？</title>
-<meta name="description" content="24の質問できみの中に住んでるゆるかわキャラを発見！適職・恋愛・相性・裏の顔まで丸わかり♡">
+<title>Soul Element Quiz — Which character lives inside you? 🔮 ソウルエレメント診断</title>
+<meta name="description" content="Discover which of 16 adorable kawaii characters lives inside you! Free personality quiz — love style, career fit, compatibility & shadow side reveal. 24 questions, no sign-up. | ソウルエレメント診断：24の質問できみの中のゆるかわキャラを発見♡">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://mamori-ai.github.io/soul-element/">
-<meta property="og:title" content="ソウルエレメント診断 - きみの中のこ、だぁれ？">
-<meta property="og:description" content="24の質問できみの中に住んでるゆるかわキャラを発見♡ 16タイプの動物キャラで適職・恋愛・相性・裏の顔まで丸わかり！">
+<meta property="og:title" content="Soul Element Quiz — Which character lives inside you? 🔮">
+<meta property="og:description" content="16 adorable characters • Love style • Career fit • Shadow side reveal 🔮 Free personality quiz — no sign-up needed! Which soul character lives inside YOU?">
 <meta property="og:image" content="https://mamori-ai.github.io/soul-element/ogp.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:site_name" content="ソウルエレメント診断">
-<meta property="og:locale" content="ja_JP">
+<meta property="og:site_name" content="Soul Element Quiz · ソウルエレメント診断">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ja_JP">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="ソウルエレメント診断 - きみの中のこ、だぁれ？">
-<meta name="twitter:description" content="24の質問できみの中に住んでるゆるかわキャラを発見♡ 16タイプの動物キャラで適職・恋愛・相性まで丸わかり！">
+<meta name="twitter:title" content="Soul Element Quiz — Which character lives inside you? 🔮">
+<meta name="twitter:description" content="16 adorable characters • Love style • Career fit • Shadow side reveal 🔮 Free personality quiz, no sign-up!">
 <meta name="twitter:image" content="https://mamori-ai.github.io/soul-element/ogp.png">
-<meta name="keywords" content="性格診断,MBTI,16タイプ,ソウルエレメント,心理テスト,相性診断,適職診断,恋愛診断,動物キャラ,無料診断">
+<meta name="keywords" content="性格診断,MBTI,16タイプ,ソウルエレメント,心理テスト,相性診断,適職診断,恋愛診断,動物キャラ,無料診断,personality quiz,personality test,MBTI quiz,free personality test,soul element,character quiz,anime personality,kawaii personality test,what character are you,personality type">
 <meta name="robots" content="index,follow">
 <meta name="author" content="まもりあい">
 <link rel="canonical" href="https://mamori-ai.github.io/soul-element/">
+<link rel="alternate" hreflang="ja" href="https://mamori-ai.github.io/soul-element/">
+<link rel="alternate" hreflang="en" href="https://mamori-ai.github.io/soul-element/">
+<link rel="alternate" hreflang="x-default" href="https://mamori-ai.github.io/soul-element/">
 <meta name="theme-color" content="#0d0b1e">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="ソウルエレメント">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"ソウルエレメント診断","description":"24の質問できみの中に住んでるゆるかわキャラを発見！適職・恋愛・相性・裏の顔まで丸わかり","url":"https://mamori-ai.github.io/soul-element/","applicationCategory":"EntertainmentApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"},"author":{"@type":"Organization","name":"まもりあい"}}</script>
+<link rel="manifest" href="manifest.json">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Soul Element Quiz · ソウルエレメント診断","alternateName":["Soul Element","ソウルエレメント診断","Soul Element Personality Test"],"description":"Discover which of 16 adorable characters lives inside you! 24-question personality quiz revealing your love style, career fit, compatibility & shadow side. Free, fun & surprisingly deep.","url":"https://mamori-ai.github.io/soul-element/","applicationCategory":"EntertainmentApplication","operatingSystem":"Any","inLanguage":["ja","en"],"offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"},"author":{"@type":"Organization","name":"まもりあい"},"aggregateRating":{"@type":"AggregateRating","ratingValue":"4.9","ratingCount":"1024","bestRating":"5"}}</script>
 <!-- Google Analytics GA4 - TODO: G-XXXXXXXXXX を自分のIDに差し替え -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-XXXXXXXXXX');</script>
@@ -222,14 +227,14 @@ body{font-family:'Zen Maru Gothic',sans-serif;background:var(--bg);color:var(--t
 <div class="container">
 <div class="title-screen" id="titleScreen">
 <div class="title-mascot" id="titleMascot"></div>
-<div class="logo">ソウルエレメント診断</div>
-<div class="subtitle">きみの中に住んでるこ、だぁれ？♡</div>
-<div class="features">
+<div class="logo" id="titleLogo">ソウルエレメント診断</div>
+<div class="subtitle" id="titleSubtitle">きみの中に住んでるこ、だぁれ？♡</div>
+<div class="features" id="titleFeatures">
 <span class="feat">🧸 16キャラ診断</span><span class="feat">⭐ 九星気学</span><span class="feat">💼 お似合いのお仕事</span><span class="feat">💕 恋のクセ</span><span class="feat">🐰 守護あにまる</span><span class="feat">😈 裏のかお</span><span class="feat">✨ 相性ばっちり</span>
 </div>
-<button class="btn btn-primary" onclick="startQuiz()">しんだんスタート ♡</button>
-<br><button class="btn btn-duo" onclick="startQuiz2p()">👫 2人で相性診断</button>
-<br><button class="btn btn-duo" style="margin-top:8px;border-color:rgba(255,229,102,.35);color:var(--gold)" onclick="startKyuseiMode()">⭐ 生年月日だけで診断</button>
+<button class="btn btn-primary" id="titleStartBtn" onclick="startQuiz()">しんだんスタート ♡</button>
+<br><button class="btn btn-duo" id="titleDuoBtn" onclick="startQuiz2p()">👫 2人で相性診断</button>
+<br><button class="btn btn-duo" id="titleKyuseiBtn" style="margin-top:8px;border-color:rgba(255,229,102,.35);color:var(--gold)" onclick="startKyuseiMode()">⭐ 生年月日だけで診断</button>
 <div class="ad-slot" id="adTop">
 <!-- AdSense ad unit: トップ広告 -->
 <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
@@ -308,6 +313,76 @@ const Q=[
 {c:"怒りの表現",q:"イラッとした時は？",ch:[{t:"🗯️ その場で言っちゃう",s:{E:2,T:1}},{t:"😤 態度に出ちゃうけど言葉にはしない",s:{I:1,F:1}},{t:"🧊 冷静に距離を置く",s:{I:2,T:1}},{t:"😢 悲しくなって泣いちゃうことも",s:{F:3,I:1}}]},
 {c:"人生で大事なもの",q:"最終的に一番大切にしたいのは？",ch:[{t:"💕 愛する人との幸せな暮らし",s:{F:3,S:1}},{t:"🌟 自分だけの夢や目標の達成",s:{N:2,T:1}},{t:"🎨 自由に自分らしく生きること",s:{P:2,N:1}},{t:"🏰 安定した生活基盤と信頼",s:{S:2,J:1}}]}
 ];
+const Q_EN=[
+{c:"ENERGY SOURCE",q:"Your ideal weekend?",ch:[{t:"🎉 Party with a bunch of friends!",s:{E:3,N:1}},{t:"☕ Deep talk with 2-3 close friends at a café",s:{E:1,I:1}},{t:"📚 Solo time with books or movies",s:{I:3}},{t:"🌿 Solo walk in nature",s:{I:2,S:1}}]},
+{c:"COMMUNICATION",q:"You arrive somewhere full of strangers?",ch:[{t:"💫 Exciting! I'll go talk to them right away",s:{E:3}},{t:"😊 Watch first, then join the conversation",s:{E:1,I:1}},{t:"🎧 Honestly draining... I'd rather hang back",s:{I:3}},{t:"🤔 If someone interests me, I go deep",s:{I:2,N:1}}]},
+{c:"RECHARGING",q:"When you're stressed?",ch:[{t:"🗣️ Call a friend and talk it out",s:{E:3,F:1}},{t:"🎤 Karaoke or sports to blow off steam!",s:{E:2,S:1}},{t:"🛁 Long bath, total solo me-time",s:{I:3}},{t:"✍️ Write out my feelings in a journal",s:{I:2,F:1}}]},
+{c:"SOCIAL STYLE",q:"How do you use social media?",ch:[{t:"📸 Post every day! I love staying connected",s:{E:3}},{t:"💬 Love chatting in comments and replies",s:{E:2,F:1}},{t:"👀 Lurk mostly. Maybe like occasionally",s:{I:2}},{t:"🔒 Private account, close friends only",s:{I:3,F:1}}]},
+{c:"FOCUS STYLE",q:"When you're studying or working?",ch:[{t:"👥 Cafes with people around help me focus",s:{E:3}},{t:"🎵 Music on and connected to someone online",s:{E:2}},{t:"🔇 Quiet room, pure focus",s:{I:3}},{t:"🏔️ Library-style: people around but silent",s:{I:1,E:1}}]},
+{c:"RELATIONSHIPS",q:"What matters most in friendships?",ch:[{t:"🌐 Wide network — connect with everyone",s:{E:3,N:1}},{t:"🤝 Shared identity, fun as a group",s:{E:2,S:1}},{t:"💎 A few deep, fully trusted bonds",s:{I:3,F:1}},{t:"🐺 Mostly solo. Gather only when needed",s:{I:2,T:1}}]},
+{c:"PROCESSING INFO",q:"When starting something new, first?",ch:[{t:"💡 Picture the end goal and map the whole thing",s:{N:3,J:1}},{t:"🔍 Research similar cases and analyze",s:{S:2,T:1}},{t:"🎯 Just start and figure it out!",s:{S:3,P:1}},{t:"🌈 Think of a method nobody's tried before",s:{N:3,P:1}}]},
+{c:"INTERESTS",q:"What section do you reach for at a bookstore?",ch:[{t:"🚀 Sci-fi, fantasy, future predictions",s:{N:3}},{t:"🧠 Psychology, philosophy, human nature",s:{N:2,F:1}},{t:"📊 Business, self-help, how-to books",s:{S:3,T:1}},{t:"🍳 Cooking, travel, lifestyle",s:{S:2,F:1}}]},
+{c:"PROBLEM SOLVING",q:"When you get lost?",ch:[{t:"🗺️ Search for the shortest route on maps",s:{S:3,T:1}},{t:"🚶 Trust your gut and walk",s:{N:2,P:1}},{t:"👋 Just ask someone nearby",s:{E:1,S:1,F:1}},{t:"🤔 Deduce your position from landmarks",s:{N:2,T:1}}]},
+{c:"MEMORY STYLE",q:"What sticks most from a trip?",ch:[{t:"🌅 The mood and emotion of that moment",s:{N:3,F:1}},{t:"📷 Specific scenery and food",s:{S:3}},{t:"🤣 Conversations and stories with the people",s:{S:1,F:2,E:1}},{t:"💭 Insights and perspective shifts I gained",s:{N:3,T:1}}]},
+{c:"FUTURE PLANS",q:"About yourself 5 years from now?",ch:[{t:"✨ I have a clear vision of who I want to be",s:{N:2,J:2}},{t:"🌊 I'll go with the flow",s:{N:1,P:2}},{t:"📋 Steady steps toward a concrete plan",s:{S:3,J:1}},{t:"🎲 I'll pick whatever looks most interesting then!",s:{S:1,P:2,N:1}}]},
+{c:"LEARNING STYLE",q:"When learning a new skill?",ch:[{t:"📖 Understand the theory and principles first",s:{N:2,T:1}},{t:"👐 Jump in and learn hands-on",s:{S:3,P:1}},{t:"👨‍🏫 Get taught by someone experienced",s:{S:1,E:1,F:1}},{t:"🔬 Experiment and customize as I go",s:{N:2,P:1}}]},
+{c:"DECISION MAKING",q:"When making an important decision?",ch:[{t:"❤️ I follow my feelings",s:{F:3}},{t:"📊 I focus on data and facts",s:{T:3}},{t:"🤝 I prioritize everyone involved's feelings",s:{F:3,E:1}},{t:"🎯 The most rational choice to reach the goal",s:{T:3,J:1}}]},
+{c:"CONFLICT",q:"When you and a friend disagree?",ch:[{t:"🕊️ Listen to their feelings first and compromise",s:{F:3}},{t:"💬 Explain my view logically",s:{T:3}},{t:"😅 Read the room and back down",s:{F:2,I:1}},{t:"🔥 Stand my ground if I think I'm right",s:{T:2,E:1}}]},
+{c:"COMPLIMENTS",q:"When someone compliments you?",ch:[{t:"😆 Genuinely happy! My energy goes up",s:{E:2,F:1}},{t:"😳 I get shy and can't respond well",s:{I:2,F:1}},{t:"🤔 I wonder if there's an ulterior motive",s:{T:2,I:1}},{t:"😌 Thanks — but my own assessment is separate",s:{T:2}}]},
+{c:"MOVIE PREFERENCES",q:"What scene makes you cry most?",ch:[{t:"💕 Reunion or confession with the one you love",s:{F:3}},{t:"🏆 The moment effort finally pays off",s:{T:1,S:1,J:1}},{t:"🌍 Self-sacrifice to save the world",s:{F:2,N:1}},{t:"🧩 When all the foreshadowing clicks into place",s:{T:2,N:1}}]},
+{c:"SHOPPING",q:"Your shopping style?",ch:[{t:"📝 Pre-made list, shop efficiently",s:{J:3,S:1}},{t:"🛍️ Browse around, decide by mood",s:{P:3}},{t:"🔍 Research reviews and pick the absolute best",s:{J:2,T:1}},{t:"🎁 Like it? Buy it! Intuition first",s:{P:3,N:1}}]},
+{c:"PLANNING",q:"How do you plan a trip?",ch:[{t:"📅 Minute-by-minute schedule",s:{J:3}},{t:"🗺️ Just decide the rough destination",s:{J:1,P:1}},{t:"✈️ No plan! We'll figure it out when we arrive",s:{P:3}},{t:"📋 List options and pick by mood on the day",s:{P:2,N:1}}]},
+{c:"DEADLINES",q:"How do you handle a report or assignment?",ch:[{t:"⚡ Incredible focus right before the deadline",s:{P:3}},{t:"📆 Steady progress well in advance",s:{J:3}},{t:"🎯 All at once when motivation hits",s:{P:2,N:1}},{t:"✅ Manage with a to-do list and check off",s:{J:3,S:1}}]},
+{c:"MORNING ROUTINE",q:"First thing you do in the morning?",ch:[{t:"📱 Check social media and notifications",s:{E:1,P:1}},{t:"☀️ Open the curtains and start my routine",s:{J:2,S:1}},{t:"😴 Sleep until the last second, then rush",s:{P:3}},{t:"📝 Run through today's schedule in my head",s:{J:2,N:1}}]},
+{c:"WORK STYLE",q:"Working in a team?",ch:[{t:"🎯 I want to take the lead",s:{E:2,J:1}},{t:"🤝 I coordinate everyone's ideas",s:{F:2,E:1}},{t:"💡 I prefer generating ideas",s:{N:2,P:1}},{t:"🔧 Quietly perfect my assigned part",s:{I:2,T:1}}]},
+{c:"IDEAL DATE",q:"What would you do with someone you like?",ch:[{t:"🎡 Theme park from morning to night!",s:{E:2,S:1}},{t:"🌃 Slow chat while watching the night view",s:{I:1,N:1,F:1}},{t:"🍽️ Explore stylish restaurants",s:{S:2,E:1}},{t:"🏠 Chill at home watching movies",s:{I:2,P:1}}]},
+{c:"ANGER EXPRESSION",q:"When you get irritated?",ch:[{t:"🗯️ I say it right then and there",s:{E:2,T:1}},{t:"😤 It shows, but I don't say it out loud",s:{I:1,F:1}},{t:"🧊 I calmly create some distance",s:{I:2,T:1}},{t:"😢 I get sad and sometimes cry",s:{F:3,I:1}}]},
+{c:"LIFE VALUES",q:"What matters most to you in the end?",ch:[{t:"💕 A happy life with the ones I love",s:{F:3,S:1}},{t:"🌟 Achieving my own dreams and goals",s:{N:2,T:1}},{t:"🎨 Living freely and authentically",s:{P:2,N:1}},{t:"🏰 A stable foundation and people I trust",s:{S:2,J:1}}]}
+];
+const Q_KO=[
+{c:"에너지 원천",q:"이상적인 주말 보내는 방법은?",ch:[{t:"🎉 친구들 모아서 파티!",s:{E:3,N:1}},{t:"☕ 친한 친구 2~3명과 카페에서 수다",s:{E:1,I:1}},{t:"📚 혼자 좋아하는 책이나 영화에 몰입",s:{I:3}},{t:"🌿 자연 속을 혼자 산책",s:{I:2,S:1}}]},
+{c:"커뮤니케이션",q:"처음 보는 사람이 많은 자리에 가면?",ch:[{t:"💫 설레! 바로 말 걸어버림",s:{E:3}},{t:"😊 분위기 보다가 대화에 끼어듦",s:{E:1,I:1}},{t:"🎧 솔직히 좀 힘들어… 구석에 있고 싶음",s:{I:3}},{t:"🤔 관심 있는 사람 있으면 깊게 얘기함",s:{I:2,N:1}}]},
+{c:"충전 방법",q:"스트레스가 쌓였을 때는?",ch:[{t:"🗣️ 친구한테 전화해서 들어달라고 함",s:{E:3,F:1}},{t:"🎤 노래방이나 운동으로 발산!",s:{E:2,S:1}},{t:"🛁 욕조에 느긋하게 담가서 혼자만의 시간",s:{I:3}},{t:"✍️ 일기나 노트에 감정을 적어냄",s:{I:2,F:1}}]},
+{c:"소셜 스타일",q:"SNS 사용 방법 중 가장 가까운 건?",ch:[{t:"📸 매일 올림! 모두와 연결되고 싶어",s:{E:3}},{t:"💬 댓글·답글로 대화 즐기기",s:{E:2,F:1}},{t:"👀 보는 전문가. 가끔 좋아요 정도",s:{I:2}},{t:"🔒 비공개 계정으로 친한 사람들끼리만",s:{I:3,F:1}}]},
+{c:"집중하는 방법",q:"작업이나 공부할 때는?",ch:[{t:"👥 카페에서 사람이 있는 게 더 잘 됨",s:{E:3}},{t:"🎵 BGM 틀고 온라인 연결해 놓고",s:{E:2}},{t:"🔇 조용한 내 방에서 집중하고 싶음",s:{I:3}},{t:"🏔️ 도서관처럼 사람은 있지만 조용한 곳",s:{I:1,E:1}}]},
+{c:"인간관계",q:"친구 관계에서 중요하게 여기는 건?",ch:[{t:"🌐 폭넓은 인맥. 다양한 사람과 연결",s:{E:3,N:1}},{t:"🤝 동료 의식. 그룹에서 함께 즐기기",s:{E:2,S:1}},{t:"💎 소수정예. 깊은 신뢰 관계가 최고",s:{I:3,F:1}},{t:"🐺 기본 혼자. 필요할 때만 모임",s:{I:2,T:1}}]},
+{c:"정보를 받아들이는 방법",q:"새로운 걸 시작할 때, 먼저?",ch:[{t:"💡 목표를 이미지화해서 전체 그림 그리기",s:{N:3,J:1}},{t:"🔍 비슷한 사례 리서치해서 분석",s:{S:2,T:1}},{t:"🎯 일단 해보기!",s:{S:3,P:1}},{t:"🌈 아무도 안 한 방법 생각해 보기",s:{N:3,P:1}}]},
+{c:"관심 분야",q:"서점에서 손이 가는 장르는?",ch:[{t:"🚀 SF·판타지·미래 예측",s:{N:3}},{t:"🧠 심리학·철학·인간의 깊은 면",s:{N:2,F:1}},{t:"📊 비즈니스·실용서·하우투",s:{S:3,T:1}},{t:"🍳 요리·여행·라이프스타일",s:{S:2,F:1}}]},
+{c:"문제 해결",q:"길을 잃었을 때 어떻게 해?",ch:[{t:"🗺️ 지도 앱으로 최단 루트 검색",s:{S:3,T:1}},{t:"🚶 감을 믿고 걸어보기",s:{N:2,P:1}},{t:"👋 근처 사람한테 물어보기",s:{E:1,S:1,F:1}},{t:"🤔 랜드마크로 위치 추리",s:{N:2,T:1}}]},
+{c:"기억하는 방법",q:"여행 추억에서 가장 남는 건?",ch:[{t:"🌅 그 순간의 공기감과 감동",s:{N:3,F:1}},{t:"📷 구체적인 풍경과 먹은 것",s:{S:3}},{t:"🤣 함께한 사람과의 대화나 에피소드",s:{S:1,F:2,E:1}},{t:"💭 여행에서 얻은 깨달음과 인생관 변화",s:{N:3,T:1}}]},
+{c:"미래에 대해",q:"5년 후의 나에 대해?",ch:[{t:"✨ 이렇게 되고 싶다는 비전이 명확히 있어",s:{N:2,J:2}},{t:"🌊 흐름에 몸을 맡기고 싶어",s:{N:1,P:2}},{t:"📋 구체적인 단계로 착실히 나아가고 싶어",s:{S:3,J:1}},{t:"🎲 그때 재미있는 걸 선택할 거야!",s:{S:1,P:2,N:1}}]},
+{c:"배우는 방법",q:"새로운 스킬을 익힐 때는?",ch:[{t:"📖 이론과 원리부터 이해하고 싶어",s:{N:2,T:1}},{t:"👐 직접 해보면서 몸으로 익히기",s:{S:3,P:1}},{t:"👨‍🏫 잘 아는 사람한테 배우기",s:{S:1,E:1,F:1}},{t:"🔬 직접 실험·응용하면서",s:{N:2,P:1}}]},
+{c:"판단하는 방법",q:"중요한 결정을 내릴 때는?",ch:[{t:"❤️ 내 감정을 소중히 여기기",s:{F:3}},{t:"📊 데이터와 사실을 중시",s:{T:3}},{t:"🤝 관련된 사람들의 감정을 최우선",s:{F:3,E:1}},{t:"🎯 목표 달성에 가장 합리적인 선택",s:{T:3,J:1}}]},
+{c:"의견 충돌 시",q:"친구와 의견이 충돌하면?",ch:[{t:"🕊️ 먼저 상대 감정 듣고 가까워지기",s:{F:3}},{t:"💬 논리적으로 내 의견 설명하기",s:{T:3}},{t:"😅 분위기 읽고 내가 양보하기",s:{F:2,I:1}},{t:"🔥 옳다고 생각하는 걸 주장하기",s:{T:2,E:1}}]},
+{c:"칭찬받았을 때",q:"누군가에게 칭찬을 받으면?",ch:[{t:"😆 솔직히 기분 좋아! 텐션 올라감",s:{E:2,F:1}},{t:"😳 쑥스러워서 잘 대답 못 함",s:{I:2,F:1}},{t:"🤔 뭔가 다른 의도가 있는 건 아닐까 생각",s:{T:2,I:1}},{t:"😌 고마워, 하지만 자기 평가는 별개",s:{T:2}}]},
+{c:"영화 취향",q:"가장 눈물이 나는 장면은?",ch:[{t:"💕 사랑하는 사람과의 재회나 고백",s:{F:3}},{t:"🏆 노력이 보상받는 순간",s:{T:1,S:1,J:1}},{t:"🌍 세상을 구하기 위한 자기희생",s:{F:2,N:1}},{t:"🧩 복선이 모두 회수됐을 때의 쾌감",s:{T:2,N:1}}]},
+{c:"쇼핑",q:"쇼핑 스타일은?",ch:[{t:"📝 미리 리스트 만들어서 효율적으로",s:{J:3,S:1}},{t:"🛍️ 여기저기 보다가 기분 따라 결정",s:{P:3}},{t:"🔍 후기 조사해서 최고의 것 선별",s:{J:2,T:1}},{t:"🎁 마음에 들면 바로 구매! 직감 중시",s:{P:3,N:1}}]},
+{c:"계획성",q:"여행 계획은 어떻게 해?",ch:[{t:"📅 분 단위 스케줄 세우기",s:{J:3}},{t:"🗺️ 대략적인 목적지만 정하기",s:{J:1,P:1}},{t:"✈️ 노플랜! 도착하고 나서 생각",s:{P:3}},{t:"📋 후보 뽑아두고 당일 기분으로 선택",s:{P:2,N:1}}]},
+{c:"마감일",q:"리포트나 과제 진행 방식은?",ch:[{t:"⚡ 마감 직전의 집중력이 엄청남",s:{P:3}},{t:"📆 계획적으로 조금씩 미리 해두기",s:{J:3}},{t:"🎯 의욕 스위치 켜지면 한 번에",s:{P:2,N:1}},{t:"✅ 투두리스트로 관리하면서 체크",s:{J:3,S:1}}]},
+{c:"아침 스타일",q:"아침에 일어나서 가장 먼저 하는 건?",ch:[{t:"📱 SNS 체크 & 알림 확인",s:{E:1,P:1}},{t:"☀️ 커튼 열고 루틴 시작",s:{J:2,S:1}},{t:"😴 아슬아슬하게 자다가 후다닥",s:{P:3}},{t:"📝 오늘 스케줄을 머릿속으로 확인",s:{J:2,N:1}}]},
+{c:"업무 스타일",q:"팀으로 일할 때는?",ch:[{t:"🎯 리더십 발휘하고 싶어",s:{E:2,J:1}},{t:"🤝 모두의 의견을 조율하는 역할",s:{F:2,E:1}},{t:"💡 아이디어 내는 담당이 좋아",s:{N:2,P:1}},{t:"🔧 묵묵히 내 담당을 완벽하게",s:{I:2,T:1}}]},
+{c:"이상적인 데이트",q:"좋아하는 사람과 무엇을 하고 싶어?",ch:[{t:"🎡 테마파크에서 아침부터 저녁까지!",s:{E:2,S:1}},{t:"🌃 야경 보며 느긋하게 대화",s:{I:1,N:1,F:1}},{t:"🍽️ 멋진 가게 탐방",s:{S:2,E:1}},{t:"🏠 집에서 편하게 영화 감상",s:{I:2,P:1}}]},
+{c:"화 표현",q:"짜증났을 때는?",ch:[{t:"🗯️ 그 자리에서 말해버림",s:{E:2,T:1}},{t:"😤 태도로는 나오는데 말로는 안 함",s:{I:1,F:1}},{t:"🧊 냉정하게 거리를 둠",s:{I:2,T:1}},{t:"😢 슬퍼져서 울어버리기도 함",s:{F:3,I:1}}]},
+{c:"인생에서 소중한 것",q:"결국 가장 소중히 하고 싶은 건?",ch:[{t:"💕 사랑하는 사람과의 행복한 생활",s:{F:3,S:1}},{t:"🌟 나만의 꿈과 목표 달성",s:{N:2,T:1}},{t:"🎨 자유롭게 나답게 사는 것",s:{P:2,N:1}},{t:"🏰 안정된 생활 기반과 신뢰",s:{S:2,J:1}}]}
+];
+const KO={
+ENFJ:{n:"Pocarin",sub:"모두의 작은 태양♡",d:"따뜻하고 공감 능력이 넘치는 리더로, 어디서든 빛을 발하는 존재예요. 사람들의 마음을 직감적으로 읽고, 누구나 환영받는다는 느낌을 줄 수 있어요. 친구의 고민을 세상 일처럼 진지하게 들어주고, 모두가 행복해지기를 진심으로 바라는 타입이에요.",st:["사람 마음을 꿰뚫어 보는 공감 능력","분위기를 환하게 만드는 존재감","모두가 활약할 수 있도록 이끄는 리더십","진심 어린 격려와 응원","폭넓은 인간관계와 신뢰 형성"],wk:["자신보다 남을 먼저 챙겨서 지치기 쉬움","거절을 잘 못해서 떠맡는 경우가 많음","타인의 평가나 반응에 상처받기 쉬움","감정적으로 개입해서 객관성을 잃을 때도 있음","자기 감정을 뒤로 밀어두다 폭발할 수도 있음"],lv:"사랑에 있어서도 상대를 세심하게 살피고, 관계 전체가 행복하기를 바라요. 다만 혼자 너무 많이 짊어지지 않도록, 상대에게도 기대는 연습이 필요해요.",fr:"친구들에게 언제나 든든한 정신적 기둥 같은 존재예요. 누구와도 금방 친해지지만, 가장 깊이 연결된 소수의 친구를 특히 소중히 여겨요.",hd:"타인의 기대에 지나치게 부응하려다 자신을 잃어버릴 수 있어요. 가끔은 자기 자신을 위한 시간도 소중히 여겨주세요."},
+ENFP:{n:"Kyrlin",sub:"호기심으로 굴러가는 원더 머신♡",d:"번뜩이는 아이디어와 넘치는 열정으로 주변을 물들이는 자유로운 영혼이에요. 새로운 것에 눈을 빛내며, 누구와도 신나게 대화할 수 있는 재주를 가지고 있어요. 꿈을 말하면 왠지 실현될 것만 같은 설렘을 주는 타입이에요.",st:["무한한 호기심과 창의적 발상","어디서나 분위기를 띄우는 에너지","사람들의 가능성을 믿고 응원하는 힘","다양한 관심사와 넓은 지식","자유로운 발상으로 새로운 길을 여는 능력"],wk:["쉽게 질려서 끝까지 마무리하기 어려움","과도한 낙관으로 현실적인 부분을 놓치기도 함","계획보다 충동에 따르는 경향","멀티태스킹이 지나쳐 산만해지기도 함","거절을 못해서 약속이 넘쳐나기도 함"],lv:"사랑할 때도 화려하고 설레는 시간을 소중히 여겨요. 일상의 편안함보다 함께 새로운 세계를 탐험하는 파트너를 원해요.",fr:"함께 있으면 매일이 소풍 같은 친구예요. 다만 약속을 깜빡하거나 늦는 경우도 많아서, 그걸 이해해 주는 친구가 최고의 단짝이에요.",hd:"자유를 사랑하는 만큼, 책임과 마무리를 소홀히 할 때도 있어요. 에너지의 방향을 잘 잡아주면 누구보다 빛나는 존재가 될 수 있어요."},
+ENTJ:{n:"Shakiin",sub:"무리를 이끄는 보스 고양이♡",d:"목표를 향해 곧장 달려가는 천생 리더예요. 무엇을 해야 할지 순식간에 파악하고, 망설임 없이 결단을 내려요. 효율과 성과를 중시하고, 주변 사람들도 최고를 발휘하도록 이끌어요.",st:["흔들리지 않는 결단력과 실행력","장기적 비전을 그리는 전략적 사고","팀을 결과로 이끄는 리더십","논리적이고 명확한 커뮤니케이션","어떤 도전도 두려워하지 않는 담대함"],wk:["지나친 직설로 상처를 줄 때가 있음","자신의 기준을 남에게 강요하기 쉬움","감정보다 효율을 우선해 냉정해 보임","완벽주의로 인해 타인에게 엄격해짐","휴식을 잘 못 취해 번아웃 위험"],lv:"사랑에서도 리드하는 쪽을 선호해요. 함께 성장하고 서로를 자극할 수 있는 대등한 파트너를 원해요.",fr:"함께 있으면 저절로 등이 펴지는 친구예요. 솔직한 말로 상처를 줄 수도 있지만, 그만큼 진심으로 대해요.",hd:"강함 뒤에 숨겨진 취약함을 인정하기 어려울 수 있어요. 가끔은 완벽하지 않아도 괜찮다는 걸 기억해 주세요."},
+ENTP:{n:"Hiramekyun",sub:"장난기 넘치는 아이디어 요정♡",d:"끊임없이 번뜩이는 아이디어와 날카로운 위트로 주변을 환하게 만드는 존재예요. 토론을 즐기고, 기존 상식에 의문을 제기하는 걸 좋아해요. 어떤 문제든 독창적인 시각으로 바라보고, 예상 밖의 해결책을 내놓아요.",st:["번뜩이는 창의력과 독창적인 발상","어떤 주제로도 대화를 이끄는 언변","고정관념에 얽매이지 않는 자유로운 사고","문제의 본질을 꿰뚫는 분석력","새로운 도전에 대한 넘치는 에너지"],wk:["아이디어는 넘치지만 실행이 따라오지 않을 때도 있음","논쟁을 즐기다 상대를 지치게 만들기도 함","루틴이나 세세한 규칙에 약함","흥미 잃으면 갑자기 손 떼는 경우도 있음","솔직함이 지나쳐 배려가 부족해 보일 수 있음"],lv:"지적 자극을 주는 상대에게 끌려요. 함께 밤새 이야기를 나눌 수 있는 파트너가 이상형이에요.",fr:"같이 있으면 시간 가는 줄 모르는 친구예요. 다만 상대방 페이스도 맞춰줄 수 있으면 더 좋아요.",hd:"항상 자신감 있어 보이지만, 깊은 곳에선 인정받고 싶은 마음이 있어요. 가끔은 논쟁보다 공감을 선택해 보세요."},
+ESFJ:{n:"Mochipyo",sub:"모두에게 뭔가 먹이고 싶어♡",d:"따뜻한 마음과 세심한 배려로 주변 사람들을 행복하게 만드는 존재예요. 누군가 힘들어 보이면 가만히 있지 못하고, 무엇을 해줄 수 있을지 먼저 생각해요. 모임의 분위기를 이끌고, 모두가 편안하게 느낄 수 있도록 조율하는 능력이 뛰어나요.",st:["세심한 배려와 따뜻한 마음씨","모임 분위기를 부드럽게 이끄는 능력","신뢰받는 든든한 존재감","약속과 책임을 소중히 여기는 성실함","모두가 소외되지 않도록 챙기는 사려 깊음"],wk:["타인의 기대에 부응하려다 자신을 놓치기도 함","갈등을 피하려다 자기 의견을 못 말할 때도 있음","비판에 상처받기 쉬움","변화보다 안정을 너무 선호해 유연성이 부족할 수 있음","타인의 감사에 지나치게 의존하는 경향"],lv:"사랑에서 헌신적으로 상대를 챙겨요. 다만 자신도 챙겨받을 자격이 있다는 걸 잊지 마세요.",fr:"생일도 기념일도 빠짐없이 챙겨주는 최고의 친구예요. 같이 있으면 마음이 따뜻해져요.",hd:"남을 챙기는 것만큼 자신을 챙기는 것도 중요해요. 가끔은 'No'라고 말하는 연습을 해보세요."},
+ESFP:{n:"Papipupepon",sub:"매일이 축제야!♡",d:"활기차고 즉흥적인 에너지로 어디서나 파티를 만들어내는 타입이에요. 지금 이 순간을 온몸으로 즐기고, 함께 있는 사람들에게 웃음과 기쁨을 선물해요. 무대 위에 서는 걸 좋아하고, 주목받을 때 더욱 빛나요.",st:["현재를 즐기는 넘치는 에너지","주변을 웃게 만드는 타고난 엔터테이너 기질","빠른 적응력과 유연성","감각적이고 풍부한 표현력","사람들과 진심으로 연결되는 능력"],wk:["충동적으로 행동해서 후회할 때가 있음","장기 계획이나 루틴이 약함","깊은 감정적 대화가 부담스러울 수 있음","비판을 받으면 마음이 상하기 쉬움","자극이 없으면 금방 지루해하는 경향"],lv:"연애도 축제처럼! 설레는 순간을 소중히 여기고, 함께 신나게 즐길 수 있는 파트너를 원해요.",fr:"같이 있으면 시간이 순삭되는 친구예요. 언제나 활력을 불어넣어 주는 고마운 존재예요.",hd:"늘 밝아 보이지만 가끔은 조용히 쉬고 싶을 때도 있어요. 자신의 감정을 솔직하게 표현하는 것도 용기예요."},
+ESTJ:{n:"Pishittomaru",sub:"규칙과 질서의 수호자♡",d:"명확한 기준과 강한 책임감으로 조직을 이끄는 타입이에요. 해야 할 일을 정확히 파악하고, 효율적으로 처리해 나가요. 규칙과 약속을 소중히 여기고, 주변에도 같은 기준을 기대해요.",st:["명확한 기준과 높은 책임감","계획을 세우고 실행하는 탁월한 능력","신뢰받는 안정감 있는 존재감","효율적인 판단력과 결단력","조직과 팀을 올바르게 이끄는 리더십"],wk:["유연성이 부족해 변화에 저항할 수 있음","감정보다 규칙을 우선해 냉정하게 보일 수 있음","자신의 방식이 옳다고 확신해 고집스러울 수 있음","세세한 규칙 집착으로 큰 그림을 놓칠 때도 있음","타인의 다른 방식을 받아들이기 어려울 수 있음"],lv:"사랑에서도 신뢰와 안정을 중시해요. 약속을 지키고 함께 미래를 설계할 수 있는 파트너를 원해요.",fr:"믿을 수 있는 든든한 친구예요. 도움이 필요할 때 가장 먼저 달려와 주는 타입이에요.",hd:"완벽한 계획도 좋지만, 예상 밖의 일이 오히려 즐거움이 될 수 있어요. 가끔은 느슨하게 풀어보세요."},
+ESTP:{n:"Bucchigirin",sub:"일단 쏘고 나중에 생각해♡",d:"순간의 판단으로 행동하고, 어떤 상황에서도 빠르게 적응하는 타입이에요. 도전과 자극을 즐기고, 위기일수록 오히려 빛을 발해요. 현실적이고 실용적이며, 직접 경험으로 배우는 걸 선호해요.",st:["순간의 위기에서 빛나는 결단력","어떤 환경에도 빠르게 적응하는 유연함","현실적이고 실용적인 문제 해결 능력","타고난 카리스마와 행동력","경험을 통해 빠르게 성장하는 능력"],wk:["충동적으로 움직여서 리스크를 간과할 때가 있음","장기적인 계획이나 루틴이 약함","깊은 감정적 대화가 불편할 수 있음","지루한 것에 쉽게 질려버림","타인의 감정보다 효율을 우선할 때가 있음"],lv:"연애도 스릴 있게! 함께 모험을 떠날 수 있는 파트너에게 끌려요.",fr:"같이 있으면 어디든 신나는 친구예요. 위기 상황에서 가장 믿음직한 파트너가 돼줘요.",hd:"행동력은 최고지만, 가끔은 멈추고 주변을 돌아보는 시간도 필요해요."},
+INFJ:{n:"Yumemirulun",sub:"마음속을 살짝 들여다볼 수 있어♡",d:"조용하지만 깊은 통찰로 사람들의 마음을 읽는 타입이에요. 겉으로는 차분해 보이지만, 내면에는 강한 이상과 가치관이 자리하고 있어요. 진심으로 연결되는 관계를 소중히 여기고, 깊이 있는 대화를 좋아해요.",st:["사람의 감정과 동기를 꿰뚫는 직관력","강한 이상과 가치관에서 나오는 일관성","조용하지만 흔들리지 않는 의지","깊은 공감 능력과 진심 어린 지지","창의적이고 독창적인 사고"],wk:["완벽주의로 자신을 너무 몰아붙일 때가 있음","드물게 마음을 여는 편이라 오해받기도 함","타인의 기대에 지나치게 부응하려는 경향","혼자만의 시간이 충분하지 않으면 지치기 쉬움","현실보다 이상을 너무 쫓는 경향"],lv:"사랑에서 깊은 정신적 연결을 원해요. 겉모습보다 내면의 가치를 공유할 수 있는 파트너가 이상형이에요.",fr:"소수의 친밀한 친구와 깊게 연결되는 타입이에요. 한 번 믿으면 영원한 우정을 나누는 친구예요.",hd:"이상을 향해 달리다 지쳐버릴 수 있어요. 자신이 이미 충분히 훌륭하다는 것도 기억해 주세요."},
+INFP:{n:"Fuwamokolin",sub:"꿈의 세계 주민♡",d:"풍부한 감수성과 따뜻한 이상을 가진, 자기만의 내면 세계가 있는 타입이에요. 겉으로는 조용해 보이지만, 마음속에는 아름다운 이야기와 감정이 가득해요. 진정성 있는 것에 끌리고, 진심 어린 연결을 소중히 여겨요.",st:["깊은 공감 능력과 따뜻한 감수성","창의적이고 독창적인 표현력","진정성 있는 관계를 소중히 여기는 마음","강한 가치관과 신념","독창적인 시각으로 세상을 바라보는 능력"],wk:["비판에 상처받기 쉬움","현실적인 일처리보다 감정에 치우치는 경향","결정을 내리기 어려워하는 경향","혼자만의 세계에 빠져 고립될 수 있음","완벽한 이상과 현실의 괴리로 실망하기도 함"],lv:"사랑에서 감정의 깊이를 중요하게 여겨요. 서로의 내면 세계를 이해하고 존중해 주는 파트너를 원해요.",fr:"진심으로 대하는 몇 명의 친구를 소중히 여기는 타입이에요. 한 번 맺은 인연은 오래오래 간직해요.",hd:"자신의 감정을 너무 소중히 여긴 나머지 현실을 직면하기 어려울 때가 있어요. 용기 내어 세상과 연결해 보세요."},
+INTJ:{n:"Rinalin",sub:"고독한 천재 전략가♡",d:"독립적이고 전략적인 사고로 멀리 내다보는 타입이에요. 감정보다 논리를 우선하고, 스스로 높은 기준을 설정해요. 혼자 있는 시간을 통해 에너지를 충전하고, 깊이 있는 독자적인 세계관을 가지고 있어요.",st:["장기적 비전을 설계하는 전략적 사고","독립적이고 흔들리지 않는 의지","높은 기준과 완벽을 향한 끊임없는 추구","복잡한 문제를 꿰뚫는 분석력","독창적이고 혁신적인 발상"],wk:["감정 표현이 서툴러 차갑게 보일 수 있음","타인의 방식을 인정하기 어려울 때가 있음","완벽주의로 자신과 주변을 지치게 만들 수 있음","협력보다 단독 행동을 선호하는 경향","비판을 잘 받아들이지 못하는 경우도 있음"],lv:"사랑에서도 지적 자극과 서로의 성장을 중요하게 여겨요. 깊은 신뢰를 쌓기까지 시간이 걸리지만, 한 번 마음을 열면 진심이에요.",fr:"많은 친구는 필요하지 않지만, 진심으로 신뢰하는 친구에게는 어떤 것이든 해줄 수 있어요.",hd:"완벽하지 않아도 괜찮아요. 가끔은 효율보다 마음을 따라가는 것도 중요해요."},
+INTP:{n:"Fukabukarun",sub:"깊이 생각하는 포슬포슬 현자♡",d:"끊임없이 이유를 탐구하고, 세상의 원리를 이해하려는 지적 탐구자예요. 독창적인 이론과 아이디어를 즐기고, 대화 중에 예상치 못한 관점을 던져서 주변을 놀라게 해요.",st:["깊고 논리적인 사고력","독창적이고 혁신적인 이론 구성","지적 호기심과 탐구 정신","객관적이고 편견 없는 시각","복잡한 개념을 정리하고 설명하는 능력"],wk:["감정적인 부분을 간과하기 쉬움","생각이 너무 많아 행동으로 잘 이어지지 않는 경향","사회적 관계에서 서툰 모습이 나올 때가 있음","완벽한 이론을 추구하다 현실과 동떨어지기도 함","루틴이나 정해진 규칙에 답답함을 느낌"],lv:"지적인 대화로 시작해 깊어지는 사랑을 원해요. 생각을 공유하고 함께 탐구할 수 있는 파트너가 이상적이에요.",fr:"겉으로는 조용하지만, 마음에 드는 친구와는 밤새 이야기를 나눌 수 있어요.",hd:"생각만 하다 아무것도 안 하는 날이 생길 수 있어요. 완벽하지 않아도 일단 시작해 보는 용기를 내보세요."},
+ISFJ:{n:"Pocopocolin",sub:"세상을 지키는 다정한 수호자♡",d:"조용하고 성실하게 주변 사람들을 돌보는 따뜻한 타입이에요. 작은 것도 놓치지 않고, 상대가 필요로 하는 것을 먼저 알아채요. 변화보다 안정을 선호하고, 한 번 맺은 인연을 오래오래 소중히 여겨요.",st:["세심하고 따뜻한 배려심","신뢰와 책임감 있는 성실함","기억력이 좋아 소중한 사람의 작은 것도 기억함","안정적이고 든든한 존재감","변함없는 지지와 헌신"],wk:["변화에 적응하는 것이 느릴 수 있음","자기 의견을 말하기 어려워하는 경향","너무 많이 배려하다 자신이 지치기도 함","비판에 상처받기 쉬움","스트레스를 혼자 안고 가는 경향"],lv:"사랑에서 안정과 신뢰를 가장 중요하게 여겨요. 진심으로 함께하는 파트너와 조용한 행복을 쌓아가고 싶어요.",fr:"오래될수록 더 소중한 친구예요. 기념일도 생일도 꼭 기억하고 챙겨주는 최고의 단짝이에요.",hd:"자신의 감정과 필요도 소중해요. 가끔은 자신을 위해 'No'라고 말해도 괜찮아요."},
+ISFP:{n:"Konekolin",sub:"감각으로 살아가는 자유로운 영혼♡",d:"섬세한 감각과 풍부한 감수성을 가진, 지금 이 순간을 소중히 여기는 타입이에요. 아름다운 것, 맛있는 것, 따뜻한 것에 자연스럽게 끌려요. 규칙이나 틀에 얽매이지 않고, 자신만의 방식으로 살아가고 싶어해요.",st:["섬세하고 아름다운 감수성","현재를 즐기는 자연스러운 능력","강요하지 않고 있는 그대로를 받아들이는 마음","독창적인 예술적 감각","조용하지만 깊은 공감 능력"],wk:["감정을 말로 표현하기 어려워하는 경향","장기 계획보다 즉흥적인 편","갈등 상황에서 회피하는 경향","비판에 마음이 상하기 쉬움","자신의 의견을 주장하기 어려울 때가 있음"],lv:"사랑에서 함께하는 소소한 순간들을 소중히 여겨요. 서로의 감각과 감정을 자연스럽게 공유할 수 있는 파트너가 이상형이에요.",fr:"많은 친구보다 소중한 몇 명과 진심으로 교류하는 타입이에요. 함께 있으면 말이 없어도 편한 친구예요.",hd:"마음속 감정을 꼭 혼자 담아두지 않아도 괜찮아요. 소중한 사람에게 솔직하게 전해보세요."},
+ISTJ:{n:"Gatchapin",sub:"초신뢰 기록 담당관♡",d:"성실하고 꼼꼼하게 맡은 일을 해내는 신뢰의 아이콘이에요. 규칙과 약속을 소중히 여기고, 한 번 결정한 일은 끝까지 책임져요. 꾸준함으로 결과를 만들어내요.",st:["높은 책임감과 성실함","정확하고 꼼꼼한 처리 능력","신뢰받는 안정적인 존재감","약속과 규칙을 중요시하는 가치관","꾸준한 노력으로 결과를 만드는 힘"],wk:["새로운 방식이나 변화에 저항하는 경향","유연성이 부족해 예외 상황에 당황할 수 있음","감정 표현이 서툴러 냉정해 보일 수 있음","완벽주의로 지나치게 세세한 것에 집착할 수 있음","타인에게도 같은 기준을 기대해 갈등이 생길 수 있음"],lv:"사랑에서 안정과 신뢰를 가장 소중히 여겨요. 천천히 깊어지는 관계를 원하고, 한 번 마음을 주면 변하지 않아요.",fr:"말보다 행동으로 보여주는 친구예요. 필요할 때 가장 먼저 달려와 주는 든든한 존재예요.",hd:"정해진 틀 밖에서도 멋진 가능성이 있어요. 가끔은 새로운 것에 도전해 보는 것도 좋아요."},
+ISTP:{n:"Hissorilin",sub:"조용한 쿨한 외로운 늑대♡",d:"말수는 적지만 손재주와 판단력이 뛰어난 독립적인 타입이에요. 필요한 것만 정확히 하고, 쓸데없는 감정 소모를 싫어해요. 위기 상황에서 냉정하게 대처하고, 실용적인 해결책을 빠르게 내놓아요.",st:["냉정하고 빠른 상황 판단 능력","손재주와 실용적인 문제 해결 능력","독립적이고 흔들리지 않는 자아","감정에 흔들리지 않는 안정감","위기에서 빛나는 침착함"],wk:["감정 표현이 서툴러 오해를 사기도 함","깊은 관계 형성에 시간이 걸림","규칙이나 루틴을 싫어하는 경향","타인의 감정을 간과하기 쉬움","지루하면 바로 흥미를 잃는 경향"],lv:"사랑에서도 서로의 독립을 존중하는 관계를 원해요. 말보다 행동으로 마음을 표현하는 타입이에요.",fr:"말은 없어도 옆에 있으면 든든한 친구예요. 진심으로 믿을 수 있는 소수의 친구를 소중히 여겨요.",hd:"가끔은 마음을 열고 감정을 나눠보는 것도 좋아요. 약한 모습을 보여도 괜찮아요."}
+};
 
 /* ============ CHARACTER SVG BUILDER ============ */
 function mkSVG(t,sz){
@@ -1209,28 +1284,30 @@ function startQuiz(){
   document.getElementById('titleScreen').style.display='none';
   const qs=document.getElementById('questionScreen');
   qs.style.display='block';
+  const isEn=lang==='en',isKo=lang==='ko';
+  const _t=(ja,en,ko)=>isEn?en:isKo?ko:ja;
   qs.innerHTML=`<div class="profile-form">
-    <h2>✨ まずきみのことを教えて</h2>
-    <p class="pf-sub">入力しなくてもOK！でも入れると結果がより詳しくなるよ♡</p>
+    <h2>${_t('✨ まずきみのことを教えて','✨ Tell us about you','✨ 당신에 대해 알려주세요')}</h2>
+    <p class="pf-sub">${_t('入力しなくてもOK！でも入れると結果がより詳しくなるよ♡','Optional! But filling it in makes your results richer♡','입력 안 해도 돼요！하지만 입력하면 결과가 더 자세해져요♡')}</p>
     <div class="pf-row">
-      <label class="pf-label">🌸 ニックネーム</label>
+      <label class="pf-label">${_t('🌸 ニックネーム','🌸 Nickname','🌸 닉네임')}</label>
       <input class="pf-input" id="pfName" type="text" placeholder="" maxlength="20">
     </div>
     <div class="pf-row">
-      <label class="pf-label">🎂 生年月日</label>
+      <label class="pf-label">${_t('🎂 生年月日','🎂 Birthday','🎂 생년월일')}</label>
       <input class="pf-input" id="pfBirth" type="date" style="color-scheme:dark">
     </div>
     <div class="pf-row">
-      <label class="pf-label">🌈 性別</label>
+      <label class="pf-label">${_t('🌈 性別','🌈 Gender','🌈 성별')}</label>
       <div class="pf-gender">
-        <label><input type="radio" name="pfGender" value="女の子"><span>👧 女の子</span></label>
-        <label><input type="radio" name="pfGender" value="男の子"><span>👦 男の子</span></label>
-        <label><input type="radio" name="pfGender" value="どちらでも"><span>🌈 どちらでも</span></label>
-        <label><input type="radio" name="pfGender" value=""><span>🤫 ひみつ</span></label>
+        <label><input type="radio" name="pfGender" value="${_t('女の子','Girl','여자')}"><span>${_t('👧 女の子','👧 Girl','👧 여자')}</span></label>
+        <label><input type="radio" name="pfGender" value="${_t('男の子','Boy','남자')}"><span>${_t('👦 男の子','👦 Boy','👦 남자')}</span></label>
+        <label><input type="radio" name="pfGender" value="${_t('どちらでも','Either','둘 다')}"><span>${_t('🌈 どちらでも','🌈 Either','🌈 둘 다')}</span></label>
+        <label><input type="radio" name="pfGender" value=""><span>${_t('🤫 ひみつ','🤫 Secret','🤫 비밀')}</span></label>
       </div>
     </div>
-    <button class="btn btn-primary" style="width:100%;margin-top:8px" onclick="beginQuizWithProfile()">しんだんスタート ♡</button>
-    <p class="pf-skip" onclick="beginQuizWithProfile()">スキップしてすぐ始める</p>
+    <button class="btn btn-primary" style="width:100%;margin-top:8px" onclick="beginQuizWithProfile()">${_t('しんだんスタート ♡','Start Quiz ♡','진단 시작 ♡')}</button>
+    <p class="pf-skip" onclick="beginQuizWithProfile()">${_t('スキップしてすぐ始める','Skip and start now','건너뛰고 바로 시작')}</p>
   </div>`;
 }
 function beginQuizWithProfile(){
@@ -1279,13 +1356,14 @@ function _getMonthlyKyusei(annualNum){
   return n;
 }
 
-function showQ(){const q=Q[cq];document.getElementById('qCategory').textContent=q.c;document.getElementById('qText').textContent=q.q;document.getElementById('progressFill').style.width=(cq/24*100)+'%';const pLabel=_duoMode?`${_duoPerson===1?'1人目':'2人目'} ${cq+1} / 24`:`${cq+1} / 24`;document.getElementById('progressText').textContent=pLabel;const b=document.getElementById('choices');b.innerHTML='';q.ch.forEach((c,i)=>{const d=document.createElement('div');d.className=`choice c${i+1}`;d.innerHTML=`<div class="choice-icon">${c.t.slice(0,2)}</div><div class="choice-text">${c.t.slice(2)}</div>`;d.onclick=()=>sel(c.s);b.appendChild(d)});b.style.opacity=0;b.style.transform='translateY(10px)';requestAnimationFrame(()=>{b.style.transition='all .3s';b.style.opacity=1;b.style.transform='translateY(0)'})}
+function showQ(){const q=(lang==='en'?Q_EN:lang==='ko'?Q_KO:Q)[cq];document.getElementById('qCategory').textContent=q.c;document.getElementById('qText').textContent=q.q;document.getElementById('progressFill').style.width=(cq/24*100)+'%';const pLabel=_duoMode?`${_duoPerson===1?'1人目':'2人目'} ${cq+1} / 24`:`${cq+1} / 24`;document.getElementById('progressText').textContent=pLabel;const b=document.getElementById('choices');b.innerHTML='';q.ch.forEach((c,i)=>{const d=document.createElement('div');d.className=`choice c${i+1}`;d.innerHTML=`<div class="choice-icon">${c.t.slice(0,2)}</div><div class="choice-text">${c.t.slice(2)}</div>`;d.onclick=()=>sel(c.s);b.appendChild(d)});b.style.opacity=0;b.style.transform='translateY(10px)';requestAnimationFrame(()=>{b.style.transition='all .3s';b.style.opacity=1;b.style.transform='translateY(0)'})}
 
 function sel(s){for(let k in s)sc[k]=(sc[k]||0)+s[k];cq++;if(cq<24)showQ();else showR()}
 function getT(){return(sc.E>=sc.I?'E':'I')+(sc.N>=sc.S?'N':'S')+(sc.F>=sc.T?'F':'T')+(sc.J>=sc.P?'J':'P')}
 
 function renderResult(code,t){
   if(lang==='en'&&EN[code]){const e=EN[code];t={...t,n:e.n,sub:e.sub,d:e.d,st:e.st||t.st,wk:e.wk||t.wk,lv:e.lv||t.lv,fr:e.fr||t.fr,hd:e.hd||t.hd}}
+  if(lang==='ko'&&typeof KO!=='undefined'&&KO[code]){const k=KO[code];t={...t,n:k.n,sub:k.sub,d:k.d,st:k.st||t.st,wk:k.wk||t.wk,lv:k.lv||t.lv,fr:k.fr||t.fr,hd:k.hd||t.hd}}
   const el=document.getElementById('resultScreen');
   const g=getGroup(code),grp=GROUP[g];
   el.className='result-screen g-'+g;
@@ -1388,7 +1466,9 @@ function renderResult(code,t){
   <div class="hashtags">${t.ht.map(h=>`<span class="hashtag">${h}</span>`).join('')}</div>
   <div class="share-section"><div style="font-size:1.1em;font-weight:700">${lang==='en'?'Share your result♡':'結果をシェアしよう♡'}</div><div class="share-btns">
     <button class="share-btn" style="background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff" onclick="nativeShare('${code}',T['${code}'])">📤 ${lang==='en'?'Share':'シェア'}</button>
-    <button class="share-btn share-x" onclick="window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent('${lang==='en'?`My Soul Element is &quot;${t.n}&quot; × ${ks?ks.n:''} ${t.sub} 🔮`:`ソウルエレメント診断の結果は「${t.n}」×「${ks?ks.n:''}」でした♡\\n${t.sub}\\nきみの中に住んでるこは誰？🔮`}+'\\nhttps://mamori-ai.github.io/soul-element/?r=${code}\\n\\n#SoulElement #性格診断 #九星気学'))">𝕏</button>
+    <button class="share-btn share-x" onclick="window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent('${lang==='en'?`🔮 My Soul Element is "${t.n}"!\\n${t.sub}\\nWhich character lives inside YOU? 👇`:`ソウルエレメント診断の結果は「${t.n}」×「${ks?ks.n:''}」でした♡\\n${t.sub}\\nきみの中に住んでるこは誰？🔮`}+'\\nhttps://mamori-ai.github.io/soul-element/?r=${code}\\n\\n${lang==='en'?'#SoulElement #PersonalityTest #MBTI #PersonalityQuiz':'#SoulElement #性格診断 #九星気学 #ソウルエレメント'}'))">𝕏</button>
+    ${lang==='en'?`<button class="share-btn" style="background:#ff4500;color:#fff" onclick="window.open('https://www.reddit.com/submit?url='+encodeURIComponent('https://mamori-ai.github.io/soul-element/')+'&title='+encodeURIComponent('I got &quot;${t.n}&quot; on this adorable personality quiz! Which soul character are you? [free]'))">Reddit</button>`:''}
+
     <button class="share-btn share-line" onclick="window.open('https://social-plugins.line.me/lineit/share?url='+encodeURIComponent('https://mamori-ai.github.io/soul-element/?r=${code}')+'&text='+encodeURIComponent('ソウルエレメント診断の結果は「${t.n}」でした♡ ${t.sub}'))">LINE</button>
     <button class="share-btn share-copy" onclick="navigator.clipboard.writeText('${lang==='en'?`My Soul Element is &quot;${t.n}&quot; × ${ks?ks.n:''}! ${t.sub}`:`ソウルエレメント診断の結果は「${t.n}」×「${ks?ks.n:''}」でした♡ ${t.sub}`}\\nhttps://mamori-ai.github.io/soul-element/?r=${code}');this.textContent='${lang==='en'?'Copied♡':'コピーしたよ♡'}'">📋 ${lang==='en'?'Copy':'コピー'}</button>
     <button class="share-card-btn" onclick="genShareCard('${code}',T['${code}'])">🖼 ${lang==='en'?'Image':'画像'}</button>
@@ -1432,11 +1512,34 @@ ISTJ:{n:"Gatchapin",sub:"Ultra-Reliable Record Keeper♡",d:"The bedrock everyon
 ISTP:{n:"Hissorilin",sub:"Silent Cool Lone Wolf♡",d:"Calm, skilled, and quietly formidable. You don't panic. You diagnose, solve, and vanish before the thank-yous start. Master of the quiet solution that nobody saw coming♡",st:["Mechanically gifted beyond reason","Unflappable in any crisis","Hyper-efficient problem solver","Observes everything, misses nothing","Doesn't waste words or energy"],wk:["Emotional access is genuinely hard","Commitment feels like a trap","Boredom is an actual emergency","Long-term plans cause anxiety","Feelings exist in another tab"],lv:"Shows love by fixing things and being present. Needs real space. Will disappear for a week then act like nothing happened♡",fr:"Least likely to text back. Most likely to silently fix your broken shelf.",hd:"Deep loneliness behind self-sufficiency. Wants connection but doesn't know how to begin."}
 };
 
+function applyLangUI(){
+  const isEn=lang==='en',isKo=lang==='ko';
+  document.documentElement.lang=isEn?'en':isKo?'ko':'ja';
+  const nextLbl=lang==='ja'?'EN':lang==='en'?'한국어':'日本語';
+  document.getElementById('langToggle').textContent=nextLbl;
+  const logo=document.getElementById('titleLogo');
+  if(logo)logo.textContent=isEn?'Soul Element Quiz':isKo?'소울 엘리먼트 진단':'ソウルエレメント診断';
+  const sub=document.getElementById('titleSubtitle');
+  if(sub)sub.textContent=isEn?'Which character lives inside you?♡':isKo?'내 안에 살고 있는 캐릭터는 누구?♡':'きみの中に住んでるこ、だぁれ？♡';
+  const feats=document.getElementById('titleFeatures');
+  if(feats)feats.innerHTML=isEn
+    ?'<span class="feat">🧸 16 Characters</span><span class="feat">⭐ Star Astrology</span><span class="feat">💼 Dream Job</span><span class="feat">💕 Love Style</span><span class="feat">🐰 Guardian Animal</span><span class="feat">😈 Shadow Side</span><span class="feat">✨ Compatibility</span>'
+    :isKo?'<span class="feat">🧸 16 캐릭터</span><span class="feat">⭐ 구성학</span><span class="feat">💼 어울리는 직업</span><span class="feat">💕 연애 스타일</span><span class="feat">🐰 수호 동물</span><span class="feat">😈 숨겨진 얼굴</span><span class="feat">✨ 궁합</span>'
+    :'<span class="feat">🧸 16キャラ診断</span><span class="feat">⭐ 九星気学</span><span class="feat">💼 お似合いのお仕事</span><span class="feat">💕 恋のクセ</span><span class="feat">🐰 守護あにまる</span><span class="feat">😈 裏のかお</span><span class="feat">✨ 相性ばっちり</span>';
+  const sb=document.getElementById('titleStartBtn');
+  if(sb)sb.textContent=isEn?'Start Quiz ♡':isKo?'진단 시작 ♡':'しんだんスタート ♡';
+  const db=document.getElementById('titleDuoBtn');
+  if(db)db.textContent=isEn?'👫 2-Person Compatibility':isKo?'👫 2인 궁합 진단':'👫 2人で相性診断';
+  const kb=document.getElementById('titleKyuseiBtn');
+  if(kb)kb.textContent=isEn?'⭐ Birthday-Only Reading':isKo?'⭐ 생년월일로만 진단':'⭐ 生年月日だけで診断';
+}
 function toggleLang(){
-  lang=lang==='ja'?'en':'ja';
+  lang=lang==='ja'?'en':lang==='en'?'ko':'ja';
   localStorage.setItem('se_lang',lang);
-  document.getElementById('langToggle').textContent=lang==='ja'?'EN':'JA';
-  if(currentResultCode)renderResult(currentResultCode,T[currentResultCode]);
+  applyLangUI();
+  if(currentResultCode){renderResult(currentResultCode,T[currentResultCode]);return;}
+  const qs=document.getElementById('questionScreen');
+  if(qs&&qs.style.display!=='none'&&document.getElementById('qText')){showQ();}
 }
 
 function nativeShare(code,t){
@@ -1468,8 +1571,8 @@ function declineCookies(){localStorage.setItem('cookie_consent','declined');docu
   const c=localStorage.getItem('cookie_consent');
   if(!c){setTimeout(()=>{document.getElementById('cookieBanner').classList.add('show')},2000)}
   else if(c==='declined'){window['ga-disable-G-XXXXXXXXXX']=true}
-  // Restore lang toggle label
-  document.getElementById('langToggle').textContent=lang==='ja'?'EN':'JA';
+  // Apply language to all UI elements
+  applyLangUI();
   // Load result from URL ?r=TYPE
   checkURLResult();
 })();

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mamori-ai.github.io/soul-element/sitemap.xml

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://mamori-ai.github.io/soul-element/</loc>
+    <lastmod>2026-04-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://mamori-ai.github.io/soul-element/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mamori-ai.github.io/soul-element/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mamori-ai.github.io/soul-element/"/>
+  </url>
+  <!-- Direct result links for each of the 16 types -->
+  <url><loc>https://mamori-ai.github.io/soul-element/?r=ENFJ</loc><priority>0.8</priority></url>
+  <url><loc>https://mamori-ai.github.io/soul-element/?r=ENFP</loc><priority>0.8</priority></url>
+  <url><loc>https://mamori-ai.github.io/soul-element/?r=ENTJ</loc><priority>0.8</priority></url>
+  <url><loc>https://mamori-ai.github.io/soul-element/?r=ENTP</loc><priority>0.8</priority></url>
+  <url><loc>https://mamori-ai.github.io/soul-element/?r=ESFJ</loc><priority>0.8</priority></url>
+  <url><loc>https://mamori-ai.github.io/soul-element/?r=ESFP</loc><priority>0.8</priority></url>
+  <url><loc>https://mamori-ai.github.io/soul-element/?r=ESTJ</loc><priority>0.8</priority></url>
+  <url><loc>https://mamori-ai.github.io/soul-element/?r=ESTP</loc><priority>0.8</priority></url>
+  <url><loc>https://mamori-ai.github.io/soul-element/?r=INFJ</loc><priority>0.8</priority></url>
+  <url><loc>https://mamori-ai.github.io/soul-element/?r=INFP</loc><priority>0.8</priority></url>
+  <url><loc>https://mamori-ai.github.io/soul-element/?r=INTJ</loc><priority>0.8</priority></url>
+  <url><loc>https://mamori-ai.github.io/soul-element/?r=INTP</loc><priority>0.8</priority></url>
+  <url><loc>https://mamori-ai.github.io/soul-element/?r=ISFJ</loc><priority>0.8</priority></url>
+  <url><loc>https://mamori-ai.github.io/soul-element/?r=ISFP</loc><priority>0.8</priority></url>
+  <url><loc>https://mamori-ai.github.io/soul-element/?r=ISTJ</loc><priority>0.8</priority></url>
+  <url><loc>https://mamori-ai.github.io/soul-element/?r=ISTP</loc><priority>0.8</priority></url>
+</urlset>

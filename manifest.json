@@ -1,0 +1,28 @@
+{
+  "name": "Soul Element Quiz · ソウルエレメント診断",
+  "short_name": "Soul Element",
+  "description": "Discover which kawaii character lives inside you! Free personality quiz.",
+  "start_url": "/soul-element/",
+  "display": "standalone",
+  "background_color": "#0d0b1e",
+  "theme_color": "#0d0b1e",
+  "orientation": "portrait",
+  "lang": "ja",
+  "icons": [
+    {
+      "src": "ogp.png",
+      "sizes": "1200x630",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["entertainment", "lifestyle"],
+  "screenshots": [
+    {
+      "src": "ogp.png",
+      "sizes": "1200x630",
+      "type": "image/png",
+      "label": "Soul Element Quiz"
+    }
+  ]
+}
