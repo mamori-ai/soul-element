@@ -22,6 +22,10 @@
 <meta name="robots" content="index,follow">
 <meta name="author" content="まもりあい">
 <link rel="canonical" href="https://mamori-ai.github.io/soul-element/">
+<meta name="theme-color" content="#0d0b1e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ソウルエレメント">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"ソウルエレメント診断","description":"24の質問できみの中に住んでるゆるかわキャラを発見！適職・恋愛・相性・裏の顔まで丸わかり","url":"https://mamori-ai.github.io/soul-element/","applicationCategory":"EntertainmentApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"},"author":{"@type":"Organization","name":"まもりあい"}}</script>
 <!-- Google Analytics GA4 - TODO: G-XXXXXXXXXX を自分のIDに差し替え -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
@@ -207,10 +211,14 @@ body{font-family:'Zen Maru Gothic',sans-serif;background:var(--bg);color:var(--t
 .cookie-accept{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff}
 .cookie-decline{background:transparent;border:1px solid var(--sub);color:var(--sub)}
 .cookie-btn:hover{transform:translateY(-1px)}
+/* Lang toggle */
+.lang-toggle{position:fixed;top:14px;right:14px;z-index:999;background:rgba(22,20,50,.92);border:1px solid rgba(180,142,255,.35);border-radius:20px;padding:6px 16px;font-size:.78em;font-weight:700;cursor:pointer;color:var(--accent);transition:all .3s;backdrop-filter:blur(8px);font-family:inherit}
+.lang-toggle:hover{background:rgba(180,142,255,.18);transform:scale(1.04)}
 </style>
 </head>
 <body>
 <div class="stars" id="stars"></div>
+<button class="lang-toggle" id="langToggle" onclick="toggleLang()">EN</button>
 <div class="container">
 <div class="title-screen" id="titleScreen">
 <div class="title-mascot" id="titleMascot"></div>
@@ -304,7 +312,8 @@ const Q=[
 function mkSVG(t,sz){
 const s=sz||160,cx=s/2;
 const P=t.pal; // {body,light,dark,ear,earIn,cheek,acc}
-let svg=`<svg viewBox="0 0 ${s} ${s+20}" width="${s}" height="${s+20}" xmlns="http://www.w3.org/2000/svg">`;
+const _top=Math.ceil(s*.18);
+let svg=`<svg viewBox="0 -${_top} ${s} ${s+20+_top}" width="${s}" height="${s+20+_top}" xmlns="http://www.w3.org/2000/svg">`;
 // Glow
 svg+=`<defs><radialGradient id="glow${s}"><stop offset="0%" stop-color="${P.body}" stop-opacity=".3"/><stop offset="100%" stop-color="${P.body}" stop-opacity="0"/></radialGradient></defs>`;
 svg+=`<ellipse cx="${cx}" cy="${s*.55}" rx="${s*.48}" ry="${s*.48}" fill="url(#glow${s})"/>`;
@@ -929,6 +938,7 @@ function sel(s){for(let k in s)sc[k]=(sc[k]||0)+s[k];cq++;if(cq<24)showQ();else 
 function getT(){return(sc.E>=sc.I?'E':'I')+(sc.N>=sc.S?'N':'S')+(sc.F>=sc.T?'F':'T')+(sc.J>=sc.P?'J':'P')}
 
 function renderResult(code,t){
+  if(lang==='en'&&EN[code]){const e=EN[code];t={...t,n:e.n,sub:e.sub,d:e.d,st:e.st||t.st,wk:e.wk||t.wk,lv:e.lv||t.lv,fr:e.fr||t.fr,hd:e.hd||t.hd}}
   const el=document.getElementById('resultScreen');
   const g=getGroup(code),grp=GROUP[g];
   el.className='result-screen g-'+g;
@@ -968,11 +978,12 @@ function renderResult(code,t){
   <div class="section"><div class="section-title">🍀 ラッキーアイテム</div><div class="lucky-grid"><div class="lucky-item"><div class="lucky-icon">🎨</div><div class="lucky-label">ラッキーカラー</div><div class="lucky-value">${t.lu.c}</div></div><div class="lucky-item"><div class="lucky-icon">✨</div><div class="lucky-label">ラッキーアイテム</div><div class="lucky-value">${t.lu.i}</div></div><div class="lucky-item"><div class="lucky-icon">🔢</div><div class="lucky-label">ラッキーナンバー</div><div class="lucky-value">${t.lu.n}</div></div></div></div>
   <div class="ad-slot"><!-- AdSense: 結果下部広告 --><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});<\/script></div>
   <div class="hashtags">${t.ht.map(h=>`<span class="hashtag">${h}</span>`).join('')}</div>
-  <div class="share-section"><div style="font-size:1.1em;font-weight:700">結果をシェアしよう♡</div><div class="share-btns">
-    <button class="share-btn share-x" onclick="window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent('ソウルエレメント診断の結果は「${t.n}」でした♡\\n${t.sub}\\n\\nきみの中に住んでるこは誰？🔮\\nhttps://mamori-ai.github.io/soul-element/\\n\\n#ソウルエレメント診断 #性格診断 #MBTI'))">𝕏 でシェア</button>
-    <button class="share-btn share-line" onclick="window.open('https://social-plugins.line.me/lineit/share?url='+encodeURIComponent('https://mamori-ai.github.io/soul-element/')+'&text='+encodeURIComponent('ソウルエレメント診断の結果は「${t.n}」でした♡ ${t.sub}'))">LINE で送る</button>
-    <button class="share-btn share-copy" onclick="navigator.clipboard.writeText('ソウルエレメント診断の結果は「${t.n}」でした♡ ${t.sub}\\nきみもやってみて🔮 https://mamori-ai.github.io/soul-element/\\n#ソウルエレメント診断');this.textContent='コピーしたよ♡'">📋 コピー</button>
-    <button class="share-card-btn" onclick="genShareCard('${code}',T['${code}'])">🖼 画像でシェア</button>
+  <div class="share-section"><div style="font-size:1.1em;font-weight:700">${lang==='en'?'Share your result♡':'結果をシェアしよう♡'}</div><div class="share-btns">
+    <button class="share-btn" style="background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff" onclick="nativeShare('${code}',T['${code}'])">📤 ${lang==='en'?'Share':'シェア'}</button>
+    <button class="share-btn share-x" onclick="window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent('${lang==='en'?`My Soul Element is &quot;${t.n}&quot;! ${t.sub} Find yours 🔮`:`ソウルエレメント診断の結果は「${t.n}」でした♡\\n${t.sub}\\n\\nきみの中に住んでるこは誰？🔮`}+'\\nhttps://mamori-ai.github.io/soul-element/?r=${code}\\n\\n#SoulElement #性格診断 #MBTI'))">𝕏</button>
+    <button class="share-btn share-line" onclick="window.open('https://social-plugins.line.me/lineit/share?url='+encodeURIComponent('https://mamori-ai.github.io/soul-element/?r=${code}')+'&text='+encodeURIComponent('ソウルエレメント診断の結果は「${t.n}」でした♡ ${t.sub}'))">LINE</button>
+    <button class="share-btn share-copy" onclick="navigator.clipboard.writeText('${lang==='en'?`My Soul Element is &quot;${t.n}&quot;! ${t.sub}`:`ソウルエレメント診断の結果は「${t.n}」でした♡ ${t.sub}`}\\nhttps://mamori-ai.github.io/soul-element/?r=${code}');this.textContent='${lang==='en'?'Copied♡':'コピーしたよ♡'}'">📋 ${lang==='en'?'Copy':'コピー'}</button>
+    <button class="share-card-btn" onclick="genShareCard('${code}',T['${code}'])">🖼 ${lang==='en'?'Image':'画像'}</button>
   </div></div>
   <button class="retry-btn" onclick="location.reload()">もう一回やる ♡</button>
   <div style="text-align:center;padding:16px;font-size:.75em;color:var(--sub)">ソウルエレメント診断 &copy; 2026</div>`;
@@ -983,11 +994,56 @@ function showR(){
   document.getElementById('questionScreen').style.display='none';
   const code=getT(),t=T[code];
   if(!t){document.getElementById('resultScreen').innerHTML='<p>エラーが発生しました</p>';document.getElementById('resultScreen').style.display='block';return}
-  // F5: 2-person mode — capture P1 then start P2
   if(_duoMode&&!_p1Code){_p1Code=code;_p1T=t;showDuoP2();return}
   if(_duoMode&&_p1Code){showDuoResult(code,t);return}
-  // F3: Gacha reveal → then render result
+  currentResultCode=code;
+  history.replaceState({},'','?r='+code);
   showGachaReveal(code,t,GROUP[getGroup(code)],()=>renderResult(code,t));
+}
+
+/* ===== LANG / URL / SHARE additions ===== */
+let lang=localStorage.getItem('se_lang')||'ja';
+let currentResultCode=null;
+
+const EN={
+ENFJ:{n:"Pocarin",sub:"Everyone's Little Sunshine♡",d:"A warm, empathetic leader who lights up any room. You read emotions effortlessly and rally people with genuine care. You pour your whole heart into others — just remember to save some love for yourself too♡",st:["Makes every room instantly brighter","Reads emotions with scary accuracy","Leads with warmth AND vision","Moves people with words alone","First to help, last to rest"],wk:["Perpetually puts everyone else first","Can't say 'no' without guilt","Burns out from overgiving","Overthinks others' opinions","Sets impossible standards for yourself"],lv:"All-in once you fall. Thoughtful surprises, handwritten notes, remembered details. Needs a partner who notices your effort and says 'rest — I've got this'♡",fr:"Plans every birthday surprise. Connects friend groups. Makes the group feel whole. Remember: it's okay to lean on others sometimes.",hd:"Deep down craves appreciation. Without 'thank you', feels invisible. Alone at night — 'would everyone be fine without me?'"},
+ENFP:{n:"Kyrlin",sub:"Wonder-Powered Curiosity Machine♡",d:"A sparkling bundle of ideas and contagious enthusiasm. You make everything feel like an adventure and pull people along for the ride. Endless imagination — you just need to pick one direction and run♡",st:["Ideas flow like a fountain","Instant friends with anyone","Turns anything into an adventure","Trend radar always on","Bounces back from anything fast"],wk:["Boredom hits like a wall","Planning? What's planning?","Emotional swings are real","Chronically five minutes late","Focus evaporates for uninteresting things"],lv:"Falls in love at light speed. Needs fresh energy and surprises to stay enchanted. Completely devoted when truly in love♡",fr:"Suggests every fun idea, forgets to plan it. Somehow always forgiven. Makes the world feel electric.",hd:"High energy outside, existential alone at night. Tired of starting things she can't finish."},
+ENTJ:{n:"Shakiin",sub:"Boss Cat Who Leads the Pack♡",d:"Born to lead, built to win. You set goals others call impossible, then achieve them anyway. Strategic, decisive, relentlessly driven — your confidence pulls whole teams forward♡",st:["Decides without hesitation","Achievement rate is absurd","Natural commanding charisma","Sees 10 steps ahead","Unshakeable under pressure"],wk:["Can slip into controlling mode","Slow to read feelings","Hyper-competitive by default","Sets high bars for everyone","Struggles to show vulnerability"],lv:"Love as strategy. Pursues with clear intent. Creates perfect dates. Wants an equal — not a follower♡",fr:"Plans every group trip with military precision. First to call 'I'll handle it.' Needs to hear 'I don't need a fix, I need to vent' sometimes.",hd:"Terrified of being seen as weak. Anxiety nobody sees. Desperately wants to rely on someone — pride won't allow it."},
+ENTP:{n:"Hiramekyun",sub:"Mischievous Idea Fairy♡",d:"The one who flips every assumption upside down. Razor wit, endless creativity, zero patience for routine. You find exits where others see dead ends — and you can't help but share that view♡",st:["Conceptual thinking beyond compare","Never lost an argument","Masters anything quickly","Lightning conversational reflexes","Breaks every mold on purpose"],wk:["Abandons projects mid-way","Bluntness without warning","Perpetually restless","Emotionally careless with others","Commitment is a fuzzy concept"],lv:"Love as intellectual sport. Falls for wit. Needs constant surprises. Gets into logic debates during arguments♡",fr:"Best partner for 3am ideas. Terrible at serious emotional support — turns it into a joke without meaning to.",hd:"Logic as armor. Secretly wants one person to see through all of it."},
+ESFJ:{n:"Mochipyo",sub:"Wants to Feed Everyone♡",d:"The ultimate caretaker — you never forget a birthday or a food preference. You hold communities together with genuine warmth. Your hospitality is legendary and your loyalty is absolute♡",st:["Nurturing instinct is infinite","Reads any room instantly","Natural community builder","Event planning genius","Hospitality is a superpower"],wk:["Cares too much what others think","Can smother with kindness","Struggles with sudden change","Expects appreciation out loud","Sensitive to any hint of gossip"],lv:"Devotes completely. Homemade lunch, check-in texts, remembered preferences. Say 'thank you' out loud — don't assume she knows♡",fr:"Group mom. Remembers everyone's allergy. Makes the photo album nobody asked for but everyone treasures.",hd:"Night anxiety about not being liked. Dreads what might be said when she's not in the room."},
+ESFP:{n:"Papipupepon",sub:"Every Day is a Festival!♡",d:"The ultimate entertainer. Your joy is contagious, your aesthetic impeccable, your energy boundless. You turn ordinary afternoons into memories and remind everyone that fun is a skill♡",st:["Born to perform and delight","Lives fully in the present","Universally magnetic","Sharp aesthetic instinct","Pure movement energy"],wk:["Future? That's future-me's problem","Impulse purchases are a lifestyle","Serious conversations hurt","Repetition feels like dying","Budget is a suggestion"],lv:"Love at first excitement. 100% devoted when truly in love. Every date becomes an Instagram story. Takes two hours getting ready♡",fr:"The 'you free rn?' text at 10pm. Most fun person alive. Slightly terrible at keeping secrets.",hd:"Performs happiness to hide loneliness. Checks like counts more than she admits. Terrified of being boring."},
+ESTJ:{n:"Pishittomaru",sub:"Guardian of Rules and Order♡",d:"The dependable backbone every team secretly needs. You show up, follow through, and hold everyone accountable. Rigid? Maybe. Reliable? Absolutely. The person everyone calls in a crisis♡",st:["Responsibility maxed out","Organizes everything instinctively","Commands genuine respect","Keeps every promise","Strong moral framework"],wk:["Rules over flexibility always","Pushes methods on others","Feelings in a locked room","Slow to embrace change","Doesn't know how to relax"],lv:"Serious about love. Scheduled dates, remembered anniversaries, consistent presence. Not flowery — shows love through showing up♡",fr:"Gets genuinely mad when you're late. Helps you move with terrifying efficiency. Most reliable friend you have.",hd:"Secretly fears being seen as boring. Midnight YouTube marathons nobody knows about."},
+ESTP:{n:"Bucchigirin",sub:"Shoot First, Think Later♡",d:"Pure kinetic energy. You don't overthink — you leap. Crises where others freeze are where you thrive. Risk isn't danger, it's just opportunity with a pulse♡",st:["Instinct before thought","Unflappable in chaos","Social charisma and adaptability","Genuine nerves of steel","Natural athlete"],wk:["Consequences are optional","Rule-breaker by reflex","Can't sit still","Impulse control needs work","Paperwork is physical pain"],lv:"Direct. No games. Pursues openly. Needs active dates — drives, hikes, things that move. Stability feels like a trap♡",fr:"The spontaneous 3pm adventure invitation. Life around them is unpredictable and wonderful.",hd:"Action as avoidance. Quiet nights bring 'is this enough?' — then immediately distracts himself."},
+INFJ:{n:"Yumemirulun",sub:"Can Peek Into Your Heart♡",d:"The rarest type and the most mysterious. You sense what people feel before they speak. Your inner world is vast — a quiet exterior hiding a universe of vision, compassion, and rare insight♡",st:["Reads people to their core","Deep empathy and foresight","Burning idealism","Creative beyond categories","One-on-one depth is unmatched"],wk:["Idealism exhausts the body","Carries everything alone","Reality can feel brutal","Perfectionism becomes self-harm","Crowds drain completely"],lv:"Believes in destiny. Cautious until she falls — then bottomless devotion. Builds an idealized version of the person she loves♡",fr:"Remembers how you felt three years ago. One-on-one coffee forever. Large parties — a hard pass.",hd:"'Nobody truly gets me.' Spirals comparing herself to Instagram. Sometimes needs to vanish."},
+INFP:{n:"Fuwamokolin",sub:"Resident of the Dream World♡",d:"Your inner world is richer than most people's outer lives. You cry at sunsets, at cat videos, at a perfect sentence. That's not sensitivity — that's a superpower most people never develop♡",st:["Emotional depth that heals others","Creativity that stops time","Understands pain without being told","Genuinely original worldview","Honesty that never wavers"],wk:["Reality is sometimes too much","Decisions are paralysing","Wounds run very deep","Postponing is a lifestyle","Dream-reality gap causes real pain"],lv:"Storybook love or nothing. Writes love letters in her head for months before acting. Needs a partner who truly sees her inner world♡",fr:"Remembers the exact words you said years ago. Needs space, but loyal for life.",hd:"Retreats into imagination when reality hurts. Secretly fears she'll never be understood."},
+INTJ:{n:"Rinalin",sub:"The Lone Genius Strategist♡",d:"Your mind runs five steps ahead while others are still loading. You don't follow the map — you redraw it. The rarest combination of long-range vision and cold-blooded execution♡",st:["Sees patterns before they form","Builds airtight systems","Decisive exactly when it counts","Visionary and practical at once","Independent to the core"],wk:["Reads as cold to others","Small talk is genuinely draining","Impatient with 'obvious' errors","Vulnerability feels like failure","Lone wolf can become isolation"],lv:"Doesn't fall easily — falls completely. Utterly loyal once committed. Won't play games. Just say the thing♡",fr:"Rare and precious. Low maintenance, lifetime loyalty. Never judges you for unusual thoughts.",hd:"Wants to be understood more than anything — but sets impossible standards for who gets to try."},
+INTP:{n:"Fukabukarun",sub:"Deep-Thinking Fluffy Sage♡",d:"A walking encyclopedia who questions everything. You follow curiosity until 3am and forget sleep is a thing. The universe's mysteries feel like personal invitations addressed to you♡",st:["Analyzes to infinite depth","Synthesizes ideas across fields","Completely original frameworks","Encyclopedic without trying","Zero-judgment thinking space"],wk:["Lives in head, forgets the body","Social ritual feels alien","Procrastination champion","Follow-through is hard","Emotions arrive very late"],lv:"Slow to open — extraordinarily devoted once there. Sharing theories IS love. Expects you to find the gesture♡",fr:"A treasure to talk to. Terrible response times. Will randomly send you a Wikipedia link at 2am.",hd:"Social anxiety dressed as 'not caring.' Writes entire conversations in his head. Never sends."},
+ISFJ:{n:"Pocopocolin",sub:"Gentle Guardian of the World♡",d:"The quiet superhero who makes sure everyone is okay — and rarely lets anyone do the same for them. You remember what everyone likes and show up in exactly the right way at exactly the right time♡",st:["Memory for people's feelings is supernatural","Quiet reliability that never fails","Warmth without needing attention","Handles invisible labor others miss","Safe harbor for every secret"],wk:["Own needs are invisible even to herself","Worry is constant background noise","Avoids conflict at any cost","Change needs enormous runway","Receiving care feels foreign"],lv:"Patient, devoted, consistent. Shows love through doing, never saying. Needs a partner who notices without being asked♡",fr:"Brings soup when you're sick before you mention it. Holds every secret forever.",hd:"Smiles through exhaustion. Resentment builds quietly. Doesn't know how to ask for help."},
+ISFP:{n:"Konekolin",sub:"Feeling-First Free Spirit♡",d:"You live through your senses. Beauty stops you mid-step; music hits you differently; a wrong color in a room bothers you physically. Deeply artistic, quietly fierce, absolutely authentic♡",st:["Aesthetic instinct is flawless","Lives fully in each moment","Quietly fierce about real values","Loyal to authentic self only","Radiates effortless calm beauty"],wk:["Future planning is tomorrow's problem","Speaks up too late or not at all","Feelings get stuck inside","Commitment triggers anxiety","Criticism cuts deep"],lv:"Slow and quiet, then suddenly completely open. Expresses love through touch, music, making things — not words♡",fr:"Low-maintenance friend who appears with perfect timing. Gives gifts that are somehow exactly right.",hd:"Appears unbothered, internally replaying every moment. Tells no one."},
+ISTJ:{n:"Gatchapin",sub:"Ultra-Reliable Record Keeper♡",d:"The bedrock everyone builds on. You remember what you promised three years ago and still feel responsible for it. Consistency is your love language; reliability is your identity♡",st:["Attention to detail is flawless","Shows up no matter what","Follows through on everything","Stable under any pressure","Quiet moral backbone"],wk:["Flexibility is physically uncomfortable","Emotions need translation","Rigid systems frustrate others","Change is treated as suspicious","Forgets to celebrate wins"],lv:"Romantic through actions, not words. Remembers every date, keeps every promise. Slow to commit, then forever♡",fr:"Helps you move on a Tuesday with no complaints. Has remembered your coffee order since the beginning.",hd:"Secretly wants someone to break his routine in a fun way. Never asks."},
+ISTP:{n:"Hissorilin",sub:"Silent Cool Lone Wolf♡",d:"Calm, skilled, and quietly formidable. You don't panic. You diagnose, solve, and vanish before the thank-yous start. Master of the quiet solution that nobody saw coming♡",st:["Mechanically gifted beyond reason","Unflappable in any crisis","Hyper-efficient problem solver","Observes everything, misses nothing","Doesn't waste words or energy"],wk:["Emotional access is genuinely hard","Commitment feels like a trap","Boredom is an actual emergency","Long-term plans cause anxiety","Feelings exist in another tab"],lv:"Shows love by fixing things and being present. Needs real space. Will disappear for a week then act like nothing happened♡",fr:"Least likely to text back. Most likely to silently fix your broken shelf.",hd:"Deep loneliness behind self-sufficiency. Wants connection but doesn't know how to begin."}
+};
+
+function toggleLang(){
+  lang=lang==='ja'?'en':'ja';
+  localStorage.setItem('se_lang',lang);
+  document.getElementById('langToggle').textContent=lang==='ja'?'EN':'JA';
+  if(currentResultCode)renderResult(currentResultCode,T[currentResultCode]);
+}
+
+function nativeShare(code,t){
+  const url=location.origin+location.pathname+'?r='+code;
+  const text=lang==='en'
+    ?`My Soul Element is "${EN[code]?.n||t.n}"!\n${EN[code]?.sub||t.sub}\nFind out yours 🔮`
+    :`ソウルエレメント診断の結果は「${t.n}」でした♡\n${t.sub}\nきみもやってみて🔮`;
+  if(navigator.share){navigator.share({title:'ソウルエレメント診断',text,url}).catch(()=>{});}
+  else{navigator.clipboard.writeText(text+'\n'+url);alert(lang==='ja'?'リンクをコピーしました♡':'Copied to clipboard♡');}
+}
+
+function checkURLResult(){
+  const r=new URLSearchParams(location.search).get('r');
+  if(r&&T[r]){document.getElementById('titleScreen').style.display='none';currentResultCode=r;renderResult(r,T[r]);return true;}
+  return false;
 }
 </script>
 <div class="cookie-banner" id="cookieBanner">
@@ -1000,7 +1056,15 @@ function showR(){
 <script>
 function acceptCookies(){localStorage.setItem('cookie_consent','accepted');document.getElementById('cookieBanner').classList.remove('show')}
 function declineCookies(){localStorage.setItem('cookie_consent','declined');document.getElementById('cookieBanner').classList.remove('show');window['ga-disable-G-XXXXXXXXXX']=true}
-(function(){const c=localStorage.getItem('cookie_consent');if(!c){setTimeout(()=>{document.getElementById('cookieBanner').classList.add('show')},2000)}else if(c==='declined'){window['ga-disable-G-XXXXXXXXXX']=true}})();
+(function(){
+  const c=localStorage.getItem('cookie_consent');
+  if(!c){setTimeout(()=>{document.getElementById('cookieBanner').classList.add('show')},2000)}
+  else if(c==='declined'){window['ga-disable-G-XXXXXXXXXX']=true}
+  // Restore lang toggle label
+  document.getElementById('langToggle').textContent=lang==='ja'?'EN':'JA';
+  // Load result from URL ?r=TYPE
+  checkURLResult();
+})();
 </script>
 </body>
 </html>
