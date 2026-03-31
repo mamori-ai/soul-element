@@ -1546,9 +1546,12 @@ function nativeShare(code,t){
   const url=location.origin+location.pathname+'?r='+code;
   const text=lang==='en'
     ?`My Soul Element is "${EN[code]?.n||t.n}"!\n${EN[code]?.sub||t.sub}\nFind out yours 🔮`
+    :lang==='ko'
+    ?`내 소울 엘리먼트는 "${KO[code]?.n||t.n}"이에요!\n${KO[code]?.sub||t.sub}\n당신도 해보세요 🔮`
     :`ソウルエレメント診断の結果は「${t.n}」でした♡\n${t.sub}\nきみもやってみて🔮`;
-  if(navigator.share){navigator.share({title:'ソウルエレメント診断',text,url}).catch(()=>{});}
-  else{navigator.clipboard.writeText(text+'\n'+url);alert(lang==='ja'?'リンクをコピーしました♡':'Copied to clipboard♡');}
+  const shareTitle=lang==='ko'?'소울 엘리먼트 진단':lang==='en'?'Soul Element Quiz':'ソウルエレメント診断';
+  if(navigator.share){navigator.share({title:shareTitle,text,url}).catch(()=>{});}
+  else{navigator.clipboard.writeText(text+'\n'+url);alert(lang==='ja'?'リンクをコピーしました♡':lang==='ko'?'링크를 복사했어요♡':'Copied to clipboard♡');}
 }
 
 function checkURLResult(){
