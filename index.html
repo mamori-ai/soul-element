@@ -50,8 +50,9 @@ body{font-family:'Zen Maru Gothic',sans-serif;background:var(--bg);color:var(--t
 .logo{font-size:2.8em;font-weight:900;background:linear-gradient(135deg,#ffb8d9,#b48eff,#a8f0d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:6px;letter-spacing:1px}
 .subtitle{color:var(--sub);font-size:1.05em;margin-bottom:32px}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes floatAnim{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
 @keyframes wiggle{0%,100%{transform:rotate(0)}25%{transform:rotate(-3deg)}75%{transform:rotate(3deg)}}
-.title-mascot{margin:0 auto 28px;animation:float 3s ease-in-out infinite}
+.title-mascot{margin:0 auto 28px;animation:floatAnim 3s ease-in-out infinite}
 .features{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:32px}
 .feat{background:rgba(180,142,255,.12);border:1px solid rgba(180,142,255,.25);border-radius:20px;padding:5px 14px;font-size:.82em;color:var(--pink)}
 .btn{display:inline-block;padding:16px 48px;border-radius:50px;border:none;font-family:inherit;font-size:1.1em;font-weight:700;cursor:pointer;transition:all .3s}
@@ -220,6 +221,21 @@ body{font-family:'Zen Maru Gothic',sans-serif;background:var(--bg);color:var(--t
 /* Lang toggle */
 .lang-toggle{position:fixed;top:14px;right:14px;z-index:999;background:rgba(22,20,50,.92);border:1px solid rgba(180,142,255,.35);border-radius:20px;padding:6px 16px;font-size:.78em;font-weight:700;cursor:pointer;color:var(--accent);transition:all .3s;backdrop-filter:blur(8px);font-family:inherit}
 .lang-toggle:hover{background:rgba(180,142,255,.18);transform:scale(1.04)}
+/* F-gallery: Zukan */
+.zukan-screen{display:none;animation:fadeUp .6s}
+.zukan-screen.show{display:block}
+.zukan-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:20px 0}
+@media(max-width:520px){.zukan-grid{grid-template-columns:repeat(2,1fr)}}
+.zukan-card{background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:12px 8px;text-align:center;cursor:pointer;transition:all .3s}
+.zukan-card:hover{border-color:var(--accent2);transform:translateY(-3px);box-shadow:0 6px 20px var(--glow)}
+.zukan-card-name{font-size:.75em;font-weight:700;margin-top:6px;color:var(--text)}
+.zukan-card-type{font-size:.65em;color:var(--sub);margin-top:2px}
+/* F-story: vertical share card button */
+.share-story-btn{padding:12px 22px;border-radius:30px;border:2px solid var(--accent2);background:transparent;color:var(--accent2);font-family:inherit;font-weight:700;font-size:.85em;cursor:pointer;transition:all .3s}
+.share-story-btn:hover{background:rgba(255,142,207,.12);transform:translateY(-2px)}
+/* F-zukan modal */
+.zukan-modal-chara{text-align:center;margin-bottom:16px}
+.zukan-modal-sub{font-size:.88em;color:var(--gold);margin-bottom:10px;text-align:center}
 </style>
 </head>
 <body>
@@ -236,6 +252,7 @@ body{font-family:'Zen Maru Gothic',sans-serif;background:var(--bg);color:var(--t
 <button class="btn btn-primary" id="titleStartBtn" onclick="startQuiz()">しんだんスタート ♡</button>
 <br><button class="btn btn-duo" id="titleDuoBtn" onclick="startQuiz2p()">👫 2人で相性診断</button>
 <br><button class="btn btn-duo" id="titleKyuseiBtn" style="margin-top:8px;border-color:rgba(255,229,102,.35);color:var(--gold)" onclick="startKyuseiMode()">⭐ 生年月日だけで診断</button>
+<br><button class="btn btn-duo" id="titleZukanBtn" style="margin-top:8px;border-color:rgba(168,240,212,.35);color:var(--mint)" onclick="showZukan()">📖 図鑑</button>
 <div class="ad-slot" id="adTop">
 <!-- AdSense ad unit: トップ広告 -->
 <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
@@ -249,6 +266,7 @@ body{font-family:'Zen Maru Gothic',sans-serif;background:var(--bg);color:var(--t
 <div class="choices" id="choices"></div>
 </div>
 <div class="result-screen" id="resultScreen"></div>
+<div class="zukan-screen" id="zukanScreen"></div>
 <div class="footer-links">
 <a href="#" onclick="document.getElementById('privacyModal').classList.add('show');return false">プライバシーポリシー</a>
 <a href="#" onclick="document.getElementById('contactModal').classList.add('show');return false">お問い合わせ</a>
@@ -285,6 +303,15 @@ body{font-family:'Zen Maru Gothic',sans-serif;background:var(--bg);color:var(--t
 <li>GitHub: <a href="https://github.com/mamori-ai/soul-element/issues" target="_blank" rel="noopener" style="color:var(--accent)">Issues ページ</a></li>
 </ul>
 <p style="margin-top:12px" id="contactModalReply">通常、数日以内にご返信いたします。</p>
+</div>
+</div>
+<!-- Zukan character modal -->
+<div class="modal-overlay" id="zukanModal" onclick="if(event.target===this)this.classList.remove('show')">
+<div class="modal-box" id="zukanModalBox">
+<button class="modal-close" onclick="this.closest('.modal-overlay').classList.remove('show')">&times;</button>
+<div class="zukan-modal-chara" id="zukanModalChara"></div>
+<div class="zukan-modal-sub" id="zukanModalSub"></div>
+<div id="zukanModalBody"></div>
 </div>
 </div>
 <script>
@@ -1182,43 +1209,43 @@ function startKyuseiMode(){
   document.getElementById('titleScreen').style.display='none';
   const qs=document.getElementById('questionScreen');
   qs.style.display='block';
-  const isEn=lang==='en',isKo=lang==='ko';
-  const _t=(ja,en,ko)=>isEn?en:isKo?ko:ja;
+  const isEn=lang==='en',isKo=lang==='ko',isZh=lang==='zh';
+  const _t=(ja,en,ko,zh)=>isEn?en:isKo?ko:isZh?(zh||en):ja;
   qs.innerHTML=`<div class="profile-form">
-    <h2>⭐ ${_t('星の魂を診断','Star Soul Reading','별의 영혼 진단')}</h2>
-    <p class="pf-sub">${_t('生年月日を入力するだけで、あなたの九星気学タイプが分かるよ♡','Just enter your birthday to discover your Nine Star Ki soul type♡','생년월일만 입력하면 구성학 타입을 알 수 있어요♡')}</p>
+    <h2>⭐ ${_t('星の魂を診断','Star Soul Reading','별의 영혼 진단','星の魂诊断')}</h2>
+    <p class="pf-sub">${_t('生年月日を入力するだけで、あなたの九星気学タイプが分かるよ♡','Just enter your birthday to discover your Nine Star Ki soul type♡','생년월일만 입력하면 구성학 타입을 알 수 있어요♡','只需输入生日，就能了解你的九星气学类型♡')}</p>
     <div class="pf-row">
-      <label class="pf-label">🌸 ${_t('ニックネーム（任意）','Nickname (optional)','닉네임 (선택)')}</label>
+      <label class="pf-label">🌸 ${_t('ニックネーム（任意）','Nickname (optional)','닉네임 (선택)','昵称（可选）')}</label>
       <input class="pf-input" id="kqName" type="text" placeholder="" maxlength="20">
     </div>
     <div class="pf-row">
-      <label class="pf-label">🎂 ${_t('生年月日','Birthday','생년월일')}</label>
+      <label class="pf-label">🎂 ${_t('生年月日','Birthday','생년월일','生日')}</label>
       <input class="pf-input" id="kqBirth" type="date" style="color-scheme:dark" required>
     </div>
-    <button class="btn btn-primary" style="width:100%;margin-top:8px" onclick="showKyuseiResult()">⭐ ${_t('星を診断する','Read My Star','별 진단하기')}</button>
-    <p class="pf-skip" onclick="document.getElementById('questionScreen').style.display='none';document.getElementById('titleScreen').style.display='block'">← ${_t('もどる','Back','돌아가기')}</p>
+    <button class="btn btn-primary" style="width:100%;margin-top:8px" onclick="showKyuseiResult()">⭐ ${_t('星を診断する','Read My Star','별 진단하기','诊断我的星')}</button>
+    <p class="pf-skip" onclick="document.getElementById('questionScreen').style.display='none';document.getElementById('titleScreen').style.display='block'">← ${_t('もどる','Back','돌아가기','返回')}</p>
   </div>`;
 }
 
 function showKyuseiResult(){
   const birth=document.getElementById('kqBirth')?.value||'';
   const name=document.getElementById('kqName')?.value.trim()||'';
-  const _isEn=lang==='en',_isKo=lang==='ko';
-  if(!birth){alert(_isEn?'Please enter your birthday♡':_isKo?'생년월일을 입력해 주세요♡':'生年月日を入力してね♡');return;}
+  const _isEn=lang==='en',_isKo=lang==='ko',_isZh=lang==='zh';
+  if(!birth){alert(_isEn?'Please enter your birthday♡':_isKo?'생년월일을 입력해 주세요♡':_isZh?'请输入生日♡':'生年月日を入力してね♡');return;}
   const num=_getKyusei(birth);
   if(!num)return;
   const ks=_isEn?EN_KYUSEI[num]:KYUSEI[num];
   const monthly=_getMonthlyKyusei(num);
   const mks=_isEn?EN_KYUSEI[monthly]:KYUSEI[monthly];
-  const nameLabel=_isEn?(name?`${name}'s`:'Your'):_isKo?(name?`${name}의`:'당신의'):(name?`${name}の`:'あなたの');
+  const nameLabel=_isEn?(name?`${name}'s`:'Your'):_isKo?(name?`${name}의`:'당신의'):_isZh?(name?`${name}的`:'你的'):(name?`${name}の`:'あなたの');
   document.getElementById('questionScreen').style.display='none';
   const el=document.getElementById('resultScreen');
   el.style.display='block';
   el.className='result-screen';
-  const _t2=(ja,en,ko)=>_isEn?en:_isKo?ko:ja;
+  const _t2=(ja,en,ko,zh)=>_isEn?en:_isKo?ko:_isZh?(zh||en):ja;
   el.innerHTML=`<div class="result-header" style="text-align:center;padding:30px 0 16px">
-    <div class="logo" style="font-size:1.8em">⭐ ${_t2('星の魂診断','Star Soul Reading','별의 영혼 진단')}</div>
-    <div style="font-size:.85em;color:var(--sub);margin-top:8px">${nameLabel}${_t2('星の魂は…','star soul is…','별의 영혼은…')}</div>
+    <div class="logo" style="font-size:1.8em">⭐ ${_t2('星の魂診断','Star Soul Reading','별의 영혼 진단','星の魂诊断')}</div>
+    <div style="font-size:.85em;color:var(--sub);margin-top:8px">${nameLabel}${_t2('星の魂は…','star soul is…','별의 영혼은…','灵魂之星是…')}</div>
     <div style="font-size:3.5em;margin:16px 0;filter:drop-shadow(0 0 16px ${ks.color}aa)">${ks.emoji}</div>
     <div style="color:${ks.color};font-weight:900;font-size:1.8em">${ks.n}</div>
     <div style="color:var(--sub);font-size:.85em;margin-top:4px">${ks.elem}${_t2('のエネルギー',' energy',' 에너지')}</div>
@@ -1249,9 +1276,9 @@ function startQuiz2p(){
   document.getElementById('titleScreen').style.display='none';
   const qs=document.getElementById('questionScreen');
   qs.style.display='block';
-  const _isEn=lang==='en',_isKo=lang==='ko';
-  const _t=(ja,en,ko)=>_isEn?en:_isKo?ko:ja;
-  qs.innerHTML=`<div class="duo-transition"><div style="font-size:.75em;color:var(--accent);letter-spacing:2px;margin-bottom:10px;font-weight:700">STEP 1 / 2</div><h2>👤 ${_t('1人目からスタート！','Person 1 — Let\'s go!','1번째 사람부터 시작!')}</h2><p style="color:var(--sub);margin:12px 0 28px;line-height:1.8">${_t('24の質問に答えて1人目の診断をしてね。<br>終わったら2人目の番だよ♡','Answer 24 questions for Person 1.<br>Then it\'s Person 2\'s turn♡','24가지 질문에 답해서 1번째 사람을 진단해요.<br>끝나면 2번째 사람 차례예요♡')}</p><button class="btn btn-primary" onclick="begin1PQuiz()">${_t('1人目のしんだんスタート ♡','Start Person 1\'s Quiz ♡','1번째 사람 진단 시작 ♡')}</button></div>`;
+  const _isEn=lang==='en',_isKo=lang==='ko',_isZh=lang==='zh';
+  const _t=(ja,en,ko,zh)=>_isEn?en:_isKo?ko:_isZh?(zh||en):ja;
+  qs.innerHTML=`<div class="duo-transition"><div style="font-size:.75em;color:var(--accent);letter-spacing:2px;margin-bottom:10px;font-weight:700">STEP 1 / 2</div><h2>👤 ${_t('1人目からスタート！','Person 1 — Let\'s go!','1번째 사람부터 시작!','从第1位开始！')}</h2><p style="color:var(--sub);margin:12px 0 28px;line-height:1.8">${_t('24の質問に答えて1人目の診断をしてね。<br>終わったら2人目の番だよ♡','Answer 24 questions for Person 1.<br>Then it\'s Person 2\'s turn♡','24가지 질문에 답해서 1번째 사람을 진단해요.<br>끝나면 2번째 사람 차례예요♡','回答24道题诊断第1位。<br>完成后轮到第2位♡')}</p><button class="btn btn-primary" onclick="begin1PQuiz()">${_t('1人目のしんだんスタート ♡','Start Person 1\'s Quiz ♡','1번째 사람 진단 시작 ♡','开始第1位的诊断 ♡')}</button></div>`;
 }
 function begin1PQuiz(){
   _resetQScreen();cq=0;sc={E:0,I:0,N:0,S:0,F:0,T:0,J:0,P:0};showQ();
@@ -1333,11 +1360,22 @@ function getDailyFortune(code){
     {luck:'⭐⭐⭐',msg:'자신을 돌아보기 좋은 날. 천천히 내면을 들여다봐요.',c:'#a8f0d4'},
     {luck:'⭐⭐',msg:'조금 지쳐있을 수도 있어요. 좋아하는 걸 먹고 일찍 쉬어요♡',c:'#a09cbd'}
   ];
-  const FT=_isEn?FT_EN:_isKo?FT_KO:FT_JA;
+  const FT_ZH=[
+    {luck:'⭐⭐⭐⭐⭐',msg:'今天一切都会顺利！积极行动吧♡',c:'#ffe566'},
+    {luck:'⭐⭐⭐⭐⭐',msg:'运势MAX！一直想做的事，今天就开始吧。',c:'#ffe566'},
+    {luck:'⭐⭐⭐⭐',msg:'人际关系顺畅的一天。联系一下重要的人吧♡',c:'#f9a8d4'},
+    {luck:'⭐⭐⭐⭐',msg:'创意灵感涌现的一天。记得随手记录下来！',c:'#c4b5fd'},
+    {luck:'⭐⭐⭐⭐',msg:'直觉敏锐的一天。有灵感就大胆行动吧。',c:'#93c5fd'},
+    {luck:'⭐⭐⭐',msg:'平静的一天。按自己的节奏来就好♡',c:'#6ee7b7'},
+    {luck:'⭐⭐⭐',msg:'适合反思自己的一天。慢慢向内探索吧。',c:'#a8f0d4'},
+    {luck:'⭐⭐',msg:'可能有点疲惫。吃点喜欢的食物，早点休息♡',c:'#a09cbd'}
+  ];
+  const FT=_isEn?FT_EN:_isKo?FT_KO:lang==='zh'?FT_ZH:FT_JA;
   const TB_JA={NF:['💕 誰かに優しくするとエネルギーUP','🌸 感情のままに表現してみて'],NT:['💡 新しい知識を仕入れるのにいい日','🔍 疑問をとことん調べると吉'],SJ:['📋 計画通りに動くと運気UP','🏡 身の回りの整理整頓が吉'],SP:['🎨 新しいことを試すと吉','⚡ 自由に動き回ると良いことあり']};
   const TB_EN={NF:['💕 Being kind to someone will boost your energy','🌸 Express yourself freely — emotions are your power'],NT:['💡 A great day to soak up new knowledge','🔍 Dig deep into any question on your mind'],SJ:['📋 Sticking to your plan brings good luck today','🏡 Tidying your space invites good energy'],SP:['🎨 Try something new for a stroke of luck','⚡ Moving freely today brings happy surprises']};
   const TB_KO={NF:['💕 누군가에게 친절하게 하면 에너지 UP','🌸 감정 그대로 표현해봐요'],NT:['💡 새로운 지식을 쌓기 좋은 날','🔍 궁금한 것을 끝까지 파헤치면 길함'],SJ:['📋 계획대로 움직이면 운세 UP','🏡 주변 정리정돈이 길함'],SP:['🎨 새로운 것을 시도하면 길함','⚡ 자유롭게 움직이면 좋은 일이 생겨요']};
-  const TB=_isEn?TB_EN:_isKo?TB_KO:TB_JA;
+  const TB_ZH={NF:['💕 对别人友善可以提升能量','🌸 尝试自由表达情感'],NT:['💡 吸收新知识的好日子','🔍 深入探究心中的疑问'],SJ:['📋 按计划行事可以提升运势','🏡 整理身边环境，迎接好运'],SP:['🎨 尝试新事物，迎来好运','⚡ 自由行动会有惊喜']};
+  const TB=_isEn?TB_EN:_isKo?TB_KO:lang==='zh'?TB_ZH:TB_JA;
   const g=getGroup(code),f=FT[seed%FT.length],tip=TB[g][seed%2];
   const ms=`${d.getMonth()+1}/${d.getDate()}`;
   return{luck:f.luck,msg:f.msg,c:f.c,tip,date:ms};
@@ -1356,30 +1394,30 @@ function startQuiz(){
   document.getElementById('titleScreen').style.display='none';
   const qs=document.getElementById('questionScreen');
   qs.style.display='block';
-  const isEn=lang==='en',isKo=lang==='ko';
-  const _t=(ja,en,ko)=>isEn?en:isKo?ko:ja;
+  const isEn=lang==='en',isKo=lang==='ko',isZh=lang==='zh';
+  const _t=(ja,en,ko,zh)=>isEn?en:isKo?ko:isZh?(zh||en):ja;
   qs.innerHTML=`<div class="profile-form">
-    <h2>${_t('✨ まずきみのことを教えて','✨ Tell us about you','✨ 당신에 대해 알려주세요')}</h2>
-    <p class="pf-sub">${_t('入力しなくてもOK！でも入れると結果がより詳しくなるよ♡','Optional! But filling it in makes your results richer♡','입력 안 해도 돼요！하지만 입력하면 결과가 더 자세해져요♡')}</p>
+    <h2>${_t('✨ まずきみのことを教えて','✨ Tell us about you','✨ 당신에 대해 알려주세요','✨ 先告诉我们你的信息')}</h2>
+    <p class="pf-sub">${_t('入力しなくてもOK！でも入れると結果がより詳しくなるよ♡','Optional! But filling it in makes your results richer♡','입력 안 해도 돼요！하지만 입력하면 결과가 더 자세해져요♡','可以不填！但填写后结果会更详细哦♡')}</p>
     <div class="pf-row">
-      <label class="pf-label">${_t('🌸 ニックネーム','🌸 Nickname','🌸 닉네임')}</label>
+      <label class="pf-label">${_t('🌸 ニックネーム','🌸 Nickname','🌸 닉네임','🌸 昵称')}</label>
       <input class="pf-input" id="pfName" type="text" placeholder="" maxlength="20">
     </div>
     <div class="pf-row">
-      <label class="pf-label">${_t('🎂 生年月日','🎂 Birthday','🎂 생년월일')}</label>
+      <label class="pf-label">${_t('🎂 生年月日','🎂 Birthday','🎂 생년월일','🎂 生日')}</label>
       <input class="pf-input" id="pfBirth" type="date" style="color-scheme:dark">
     </div>
     <div class="pf-row">
-      <label class="pf-label">${_t('🌈 性別','🌈 Gender','🌈 성별')}</label>
+      <label class="pf-label">${_t('🌈 性別','🌈 Gender','🌈 성별','🌈 性别')}</label>
       <div class="pf-gender">
-        <label><input type="radio" name="pfGender" value="${_t('女の子','Girl','여자')}"><span>${_t('👧 女の子','👧 Girl','👧 여자')}</span></label>
-        <label><input type="radio" name="pfGender" value="${_t('男の子','Boy','남자')}"><span>${_t('👦 男の子','👦 Boy','👦 남자')}</span></label>
-        <label><input type="radio" name="pfGender" value="${_t('どちらでも','Either','둘 다')}"><span>${_t('🌈 どちらでも','🌈 Either','🌈 둘 다')}</span></label>
-        <label><input type="radio" name="pfGender" value=""><span>${_t('🤫 ひみつ','🤫 Secret','🤫 비밀')}</span></label>
+        <label><input type="radio" name="pfGender" value="${_t('女の子','Girl','여자','女生')}"><span>${_t('👧 女の子','👧 Girl','👧 여자','👧 女生')}</span></label>
+        <label><input type="radio" name="pfGender" value="${_t('男の子','Boy','남자','男生')}"><span>${_t('👦 男の子','👦 Boy','👦 남자','👦 男生')}</span></label>
+        <label><input type="radio" name="pfGender" value="${_t('どちらでも','Either','둘 다','其他')}"><span>${_t('🌈 どちらでも','🌈 Either','🌈 둘 다','🌈 其他')}</span></label>
+        <label><input type="radio" name="pfGender" value=""><span>${_t('🤫 ひみつ','🤫 Secret','🤫 비밀','🤫 秘密')}</span></label>
       </div>
     </div>
-    <button class="btn btn-primary" style="width:100%;margin-top:8px" onclick="beginQuizWithProfile()">${_t('しんだんスタート ♡','Start Quiz ♡','진단 시작 ♡')}</button>
-    <p class="pf-skip" onclick="beginQuizWithProfile()">${_t('スキップしてすぐ始める','Skip and start now','건너뛰고 바로 시작')}</p>
+    <button class="btn btn-primary" style="width:100%;margin-top:8px" onclick="beginQuizWithProfile()">${_t('しんだんスタート ♡','Start Quiz ♡','진단 시작 ♡','开始诊断 ✨')}</button>
+    <p class="pf-skip" onclick="beginQuizWithProfile()">${_t('スキップしてすぐ始める','Skip and start now','건너뛰고 바로 시작','跳过直接开始')}</p>
   </div>`;
 }
 function beginQuizWithProfile(){
@@ -1394,7 +1432,8 @@ function _getZodiac(birth){
   const _zJA=[['やぎ座',1,19],['みずがめ座',2,18],['うお座',3,20],['おひつじ座',4,19],['おうし座',5,20],['ふたご座',6,20],['かに座',7,22],['しし座',8,22],['おとめ座',9,22],['てんびん座',10,22],['さそり座',11,21],['いて座',12,21]];
   const _zEN=[['Capricorn',1,19],['Aquarius',2,18],['Pisces',3,20],['Aries',4,19],['Taurus',5,20],['Gemini',6,20],['Cancer',7,22],['Leo',8,22],['Virgo',9,22],['Libra',10,22],['Scorpio',11,21],['Sagittarius',12,21]];
   const _zKO=[['염소자리',1,19],['물병자리',2,18],['물고기자리',3,20],['양자리',4,19],['황소자리',5,20],['쌍둥이자리',6,20],['게자리',7,22],['사자자리',8,22],['처녀자리',9,22],['천칭자리',10,22],['전갈자리',11,21],['사수자리',12,21]];
-  const z=lang==='en'?_zEN:lang==='ko'?_zKO:_zJA;
+  const _zZH=[['摩羯座',1,19],['水瓶座',2,18],['双鱼座',3,20],['白羊座',4,19],['金牛座',5,20],['双子座',6,20],['巨蟹座',7,22],['狮子座',8,22],['处女座',9,22],['天秤座',10,22],['天蝎座',11,21],['射手座',12,21]];
+  const z=lang==='en'?_zEN:lang==='ko'?_zKO:lang==='zh'?_zZH:_zJA;
   for(const[name,em,ed]of z){if(m===em&&day<=ed)return name}
   return z[m-1][0];
 }
@@ -1431,7 +1470,7 @@ function _getMonthlyKyusei(annualNum){
   return n;
 }
 
-function showQ(){const q=(lang==='en'?Q_EN:lang==='ko'?Q_KO:Q)[cq];document.getElementById('qCategory').textContent=q.c;document.getElementById('qText').textContent=q.q;document.getElementById('progressFill').style.width=(cq/24*100)+'%';const _p1lbl=lang==='en'?'Person 1':lang==='ko'?'1번째':'1人目';const _p2lbl=lang==='en'?'Person 2':lang==='ko'?'2번째':'2人目';const pLabel=_duoMode?`${_duoPerson===1?_p1lbl:_p2lbl} ${cq+1} / 24`:`${cq+1} / 24`;document.getElementById('progressText').textContent=pLabel;const b=document.getElementById('choices');b.innerHTML='';q.ch.forEach((c,i)=>{const d=document.createElement('div');d.className=`choice c${i+1}`;d.innerHTML=`<div class="choice-icon">${c.t.slice(0,2)}</div><div class="choice-text">${c.t.slice(2)}</div>`;d.onclick=()=>sel(c.s);b.appendChild(d)});b.style.opacity=0;b.style.transform='translateY(10px)';requestAnimationFrame(()=>{b.style.transition='all .3s';b.style.opacity=1;b.style.transform='translateY(0)'})}
+function showQ(){const q=(lang==='en'||lang==='zh'?Q_EN:lang==='ko'?Q_KO:Q)[cq];document.getElementById('qCategory').textContent=q.c;document.getElementById('qText').textContent=q.q;document.getElementById('progressFill').style.width=(cq/24*100)+'%';const _p1lbl=lang==='en'?'Person 1':lang==='ko'?'1번째':lang==='zh'?'第1位':'1人目';const _p2lbl=lang==='en'?'Person 2':lang==='ko'?'2번째':lang==='zh'?'第2位':'2人目';const pLabel=_duoMode?`${_duoPerson===1?_p1lbl:_p2lbl} ${cq+1} / 24`:`${cq+1} / 24`;document.getElementById('progressText').textContent=pLabel;const b=document.getElementById('choices');b.innerHTML='';q.ch.forEach((c,i)=>{const d=document.createElement('div');d.className=`choice c${i+1}`;d.innerHTML=`<div class="choice-icon">${c.t.slice(0,2)}</div><div class="choice-text">${c.t.slice(2)}</div>`;d.onclick=()=>sel(c.s);b.appendChild(d)});b.style.opacity=0;b.style.transform='translateY(10px)';requestAnimationFrame(()=>{b.style.transition='all .3s';b.style.opacity=1;b.style.transform='translateY(0)'})}
 
 function sel(s){for(let k in s)sc[k]=(sc[k]||0)+s[k];cq++;if(cq<24)showQ();else showR()}
 function getT(){return(sc.E>=sc.I?'E':'I')+(sc.N>=sc.S?'N':'S')+(sc.F>=sc.T?'F':'T')+(sc.J>=sc.P?'J':'P')}
@@ -1439,12 +1478,13 @@ function getT(){return(sc.E>=sc.I?'E':'I')+(sc.N>=sc.S?'N':'S')+(sc.F>=sc.T?'F':
 function renderResult(code,t){
   if(lang==='en'&&EN[code]){const e=EN[code];t={...t,n:e.n,sub:e.sub,d:e.d,st:e.st||t.st,wk:e.wk||t.wk,lv:e.lv||t.lv,fr:e.fr||t.fr,hd:e.hd||t.hd}}
   if(lang==='ko'&&typeof KO!=='undefined'&&KO[code]){const k=KO[code];t={...t,n:k.n,sub:k.sub,d:k.d,st:k.st||t.st,wk:k.wk||t.wk,lv:k.lv||t.lv,fr:k.fr||t.fr,hd:k.hd||t.hd}}
+  if(lang==='zh'&&typeof ZH!=='undefined'&&ZH[code]){const z=ZH[code];t={...t,n:z.n,sub:z.sub,d:z.d,st:z.st||t.st,wk:z.wk||t.wk,lv:z.lv||t.lv,fr:z.fr||t.fr,hd:z.hd||t.hd}}
   const el=document.getElementById('resultScreen');
   const g=getGroup(code),grp=GROUP[g];
   el.className='result-screen g-'+g;
   el.style.display='block';
   const ft=getDailyFortune(code);
-  const rar=t.r<3?(lang==='en'?{lbl:'💎 SSR',note:'Super rare!'}:{lbl:'💎 SSR',note:'めっちゃレア！'}):t.r<7?(lang==='en'?{lbl:'✨ SR',note:'Rare type'}:{lbl:'✨ SR',note:'レアなこ'}):(lang==='en'?{lbl:'⭐ R',note:''}:{lbl:'⭐ R',note:''});
+  const rar=t.r<3?(lang==='en'?{lbl:'💎 SSR',note:'Super rare!'}:lang==='zh'?{lbl:'💎 SSR',note:'极其罕见！'}:{lbl:'💎 SSR',note:'めっちゃレア！'}):t.r<7?(lang==='en'?{lbl:'✨ SR',note:'Rare type'}:lang==='zh'?{lbl:'✨ SR',note:'稀有类型'}:{lbl:'✨ SR',note:'レアなこ'}):(lang==='en'?{lbl:'⭐ R',note:''}:{lbl:'⭐ R',note:''});
   const zodiac=_getZodiac(_profile.birth),age=_getAge(_profile.birth);
   const kyuseiNum=_getKyusei(_profile.birth);
   const _ksBase=lang==='en'?EN_KYUSEI:KYUSEI;
@@ -1454,20 +1494,20 @@ function renderResult(code,t){
   const comboInfo=(ks&&kyuseiElem&&_comboBase[g])?_comboBase[g][kyuseiElem]:null;
   const monthlyKyuseiNum=kyuseiNum?_getMonthlyKyusei(kyuseiNum):null;
   const mks=monthlyKyuseiNum?(lang==='en'?EN_KYUSEI[monthlyKyuseiNum]:KYUSEI[monthlyKyuseiNum]):null;
-  const nameLabel=lang==='en'?(_profile.name?`${_profile.name}'s`:'Your'):(_profile.name?`${_profile.name}の`:'きみの');
-  const profileLine=[_profile.gender,zodiac,age!=null?(lang==='en'?`${age} yrs`:`${age}歳`):'']. filter(Boolean).join(lang==='en'?' / ':' ／ ');
+  const nameLabel=lang==='en'?(_profile.name?`${_profile.name}'s`:'Your'):lang==='zh'?(_profile.name?`${_profile.name}的`:'你的'):(_profile.name?`${_profile.name}の`:'きみの');
+  const profileLine=[_profile.gender,zodiac,age!=null?(lang==='en'?`${age} yrs`:lang==='zh'?`${age}岁`:`${age}歳`):'']. filter(Boolean).join(lang==='en'?' / ':' ／ ');
   el.innerHTML=`<div class="result-header">
     ${profileLine?`<div style="font-size:.78em;color:var(--sub);margin-bottom:8px">${profileLine}</div>`:''}
     <span class="group-badge" style="background:${grp.b};color:${grp.c};border:1px solid ${grp.br}">${grp.e} ${grp.n}</span>
-    <div class="rarity-badge">${rar.lbl} ${lang==='en'?`top ${t.r}%`:` 全体の約${t.r}%`}${rar.note?` — ${rar.note}`:''}</div>
-    <div class="result-type">${lang==='en'?`${nameLabel} Soul Element is…`:`${nameLabel}中に住んでるこは…`}</div>
+    <div class="rarity-badge">${rar.lbl} ${lang==='en'?`top ${t.r}%`:lang==='zh'?`约${t.r}%`:` 全体の約${t.r}%`}${rar.note?` — ${rar.note}`:''}</div>
+    <div class="result-type">${lang==='en'?`${nameLabel} Soul Element is…`:lang==='zh'?`${nameLabel}灵魂元素是…`:`${nameLabel}中に住んでるこは…`}</div>
     <div class="result-name">${t.n}</div>
     <div class="result-title">〜 ${t.sub} 〜</div>
     <div class="chara-stage" style="animation:float 3s ease-in-out infinite">${mkSVG(t,160)}</div>
     <div class="animal-label">${lang==='en'?'Spirit Animal: ':lang==='ko'?'수호 동물: ':'守護あにまる：'}<span>${t.an}</span></div>
     <div class="elements">${code.split('').map(l=>{const m=lang==='en'?{E:['☀️ Sun','#ffb8d9'],I:['🌙 Moon','#c4b5fd'],N:['🌀 Wind','#93c5fd'],S:['🌍 Earth','#6ee7b7'],F:['🔥 Warmth','#fde68a'],T:['💧 Logic','#99f6e4'],J:['⭐ Star','#f9a8d4'],P:['☁️ Cloud','#c8dcff']}:{E:['☀️ おひさま','#ffb8d9'],I:['🌙 おつきさま','#c4b5fd'],N:['🌀 そよかぜ','#93c5fd'],S:['🌍 だいち','#6ee7b7'],F:['🔥 ぬくもり','#fde68a'],T:['💧 しずく','#99f6e4'],J:['⭐ おほしさま','#f9a8d4'],P:['☁️ くもさん','#c8dcff']};return`<span class="element-tag" style="background:${m[l][1]}22;color:${m[l][1]};border:1px solid ${m[l][1]}44">${m[l][0]}</span>`}).join('')}</div>
   </div>
-  <div class="fortune-wrap"><div class="fortune-date">🗓 ${lang==='en'?`${ft.date} Fortune`:`${ft.date}の運勢`}</div><div class="fortune-luck" style="color:${ft.c}">${ft.luck}</div><div class="fortune-msg">${ft.msg}</div><div class="fortune-tip">${ft.tip}</div></div>
+  <div class="fortune-wrap"><div class="fortune-date">🗓 ${lang==='en'?`${ft.date} Fortune`:lang==='zh'?`${ft.date} 今日运势`:`${ft.date}の運勢`}</div><div class="fortune-luck" style="color:${ft.c}">${ft.luck}</div><div class="fortune-msg">${ft.msg}</div><div class="fortune-tip">${ft.tip}</div></div>
   ${ks?`<div class="section" style="border-color:${ks.color}44;background:linear-gradient(135deg,${ks.color}08,transparent)">
     <div class="section-title">⭐ ${lang==='en'?'Your Star Soul · Nine Star Ki':'きみの星の魂【九星気学】'}</div>
     <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;padding:16px;background:${ks.color}11;border-radius:16px;border:1px solid ${ks.color}33">
@@ -1539,17 +1579,19 @@ function renderResult(code,t){
   <div class="section"><div class="section-title">🍀 ${lang==='en'?'Lucky Items':'ラッキーアイテム'}</div><div class="lucky-grid"><div class="lucky-item"><div class="lucky-icon">🎨</div><div class="lucky-label">${lang==='en'?'Lucky Color':'ラッキーカラー'}</div><div class="lucky-value">${t.lu.c}</div></div><div class="lucky-item"><div class="lucky-icon">✨</div><div class="lucky-label">${lang==='en'?'Lucky Item':'ラッキーアイテム'}</div><div class="lucky-value">${t.lu.i}</div></div><div class="lucky-item"><div class="lucky-icon">🔢</div><div class="lucky-label">${lang==='en'?'Lucky Number':'ラッキーナンバー'}</div><div class="lucky-value">${t.lu.n}</div></div></div></div>
   <div class="ad-slot"><!-- AdSense: 結果下部広告 --><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});<\/script></div>
   <div class="hashtags">${t.ht.map(h=>`<span class="hashtag">${h}</span>`).join('')}</div>
-  <div class="share-section"><div style="font-size:1.1em;font-weight:700">${lang==='en'?'Share your result♡':'結果をシェアしよう♡'}</div><div class="share-btns">
+  <div class="share-section"><div style="font-size:1.1em;font-weight:700">${lang==='en'?'Share your result♡':lang==='zh'?'分享你的结果♡':'結果をシェアしよう♡'}</div><div class="share-btns">
     <button class="share-btn" style="background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff" onclick="nativeShare('${code}',T['${code}'])">📤 ${lang==='en'?'Share':'シェア'}</button>
     <button class="share-btn share-x" onclick="window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent('${lang==='en'?`🔮 My Soul Element is "${t.n}"!\\n${t.sub}\\nWhich character lives inside YOU? 👇`:`ソウルエレメント診断の結果は「${t.n}」×「${ks?ks.n:''}」でした♡\\n${t.sub}\\nきみの中に住んでるこは誰？🔮`}+'\\nhttps://mamori-ai.github.io/soul-element/?r=${code}\\n\\n${lang==='en'?'#SoulElement #PersonalityTest #MBTI #PersonalityQuiz':'#SoulElement #性格診断 #九星気学 #ソウルエレメント'}'))">𝕏</button>
     ${lang==='en'?`<button class="share-btn" style="background:#ff4500;color:#fff" onclick="window.open('https://www.reddit.com/submit?url='+encodeURIComponent('https://mamori-ai.github.io/soul-element/')+'&title='+encodeURIComponent('I got &quot;${t.n}&quot; on this adorable personality quiz! Which soul character are you? [free]'))">Reddit</button>`:''}
 
     <button class="share-btn share-line" onclick="window.open('https://social-plugins.line.me/lineit/share?url='+encodeURIComponent('https://mamori-ai.github.io/soul-element/?r=${code}')+'&text='+encodeURIComponent('ソウルエレメント診断の結果は「${t.n}」でした♡ ${t.sub}'))">LINE</button>
     <button class="share-btn share-copy" onclick="navigator.clipboard.writeText('${lang==='en'?`My Soul Element is &quot;${t.n}&quot; × ${ks?ks.n:''}! ${t.sub}`:`ソウルエレメント診断の結果は「${t.n}」×「${ks?ks.n:''}」でした♡ ${t.sub}`}\\nhttps://mamori-ai.github.io/soul-element/?r=${code}');this.textContent='${lang==='en'?'Copied♡':'コピーしたよ♡'}'">📋 ${lang==='en'?'Copy':'コピー'}</button>
-    <button class="share-card-btn" onclick="genShareCard('${code}',T['${code}'])">🖼 ${lang==='en'?'Image':'画像'}</button>
+    <button class="share-card-btn" onclick="genShareCard('${code}',T['${code}'])">🖼 ${lang==='en'?'Image':lang==='zh'?'分享图':'画像'}</button>
+    <button class="share-card-btn" onclick="genShareImage1080('${code}',T['${code}'])">📸 ${lang==='en'?'Save Image':lang==='ko'?'이미지 저장':lang==='zh'?'保存图片':'画像を保存'}</button>
+    <button class="share-story-btn" onclick="genStoryImage('${code}',T['${code}'])">📱 ${lang==='en'?'Story':lang==='ko'?'스토리':lang==='zh'?'故事':'ストーリー'}</button>
   </div></div>
-  <button class="retry-btn" onclick="location.reload()">${lang==='en'?'Try again ♡':lang==='ko'?'다시 해보기 ♡':'もう一回やる ♡'}</button>
-  <div style="text-align:center;padding:16px;font-size:.75em;color:var(--sub)">${lang==='en'?'Soul Element Quiz':lang==='ko'?'소울 엘리먼트 진단':'ソウルエレメント診断'} &copy; 2026</div>`;
+  <button class="retry-btn" onclick="location.reload()">${lang==='en'?'Try again ♡':lang==='ko'?'다시 해보기 ♡':lang==='zh'?'再测一次 ♡':'もう一回やる ♡'}</button>
+  <div style="text-align:center;padding:16px;font-size:.75em;color:var(--sub)">${lang==='en'?'Soul Element Quiz':lang==='ko'?'소울 엘리먼트 진단':lang==='zh'?'灵魂元素诊断':'ソウルエレメント診断'} &copy; 2026</div>`;
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
@@ -1588,82 +1630,85 @@ ISTP:{n:"Hissorilin",sub:"Silent Cool Lone Wolf♡",d:"Calm, skilled, and quietl
 };
 
 function applyLangUI(){
-  const isEn=lang==='en',isKo=lang==='ko';
-  document.documentElement.lang=isEn?'en':isKo?'ko':'ja';
-  const nextLbl=lang==='ja'?'EN':lang==='en'?'한국어':'日本語';
+  const isEn=lang==='en',isKo=lang==='ko',isZh=lang==='zh';
+  document.documentElement.lang=isEn?'en':isKo?'ko':isZh?'zh':'ja';
+  const nextLbl=lang==='ja'?'EN':lang==='en'?'한국어':lang==='ko'?'中文':'日本語';
   document.getElementById('langToggle').textContent=nextLbl;
   const logo=document.getElementById('titleLogo');
-  if(logo)logo.textContent=isEn?'Soul Element Quiz':isKo?'소울 엘리먼트 진단':'ソウルエレメント診断';
+  if(logo)logo.textContent=isEn?'Soul Element Quiz':isKo?'소울 엘리먼트 진단':isZh?'灵魂元素诊断':'ソウルエレメント診断';
   const sub=document.getElementById('titleSubtitle');
-  if(sub)sub.textContent=isEn?'Which character lives inside you?♡':isKo?'내 안에 살고 있는 캐릭터는 누구?♡':'きみの中に住んでるこ、だぁれ？♡';
+  if(sub)sub.textContent=isEn?'Which character lives inside you?♡':isKo?'내 안에 살고 있는 캐릭터는 누구?♡':isZh?'住在你心里的是谁？♡':'きみの中に住んでるこ、だぁれ？♡';
   const feats=document.getElementById('titleFeatures');
   if(feats)feats.innerHTML=isEn
     ?'<span class="feat">🧸 16 Characters</span><span class="feat">⭐ Star Astrology</span><span class="feat">💼 Dream Job</span><span class="feat">💕 Love Style</span><span class="feat">🐰 Guardian Animal</span><span class="feat">😈 Shadow Side</span><span class="feat">✨ Compatibility</span>'
     :isKo?'<span class="feat">🧸 16 캐릭터</span><span class="feat">⭐ 구성학</span><span class="feat">💼 어울리는 직업</span><span class="feat">💕 연애 스타일</span><span class="feat">🐰 수호 동물</span><span class="feat">😈 숨겨진 얼굴</span><span class="feat">✨ 궁합</span>'
+    :isZh?'<span class="feat">🧸 16角色诊断</span><span class="feat">⭐ 九星占星</span><span class="feat">💼 适合的工作</span><span class="feat">💕 恋爱风格</span><span class="feat">🐰 守护动物</span><span class="feat">😈 隐藏面</span><span class="feat">✨ 相性</span>'
     :'<span class="feat">🧸 16キャラ診断</span><span class="feat">⭐ 九星気学</span><span class="feat">💼 お似合いのお仕事</span><span class="feat">💕 恋のクセ</span><span class="feat">🐰 守護あにまる</span><span class="feat">😈 裏のかお</span><span class="feat">✨ 相性ばっちり</span>';
   const sb=document.getElementById('titleStartBtn');
-  if(sb)sb.textContent=isEn?'Start Quiz ♡':isKo?'진단 시작 ♡':'しんだんスタート ♡';
+  if(sb)sb.textContent=isEn?'Start Quiz ♡':isKo?'진단 시작 ♡':isZh?'开始诊断 ✨':'しんだんスタート ♡';
   const db=document.getElementById('titleDuoBtn');
-  if(db)db.textContent=isEn?'👫 2-Person Compatibility':isKo?'👫 2인 궁합 진단':'👫 2人で相性診断';
+  if(db)db.textContent=isEn?'👫 2-Person Compatibility':isKo?'👫 2인 궁합 진단':isZh?'👫 双人相性诊断':'👫 2人で相性診断';
   const kb=document.getElementById('titleKyuseiBtn');
-  if(kb)kb.textContent=isEn?'⭐ Birthday-Only Reading':isKo?'⭐ 생년월일로만 진단':'⭐ 生年月日だけで診断';
+  if(kb)kb.textContent=isEn?'⭐ Birthday-Only Reading':isKo?'⭐ 생년월일로만 진단':isZh?'⭐ 仅用生日诊断':'⭐ 生年月日だけで診断';
+  const zb=document.getElementById('titleZukanBtn');
+  if(zb)zb.textContent=isEn?'📖 Gallery':isKo?'📖 도감':isZh?'📖 图鉴':'📖 図鑑';
   const ct=document.getElementById('cookieText');
   if(ct){
     const pl=document.getElementById('cookiePrivacyLink');
-    const plLabel=isEn?'Privacy Policy':isKo?'개인정보 처리방침':'プライバシーポリシー';
+    const plLabel=isEn?'Privacy Policy':isKo?'개인정보 처리방침':isZh?'隐私政策':'プライバシーポリシー';
     if(pl)pl.textContent=plLabel;
-    const msgText=isEn?`This site uses cookies for analytics and advertising. See our `+plLabel+` for details.`:isKo?`이 사이트는 분석 및 광고를 위해 쿠키를 사용합니다. 자세한 내용은 `+plLabel+`을 확인해 주세요.`:`当サイトでは、アクセス解析と広告配信のためにCookieを使用しています。詳しくは`+plLabel+`をご確認ください。`;
+    const msgText=isEn?`This site uses cookies for analytics and advertising. See our `+plLabel+` for details.`:isKo?`이 사이트는 분석 및 광고를 위해 쿠키를 사용합니다. 자세한 내용은 `+plLabel+`을 확인해 주세요.`:isZh?`本站使用Cookie用于分析和广告。详情请查看`+plLabel+`。`:`当サイトでは、アクセス解析と広告配信のためにCookieを使用しています。詳しくは`+plLabel+`をご確認ください。`;
     ct.innerHTML=msgText.replace(plLabel,`<a href="#" onclick="document.getElementById('privacyModal').classList.add('show');return false" id="cookiePrivacyLink">${plLabel}</a>`);
   }
   const ca=document.getElementById('cookieAcceptBtn');
-  if(ca)ca.textContent=isEn?'Accept':isKo?'동의하기':'同意する';
+  if(ca)ca.textContent=isEn?'Accept':isKo?'동의하기':isZh?'同意':'同意する';
   const cd=document.getElementById('cookieDeclineBtn');
-  if(cd)cd.textContent=isEn?'Essential only':isKo?'필수만':'必要最小限のみ';
+  if(cd)cd.textContent=isEn?'Essential only':isKo?'필수만':isZh?'仅必要':'必要最小限のみ';
   const flPriv=document.querySelector('.footer-links a[onclick*="privacyModal"]');
-  if(flPriv)flPriv.textContent=isEn?'Privacy Policy':isKo?'개인정보처리방침':'プライバシーポリシー';
+  if(flPriv)flPriv.textContent=isEn?'Privacy Policy':isKo?'개인정보처리방침':isZh?'隐私政策':'プライバシーポリシー';
   const flCont=document.querySelector('.footer-links a[onclick*="contactModal"]');
-  if(flCont)flCont.textContent=isEn?'Contact':isKo?'문의하기':'お問い合わせ';
+  if(flCont)flCont.textContent=isEn?'Contact':isKo?'문의하기':isZh?'联系我们':'お問い合わせ';
   // Privacy modal
   const pmTitle=document.getElementById('privacyModalTitle');
-  if(pmTitle)pmTitle.textContent=isEn?'Privacy Policy':isKo?'개인정보 처리방침':'プライバシーポリシー';
+  if(pmTitle)pmTitle.textContent=isEn?'Privacy Policy':isKo?'개인정보 처리방침':isZh?'隐私政策':'プライバシーポリシー';
   const pmIntro=document.getElementById('privacyModalIntro');
-  if(pmIntro)pmIntro.textContent=isEn?'Soul Element Quiz ("the site") respects your privacy and handles personal information in accordance with the following policy.':isKo?'소울 엘리먼트 진단(이하 "본 사이트")은 사용자의 프라이버시를 존중하며, 아래 방침에 따라 개인정보를 취급합니다.':'ソウルエレメント診断（以下「当サイト」）は、ユーザーのプライバシーを尊重し、以下のポリシーに基づいて個人情報を取り扱います。';
+  if(pmIntro)pmIntro.textContent=isEn?'Soul Element Quiz ("the site") respects your privacy and handles personal information in accordance with the following policy.':isKo?'소울 엘리먼트 진단(이하 "본 사이트")은 사용자의 프라이버시를 존중하며, 아래 방침에 따라 개인정보를 취급합니다.':isZh?'灵魂元素诊断（以下简称"本站"）尊重用户隐私，并按照以下政策处理个人信息。':'ソウルエレメント診断（以下「当サイト」）は、ユーザーのプライバシーを尊重し、以下のポリシーに基づいて個人情報を取り扱います。';
   const pmH1=document.getElementById('privacyH1');
-  if(pmH1)pmH1.textContent=isEn?'1. Information We Collect':isKo?'1. 수집하는 정보':'1. 収集する情報';
+  if(pmH1)pmH1.textContent=isEn?'1. Information We Collect':isKo?'1. 수집하는 정보':isZh?'1. 收集的信息':'1. 収集する情報';
   const pmP1=document.getElementById('privacyP1');
-  if(pmP1)pmP1.textContent=isEn?'We temporarily process your quiz answers to calculate results, but nothing is sent to or stored on any server. All processing happens entirely in your browser.':isKo?'진단 결과 산출을 위해 답변 데이터를 일시적으로 처리하지만, 서버로 전송하거나 저장하지 않습니다. 모든 처리는 브라우저 내에서 완결됩니다.':'当サイトでは診断結果の算出のためにユーザーの回答データを一時的に処理しますが、サーバーへの送信や保存は一切行いません。すべての処理はお使いのブラウザ内で完結します。';
+  if(pmP1)pmP1.textContent=isEn?'We temporarily process your quiz answers to calculate results, but nothing is sent to or stored on any server. All processing happens entirely in your browser.':isKo?'진단 결과 산출을 위해 답변 데이터를 일시적으로 처리하지만, 서버로 전송하거나 저장하지 않습니다. 모든 처리는 브라우저 내에서 완결됩니다.':isZh?'本站仅在浏览器内临时处理您的答题数据，不向任何服务器发送或存储。':'当サイトでは診断結果の算出のためにユーザーの回答データを一時的に処理しますが、サーバーへの送信や保存は一切行いません。すべての処理はお使いのブラウザ内で完結します。';
   const pmH2=document.getElementById('privacyH2');
-  if(pmH2)pmH2.textContent=isEn?'2. Analytics':isKo?'2. 접속 분석 도구':'2. アクセス解析ツール';
+  if(pmH2)pmH2.textContent=isEn?'2. Analytics':isKo?'2. 접속 분석 도구':isZh?'2. 访问分析':'2. アクセス解析ツール';
   const pmP2=document.getElementById('privacyP2');
   if(pmP2)pmP2.innerHTML=isEn?'This site uses Google Analytics, which uses cookies to collect traffic data. Data is collected anonymously and does not identify individuals. See the <a href="https://policies.google.com/privacy" target="_blank" rel="noopener" style="color:var(--accent)">Google Privacy Policy</a> for details.':isKo?'본 사이트는 Google Analytics를 이용합니다. Google Analytics는 트래픽 데이터 수집을 위해 쿠키를 사용합니다. 데이터는 익명으로 수집되며 개인을 특정하지 않습니다. 자세한 내용은 <a href="https://policies.google.com/privacy" target="_blank" rel="noopener" style="color:var(--accent)">Google 개인정보처리방침</a>을 확인해 주세요.':'当サイトではGoogle Analyticsを利用しています。Google Analyticsはトラフィックデータ収集のためにCookieを使用します。このデータは匿名で収集されており、個人を特定するものではありません。詳しくは<a href="https://policies.google.com/privacy" target="_blank" rel="noopener" style="color:var(--accent)">Google プライバシーポリシー</a>をご確認ください。';
   const pmH3=document.getElementById('privacyH3');
-  if(pmH3)pmH3.textContent=isEn?'3. Advertising':isKo?'3. 광고에 대하여':'3. 広告について';
+  if(pmH3)pmH3.textContent=isEn?'3. Advertising':isKo?'3. 광고에 대하여':isZh?'3. 广告':'3. 広告について';
   const pmP3=document.getElementById('privacyP3');
   if(pmP3)pmP3.innerHTML=isEn?'This site uses Google AdSense for advertising. Google AdSense may use cookies to show ads based on your interests. You can disable personalized ads in <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener" style="color:var(--accent)">Google\'s Ad Settings</a>.':isKo?'본 사이트는 Google AdSense를 통해 광고를 제공합니다. Google AdSense는 관심사에 맞는 광고를 표시하기 위해 쿠키를 사용할 수 있습니다. <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener" style="color:var(--accent)">Google 광고 설정</a>에서 개인 맞춤 광고를 비활성화할 수 있습니다.':'当サイトではGoogle AdSenseによる広告配信を行っています。Google AdSenseはユーザーの興味に応じた広告を表示するためにCookieを使用することがあります。ユーザーは<a href="https://www.google.com/settings/ads" target="_blank" rel="noopener" style="color:var(--accent)">Googleの広告設定</a>で、パーソナライズ広告を無効にすることができます。';
   const pmH4=document.getElementById('privacyH4');
-  if(pmH4)pmH4.textContent=isEn?'4. Third-Party Sharing':isKo?'4. 제3자 제공':'4. 第三者への提供';
+  if(pmH4)pmH4.textContent=isEn?'4. Third-Party Sharing':isKo?'4. 제3자 제공':isZh?'4. 第三方共享':'4. 第三者への提供';
   const pmP4=document.getElementById('privacyP4');
-  if(pmP4)pmP4.textContent=isEn?'We do not sell, trade, or transfer your personal information to any third parties.':isKo?'본 사이트는 사용자의 개인정보를 제3자에게 판매, 거래, 또는 이전하지 않습니다.':'当サイトは、ユーザーの個人情報を第三者に販売、取引、または転送することはありません。';
+  if(pmP4)pmP4.textContent=isEn?'We do not sell, trade, or transfer your personal information to any third parties.':isKo?'본 사이트는 사용자의 개인정보를 제3자에게 판매, 거래, 또는 이전하지 않습니다.':isZh?'本站不会向任何第三方出售、交易或转让您的个人信息。':'当サイトは、ユーザーの個人情報を第三者に販売、取引、または転送することはありません。';
   const pmH5=document.getElementById('privacyH5');
-  if(pmH5)pmH5.textContent=isEn?'5. Cookies':isKo?'5. 쿠키에 대하여':'5. Cookieについて';
+  if(pmH5)pmH5.textContent=isEn?'5. Cookies':isKo?'5. 쿠키에 대하여':isZh?'5. Cookie':'5. Cookieについて';
   const pmP5=document.getElementById('privacyP5');
-  if(pmP5)pmP5.textContent=isEn?'This site may use cookies to improve service and user experience. You can disable cookies in your browser settings, though some features may be limited.':isKo?'본 사이트는 서비스 개선 및 사용자 경험 향상을 위해 쿠키를 사용할 수 있습니다. 브라우저 설정에서 쿠키를 비활성화할 수 있으나, 일부 기능이 제한될 수 있습니다.':'当サイトでは、サービスの改善やユーザー体験の向上を目的としてCookieを使用する場合があります。ブラウザの設定でCookieを無効にすることが可能ですが、一部の機能が制限される場合があります。';
+  if(pmP5)pmP5.textContent=isEn?'This site may use cookies to improve service and user experience. You can disable cookies in your browser settings, though some features may be limited.':isKo?'본 사이트는 서비스 개선 및 사용자 경험 향상을 위해 쿠키를 사용할 수 있습니다. 브라우저 설정에서 쿠키를 비활성화할 수 있으나, 일부 기능이 제한될 수 있습니다.':isZh?'本站可能使用Cookie改善服务体验。您可在浏览器设置中禁用Cookie，但部分功能可能受限。':'当サイトでは、サービスの改善やユーザー体験の向上を目的としてCookieを使用する場合があります。ブラウザの設定でCookieを無効にすることが可能ですが、一部の機能が制限される場合があります。';
   const pmH6=document.getElementById('privacyH6');
-  if(pmH6)pmH6.textContent=isEn?'6. Policy Updates':isKo?'6. 방침 변경':'6. ポリシーの変更';
+  if(pmH6)pmH6.textContent=isEn?'6. Policy Updates':isKo?'6. 방침 변경':isZh?'6. 政策更新':'6. ポリシーの変更';
   const pmP6=document.getElementById('privacyP6');
-  if(pmP6)pmP6.textContent=isEn?'We may update this policy as needed. Significant changes will be announced on the site.':isKo?'본 사이트는 필요에 따라 본 방침을 업데이트할 수 있습니다. 중요한 변경이 있을 경우 사이트에서 공지합니다.':'当サイトは必要に応じて本ポリシーを更新することがあります。重要な変更がある場合はサイト上でお知らせします。';
+  if(pmP6)pmP6.textContent=isEn?'We may update this policy as needed. Significant changes will be announced on the site.':isKo?'본 사이트는 필요에 따라 본 방침을 업데이트할 수 있습니다. 중요한 변경이 있을 경우 사이트에서 공지합니다.':isZh?'本站可能根据需要更新本政策，重大变更将在网站上公告。':'当サイトは必要に応じて本ポリシーを更新することがあります。重要な変更がある場合はサイト上でお知らせします。';
   const pmDate=document.getElementById('privacyDate');
-  if(pmDate)pmDate.textContent=isEn?'Last updated: March 27, 2026':isKo?'최종 업데이트: 2026년 3월 27일':'最終更新日：2026年3月27日';
+  if(pmDate)pmDate.textContent=isEn?'Last updated: March 27, 2026':isKo?'최종 업데이트: 2026년 3월 27일':isZh?'最后更新：2026年3月27日':'最終更新日：2026年3月27日';
   // Contact modal
   const cmTitle=document.getElementById('contactModalTitle');
-  if(cmTitle)cmTitle.textContent=isEn?'Contact':isKo?'문의하기':'お問い合わせ';
+  if(cmTitle)cmTitle.textContent=isEn?'Contact':isKo?'문의하기':isZh?'联系我们':'お問い合わせ';
   const cmIntro=document.getElementById('contactModalIntro');
-  if(cmIntro)cmIntro.textContent=isEn?'For any questions about Soul Element Quiz, please reach out via one of the methods below.':isKo?'소울 엘리먼트 진단에 관한 문의는 아래 방법으로 연락해 주세요.':'ソウルエレメント診断に関するお問い合わせは、以下のいずれかの方法でご連絡ください。';
+  if(cmIntro)cmIntro.textContent=isEn?'For any questions about Soul Element Quiz, please reach out via one of the methods below.':isKo?'소울 엘리먼트 진단에 관한 문의는 아래 방법으로 연락해 주세요.':isZh?'如有关于灵魂元素诊断的问题，请通过以下方式联系我们。':'ソウルエレメント診断に関するお問い合わせは、以下のいずれかの方法でご連絡ください。';
   const cmReply=document.getElementById('contactModalReply');
-  if(cmReply)cmReply.textContent=isEn?'We typically reply within a few days.':isKo?'보통 며칠 이내에 답변드립니다.':'通常、数日以内にご返信いたします。';
+  if(cmReply)cmReply.textContent=isEn?'We typically reply within a few days.':isKo?'보통 며칠 이내에 답변드립니다.':isZh?'通常会在几天内回复。':'通常、数日以内にご返信いたします。';
 }
 function toggleLang(){
-  lang=lang==='ja'?'en':lang==='en'?'ko':'ja';
+  lang=lang==='ja'?'en':lang==='en'?'ko':lang==='ko'?'zh':'ja';
   localStorage.setItem('se_lang',lang);
   applyLangUI();
   if(currentResultCode){renderResult(currentResultCode,T[currentResultCode]);return;}
@@ -1673,14 +1718,17 @@ function toggleLang(){
 
 function nativeShare(code,t){
   const url=location.origin+location.pathname+'?r='+code;
+  const zhName=typeof ZH!=='undefined'&&ZH[code]?.n||t.n;
   const text=lang==='en'
     ?`My Soul Element is "${EN[code]?.n||t.n}"!\n${EN[code]?.sub||t.sub}\nFind out yours 🔮`
     :lang==='ko'
     ?`내 소울 엘리먼트는 "${KO[code]?.n||t.n}"이에요!\n${KO[code]?.sub||t.sub}\n당신도 해보세요 🔮`
+    :lang==='zh'
+    ?`我的灵魂元素是「${zhName}」♡\n快来测测你的♡`
     :`ソウルエレメント診断の結果は「${t.n}」でした♡\n${t.sub}\nきみもやってみて🔮`;
-  const shareTitle=lang==='ko'?'소울 엘리먼트 진단':lang==='en'?'Soul Element Quiz':'ソウルエレメント診断';
+  const shareTitle=lang==='ko'?'소울 엘리먼트 진단':lang==='en'?'Soul Element Quiz':lang==='zh'?'灵魂元素诊断':'ソウルエレメント診断';
   if(navigator.share){navigator.share({title:shareTitle,text,url}).catch(()=>{});}
-  else{navigator.clipboard.writeText(text+'\n'+url);alert(lang==='ja'?'リンクをコピーしました♡':lang==='ko'?'링크를 복사했어요♡':'Copied to clipboard♡');}
+  else{navigator.clipboard.writeText(text+'\n'+url);alert(lang==='ja'?'リンクをコピーしました♡':lang==='ko'?'링크를 복사했어요♡':lang==='zh'?'已复制链接♡':'Copied to clipboard♡');}
 }
 
 function checkURLResult(){
@@ -1688,6 +1736,175 @@ function checkURLResult(){
   if(r&&T[r]){document.getElementById('titleScreen').style.display='none';currentResultCode=r;renderResult(r,T[r]);return true;}
   return false;
 }
+
+/* ===== Feature 2: Save as 1080x1080 image ===== */
+function genShareImage1080(code,t){
+  const grp=GROUP[getGroup(code)];
+  const canvas=document.createElement('canvas');canvas.width=1080;canvas.height=1080;
+  const ctx=canvas.getContext('2d');
+  // Dark purple gradient background
+  const bg=ctx.createLinearGradient(0,0,1080,1080);
+  bg.addColorStop(0,'#1a0e32');bg.addColorStop(0.5,'#110c20');bg.addColorStop(1,'#0d0b1e');
+  ctx.fillStyle=bg;ctx.fillRect(0,0,1080,1080);
+  // Accent glow circle
+  const glow=ctx.createRadialGradient(540,480,0,540,480,420);
+  glow.addColorStop(0,grp.c+'28');glow.addColorStop(1,'transparent');
+  ctx.fillStyle=glow;ctx.fillRect(0,0,1080,1080);
+  // Border
+  ctx.strokeStyle=grp.c+'55';ctx.lineWidth=4;ctx.strokeRect(4,4,1072,1072);
+  // Site label top
+  ctx.fillStyle='rgba(255,255,255,.3)';ctx.font='32px sans-serif';ctx.textAlign='center';
+  ctx.fillText('ソウルエレメント診断 · Soul Element Quiz',540,72);
+  // Draw character SVG via image
+  const svgBlob=new Blob([mkSVG(t,380)],{type:'image/svg+xml'});
+  const svgUrl=URL.createObjectURL(svgBlob);
+  const img=new Image();
+  const finish=()=>{
+    // Character name
+    ctx.fillStyle='#ffffff';ctx.font='bold 88px sans-serif';ctx.textAlign='center';
+    ctx.fillText(t.n,540,780);
+    // Sub title
+    ctx.fillStyle=grp.c;ctx.font='40px sans-serif';
+    ctx.fillText('〜 '+t.sub+' 〜',540,840);
+    // Element type code
+    ctx.fillStyle='rgba(255,255,255,.5)';ctx.font='34px sans-serif';
+    ctx.fillText(lang==='en'?(EN[code]?.sub||t.sub):code,540,898);
+    // Bottom bar
+    ctx.fillStyle='rgba(180,142,255,.15)';ctx.fillRect(0,960,1080,80);
+    ctx.fillStyle='rgba(255,255,255,.4)';ctx.font='28px sans-serif';
+    ctx.fillText('mamori-ai.github.io/soul-element/',540,1010);
+    const a=document.createElement('a');
+    a.download='soul-element-'+code+'.png';
+    a.href=canvas.toDataURL('image/png');a.click();
+  };
+  img.onload=()=>{ctx.drawImage(img,540-190,180,380,380);URL.revokeObjectURL(svgUrl);finish();};
+  img.onerror=finish;img.src=svgUrl;
+}
+
+/* ===== Feature 3: 1080x1920 Story image ===== */
+function genStoryImage(code,t){
+  const grp=GROUP[getGroup(code)];
+  const canvas=document.createElement('canvas');canvas.width=1080;canvas.height=1920;
+  const ctx=canvas.getContext('2d');
+  // Dark gradient background
+  const bg=ctx.createLinearGradient(0,0,0,1920);
+  bg.addColorStop(0,'#1a0e32');bg.addColorStop(0.5,'#110c20');bg.addColorStop(1,'#0d0b1e');
+  ctx.fillStyle=bg;ctx.fillRect(0,0,1080,1920);
+  // Glow
+  const glow=ctx.createRadialGradient(540,860,0,540,860,600);
+  glow.addColorStop(0,grp.c+'2a');glow.addColorStop(1,'transparent');
+  ctx.fillStyle=glow;ctx.fillRect(0,0,1080,1920);
+  // Border
+  ctx.strokeStyle=grp.c+'44';ctx.lineWidth=6;ctx.strokeRect(6,6,1068,1908);
+  // Top label
+  ctx.fillStyle='rgba(255,255,255,.3)';ctx.font='38px sans-serif';ctx.textAlign='center';
+  ctx.fillText('ソウルエレメント診断',540,100);
+  // Draw character
+  const svgBlob=new Blob([mkSVG(t,600)],{type:'image/svg+xml'});
+  const svgUrl=URL.createObjectURL(svgBlob);
+  const img=new Image();
+  const finish=()=>{
+    // Character name large
+    ctx.fillStyle='#ffffff';ctx.font='bold 120px sans-serif';ctx.textAlign='center';
+    ctx.fillText(t.n,540,1440);
+    // Sub
+    ctx.fillStyle=grp.c;ctx.font='52px sans-serif';
+    ctx.fillText('〜 '+t.sub+' 〜',540,1530);
+    // Type code
+    ctx.fillStyle='rgba(255,255,255,.5)';ctx.font='44px sans-serif';
+    ctx.fillText(code,540,1620);
+    // Bottom watermark
+    ctx.fillStyle='rgba(255,255,255,.25)';ctx.font='32px sans-serif';
+    ctx.fillText('mamori-ai.github.io/soul-element/',540,1860);
+    const a=document.createElement('a');
+    a.download='soul-element-story-'+code+'.png';
+    a.href=canvas.toDataURL('image/png');a.click();
+  };
+  img.onload=()=>{ctx.drawImage(img,540-300,280,600,600);URL.revokeObjectURL(svgUrl);finish();};
+  img.onerror=finish;img.src=svgUrl;
+}
+
+/* ===== Feature 4: Zukan (Character Gallery) ===== */
+function showZukan(){
+  document.getElementById('titleScreen').style.display='none';
+  const isEn=lang==='en',isKo=lang==='ko',isZh=lang==='zh';
+  const _tl=(ja,en,ko,zh)=>isEn?en:isKo?ko:isZh?(zh||en):ja;
+  const zs=document.getElementById('zukanScreen');
+  zs.classList.add('show');
+  const codes=Object.keys(T);
+  const cards=codes.map(code=>{
+    const t=T[code];
+    const dispName=isEn?(EN[code]?.n||t.n):isKo?(typeof KO!=='undefined'&&KO[code]?.n||t.n):isZh?(typeof ZH!=='undefined'&&ZH[code]?.n||t.n):t.n;
+    const grp=GROUP[getGroup(code)];
+    return`<div class="zukan-card" onclick="openZukanModal('${code}')">
+      ${mkSVG(t,80)}
+      <div class="zukan-card-name">${dispName}</div>
+      <div class="zukan-card-type" style="color:${grp.c}">${grp.e} ${code}</div>
+    </div>`;
+  }).join('');
+  zs.innerHTML=`
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <div class="logo" style="font-size:1.5em">📖 ${_tl('図鑑','Character Gallery','캐릭터 도감','角色图鉴')}</div>
+      <button class="retry-btn" style="margin:0;padding:10px 22px" onclick="closeZukan()">← ${_tl('もどる','Back','돌아가기','返回')}</button>
+    </div>
+    <div style="font-size:.85em;color:var(--sub);margin-bottom:16px">${_tl('16キャラをタップして詳細を見てね♡','Tap any character to learn more♡','캐릭터를 탭해서 자세히 보세요♡','点击角色查看详情♡')}</div>
+    <div class="zukan-grid">${cards}</div>`;
+}
+
+function closeZukan(){
+  const zs=document.getElementById('zukanScreen');
+  zs.classList.remove('show');
+  document.getElementById('titleScreen').style.display='block';
+}
+
+function openZukanModal(code){
+  const t=T[code];
+  const isEn=lang==='en',isKo=lang==='ko',isZh=lang==='zh';
+  const _tl=(ja,en,ko,zh)=>isEn?en:isKo?ko:isZh?(zh||en):ja;
+  const grp=GROUP[getGroup(code)];
+  const dispName=isEn?(EN[code]?.n||t.n):isKo?(typeof KO!=='undefined'&&KO[code]?.n||t.n):isZh?(typeof ZH!=='undefined'&&ZH[code]?.n||t.n):t.n;
+  const dispSub=isEn?(EN[code]?.sub||t.sub):isKo?(typeof KO!=='undefined'&&KO[code]?.sub||t.sub):t.sub;
+  const dispD=isEn?(EN[code]?.d||t.d):isKo?(typeof KO!=='undefined'&&KO[code]?.d||t.d):t.d;
+  document.getElementById('zukanModalChara').innerHTML=mkSVG(t,120);
+  document.getElementById('zukanModalSub').innerHTML=`<span style="font-size:1.3em;font-weight:900;color:${grp.c}">${dispName}</span><br><span style="color:var(--sub);font-size:.85em">${dispSub}</span>`;
+  document.getElementById('zukanModalBody').innerHTML=`
+    <div style="display:inline-block;background:${grp.b};color:${grp.c};padding:4px 14px;border-radius:14px;font-size:.8em;font-weight:700;margin-bottom:12px">${grp.e} ${grp.n} · ${code}</div>
+    <p style="font-size:.88em;line-height:1.8;color:var(--sub);margin-bottom:14px">${dispD}</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <div style="background:rgba(255,255,255,.03);border-radius:12px;padding:12px">
+        <div style="font-size:.8em;font-weight:700;margin-bottom:6px;color:var(--accent)">💪 ${_tl('いいところ','Strengths','장점','优点')}</div>
+        ${t.st.map(s=>`<div style="font-size:.78em;color:var(--sub);line-height:1.6">• ${s}</div>`).join('')}
+      </div>
+      <div style="background:rgba(255,255,255,.03);border-radius:12px;padding:12px">
+        <div style="font-size:.8em;font-weight:700;margin-bottom:6px;color:#ff9bb3">😅 ${_tl('にがて','Watch out','약점','弱点')}</div>
+        ${t.wk.map(w=>`<div style="font-size:.78em;color:var(--sub);line-height:1.6">• ${w}</div>`).join('')}
+      </div>
+    </div>
+    <div style="margin-top:12px;display:flex;flex-wrap:wrap;gap:6px">
+      ${(t.ht||[]).map(h=>`<span style="background:rgba(180,142,255,.12);color:var(--accent);padding:3px 10px;border-radius:12px;font-size:.76em">${h}</span>`).join('')}
+    </div>`;
+  document.getElementById('zukanModal').classList.add('show');
+}
+
+/* ===== ZH Chinese character names ===== */
+const ZH={
+  ENFJ:{n:"暖阳宝",sub:"大家的小太阳♡",d:"温柔有爱的领导者，天生就能感知他人情绪，用真诚的关怀凝聚大家。把全部心意都给了别人，也别忘了留一点爱给自己哦♡"},
+  ENFP:{n:"闪光球",sub:"充满好奇心的发现机器♡",d:"满脑子都是奇思妙想！「好有趣！」是口头禅。人缘超好，5分钟就能和陌生人成为朋友。点子多到停不下来♡"},
+  ENTJ:{n:"霸气喵",sub:"带领大家的大猫咪♡",d:"生来就是领导者！做了决定就一定会做到。效率至上，不喜欢浪费时间。自信满满地拉着大家一起前进♡"},
+  ENTP:{n:"灵光蛋",sub:"调皮的创意小精灵♡",d:"口头禅是「但是这样想呢？」。喜欢辩论，喜欢颠覆常识。无聊是最大的敌人，脑子转得比谁都快♡"},
+  ESFJ:{n:"暖饭团",sub:"想给大家做饭的小暖心♡",d:"照顾欲爆棚！「你吃饭了吗？」会自然脱口而出。是团队里的润滑剂，深受大家喜爱♡"},
+  ESFP:{n:"蹦蹦糖",sub:"每天都是嘉年华！♡",d:"人生就是玩！超级活泼的表演者♡ 嗅觉灵敏，第一个发现好玩的事情。和她在一起，每天都像节日♡"},
+  ESTJ:{n:"正经丸",sub:"规则与秩序的守护者♡",d:"「要认真！」是口头禅的老实角色♡ 责任感超强，说到做到。有点严肃，但那是因为想保护大家♡"},
+  ESTP:{n:"冲冲虎",sub:"先冲再说！♡",d:"纯能量体。不多想，直接行动！危机时刻反而发光发亮。风险对他来说只是带脉搏的机会♡"},
+  INFJ:{n:"梦梦",sub:"能看透你心思的小神秘♡",d:"最罕见的类型，也最神秘。能感知到别人开口前的情绪。内心世界极为丰富，外表安静，内里是一片宇宙♡"},
+  INFP:{n:"棉花云",sub:"住在梦境里的小朋友♡",d:"内心世界比大多数人的外部生活都要丰富。看到夕阳、猫咪、一句完美的话都会流泪。那不是软弱，那是超能力♡"},
+  INTJ:{n:"冷静猫",sub:"独行天才战略家♡",d:"脑子永远比别人快5步。不跟着地图走，而是重新画地图。远见卓识与冷静执行的罕见组合♡"},
+  INTP:{n:"深思豆",sub:"深思熟虑的毛茸茸智者♡",d:"走路的百科全书，凡事都要问个为什么。好奇心一燃就到凌晨3点，忘记睡觉是什么♡"},
+  ISFJ:{n:"软糯兔",sub:"温柔守护世界的小天使♡",d:"默默守护所有人的安静英雄，却很少让别人关心自己。记得每个人的喜好，总在最对的时候出现♡"},
+  ISFP:{n:"慢悠猫",sub:"感性自由的小精灵♡",d:"用感官生活。美好的事物让她停下脚步。深度艺术灵魂，安静而坚定，真实到骨子里♡"},
+  ISTJ:{n:"档案员",sub:"超可靠的记录员♡",d:"每个人都依赖的基石。记得三年前答应过的事，至今仍觉得有责任。踏实可靠是她的爱语♡"},
+  ISTP:{n:"沉默侠",sub:"沉默酷炫的独行侠♡",d:"冷静、能干、低调强大。不会惊慌。找到问题、解决问题、在感谢声响起前已经消失♡"}
+};
 </script>
 <div class="cookie-banner" id="cookieBanner">
 <div class="cookie-text" id="cookieText">当サイトでは、アクセス解析と広告配信のためにCookieを使用しています。詳しくは<a href="#" onclick="document.getElementById('privacyModal').classList.add('show');return false" id="cookiePrivacyLink">プライバシーポリシー</a>をご確認ください。</div>
